@@ -27,6 +27,7 @@ script:
   - export ROOT=$PWD
   - >
     for path in \
+      07-jpa-data-rest \
       06-reactive-redis-webflux \
       05-derby-create-drop \
       04-querydsl \
