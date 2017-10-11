@@ -1,0 +1,37 @@
+= spring-data-key-value / redis image:https://travis-ci.org/daggerok/spring-data-examples.svg?branch=master["Build Status", link="https://travis-ci.org/daggerok/spring-data-examples"]
+
+//tag::content[]
+
+bootstrapping docker before bootRun
+
+.build, run, test
+[source,bash]
+----
+gradle redisUp
+gradle redis:bootRun
+http :8080/redisObjs data=test
+http :8080/redisObjs
+gradle redisDown
+
+gradle embedded-redis:bootRun
+http :8082/embeddedRedisObjs data=embedded-test
+http :8082/embeddedRedisObjs
+
+gradle --stop
+----
+
+==== stack:
+
+. spring-boot
+. spring-data-rest
+. link:http://docs.spring.io/spring-hateoas/docs/current/reference/html/[spring HATEOAS]
+. link:http://docs.spring.io/spring-data/keyvalue/docs/current/reference/html/#key-value[spring-data-keyvalue]
+. spring-data-redis
+. embedded redis server
+. gradle
+. Docker
+. Redis
+. Redis web UI
+. install spring app as linux service
+
+//end::content[]

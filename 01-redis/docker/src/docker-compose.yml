@@ -1,0 +1,23 @@
+version: "2.1"
+
+services:
+
+  redis_server:
+    image: healthcheck/redis:alpine
+    ports: ["6379:6379"]
+    networks: [backing_services]
+    volumes: ["redis_server_data_volume:/data"]
+
+  redis_ui:
+    image: tenstartups/redis-commander
+    ports: ["8081:8081"]
+    networks: [backing_services]
+    depends_on: [redis_server]
+    command: " --redis-host redis_server"
+
+volumes:
+  redis_server_data_volume: {}
+
+networks:
+  backing_services:
+    driver: bridge

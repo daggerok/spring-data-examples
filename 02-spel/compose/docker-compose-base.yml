@@ -1,0 +1,15 @@
+version: "2.1"
+services:
+  microservice:
+    image: openjdk:8u131-jre-alpine
+    entrypoint: >
+      sh -c
+      "
+      java
+      -Xss228k -Xms128m -Xmx256m
+      -XX:MaxMetaspaceSize=128M
+      -XX:MaxDirectMemorySize=128M
+      -Dserver.tomcat.max-threads=1
+      -Djava.security.egd=file:/dev/./urandom
+      -jar /var/app/app.jar
+      "

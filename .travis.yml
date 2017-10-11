@@ -1,0 +1,95 @@
+group: edge
+dist: trusty
+
+language: java
+jdk: oraclejdk8
+
+install: true
+before_install:
+  - sudo apt update
+
+  # install docker-compose
+  - sudo apt install -y python-pip curl jq libxml2-utils
+  - sudo pip install docker-compose
+  - sudo usermod -aG docker $(whoami)
+
+  # kill whatever running on ports
+  - sudo kill $(sudo lsof -t -i:5432) | true
+  - lsof -i tcp:27017 | awk 'NR!=1 {print $2}' | xargs kill | true
+  - sudo kill $(sudo lsof -t -i:27017) | true
+
+script:
+  # build docs
+  - bash gradlew clean build
+
+  # build all
+  - export ROOT=$PWD
+  - >
+    for path in \
+      02-spel \
+      01-redis \
+    ; do
+
+      export res="$ROOT/$path"
+      echo $res
+      cd $res
+      bash gradlew clean build
+
+    done;
+
+  # 02-spel
+  - cd $ROOT/02-spel/
+  - pwd
+  - bash gradlew clean build
+
+  - bash gradlew composeUp
+  - sudo mkdir -p /var/spel-app
+  - sudo mv -f ./app/build/libs/*.jar /var/spel-app/spel-app.jar
+  - sudo ln -s /var/spel-app/spel-app.jar /etc/init.d/spel-app
+  - sudo service spel-app start
+  - sleep 20
+  - curl -sS localhost:8080/all | jq
+  - curl -sS localhost:8080/names | jq
+  - sudo service spel-app stop
+  - bash gradlew --stop
+
+  # 01-redis
+  - cd $ROOT/01-redis/
+  - pwd
+  - bash gradlew clean build
+
+  # redis: docker
+  - docker-compose -f ./docker/src/docker-compose.yml up -d --build
+  - docker-compose -f ./docker/src/docker-compose.yml down -v
+
+  # redis: manual redis-app tests
+  - bash gradlew composeUp
+  - sudo mkdir -p /var/redis-app
+  - sudo mv -f ./redis/build/libs/*.jar /var/redis-app/redis-app.jar
+  - sudo ln -s /var/redis-app/redis-app.jar /etc/init.d/redis-app
+  - sudo service redis-app start
+  - sleep 20
+  - curl -sS localhost:8080/redisObjs -H'content-type:application/json' -d'{"data":"test"}' | jq
+  - curl -sS localhost:8080/redisObjs | jq
+  - sudo service redis-app stop
+  - bash gradlew composeDown
+
+  # redis: manual embedded-redis-app tests
+  - sudo mkdir -p /var/embedded-redis-app
+  - sudo mv -f ./embedded-redis/build/libs/*.jar /var/embedded-redis-app/embedded-redis-app.jar
+  - sudo ln -s /var/embedded-redis-app/embedded-redis-app.jar /etc/init.d/embedded-redis-app
+  - sudo service embedded-redis-app start
+  - sleep 30
+  - curl -sS localhost:8082/embeddedRedisObjs -H'content-type:application/json' -d'{"data":"test-embedded"}' | jq
+  - curl -sS localhost:8082/embeddedRedisObjs | jq
+  - sudo service embedded-redis-app stop
+  - bash gradlew --stop
+
+before_cache:
+  - rm -rf $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -rf $HOME/.gradle/caches/*/plugin-resolution/
+
+cache:
+  directories:
+    - $HOME/.m2/
+    - $HOME/.gradle/

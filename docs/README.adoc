@@ -1,0 +1,6 @@
+= spring-data-examples image:https://travis-ci.org/daggerok/spring-data-examples.svg?branch=master["Build Status", link="https://travis-ci.org/daggerok/spring-data-examples"]
+
+.build and deploy docks
+----
+bash gradlew clean build deploy
+----

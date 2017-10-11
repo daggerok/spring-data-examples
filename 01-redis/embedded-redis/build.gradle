@@ -1,0 +1,17 @@
+buildscript {
+  ext {
+    redisEmbeddedVersion = "0.6"
+  }
+}
+
+repositories {
+  maven {
+    url "http://clojars.org/repo"
+  }
+}
+
+dependencies {
+  compile("com.github.kstyrc:embedded-redis:$redisEmbeddedVersion")
+  compile("org.springframework.boot:spring-boot-starter-data-redis")
+  compile("redis.clients:jedis")
+}

@@ -1,0 +1,73 @@
+buildscript {
+  ext {
+    springBootVersion = "1.5.7.RELEASE"
+  }
+}
+
+plugins {
+  id "java"
+  id "idea"
+  id "eclipse"
+  id "org.springframework.boot" version "1.5.7.RELEASE" apply false
+  id "io.spring.dependency-management" version "1.0.3.RELEASE" apply false
+}
+
+subprojects { project ->
+
+  def self = project?.toString()
+
+  if (self?.contains("docker")) {
+
+    task clean {
+      doLast {
+        delete project.buildDir
+      }
+    }
+
+    return
+  }
+
+  apply plugin: "java"
+
+  version = "0.0.1"
+  sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
+
+  repositories {
+    mavenCentral()
+  }
+
+  apply plugin: "io.spring.dependency-management"
+
+  dependencyManagement {
+    imports {
+      mavenBom "org.springframework.boot:spring-boot-dependencies:$springBootVersion"
+    }
+  }
+
+  apply plugin: "org.springframework.boot"
+
+  springBoot {
+    executable = true
+  }
+
+  dependencies {
+    compile("org.springframework.boot:spring-boot-starter-data-rest")
+    compileOnly("org.projectlombok:lombok")
+    testCompile("org.springframework.boot:spring-boot-starter-test")
+  }
+
+  if (self?.contains("embedded")) return
+
+  rootProject.project.tasks.findByName("clean").dependsOn ":docker:redisDown"
+
+  [test, build, bootRun].each {
+    it.shouldRunAfter clean, ":docker:composeUp"
+    it.dependsOn ":docker:composeUp"
+    it.finalizedBy ":docker:composeDown"
+  }
+}
+
+if (System.getenv("TRAVIS")) {
+  println "apply travis colored schema"
+  apply from: "https://raw.githubusercontent.com/mendhak/Gradle-Travis-Colored-Output/master/ColoredOutput.gradle"
+}

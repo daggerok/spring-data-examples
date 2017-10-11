@@ -1,0 +1,14 @@
+database:
+  host: 127.0.0.1
+  port: 5432
+  name: spel
+
+spring:
+  datasource:
+    username: ${database.name}
+    password: ${database.name}
+    url: jdbc:postgresql://${database.host}:${database.port}/${database.name}
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop

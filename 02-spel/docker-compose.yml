@@ -1,0 +1,38 @@
+version: "2.1"
+
+services:
+
+  infrastructure-db:
+    image: healthcheck/postgres:alpine
+    volumes: ["infrastructure-db-data:/var/lib/postgresql/data"]
+    networks: [backing-services-network]
+    ports: ["5432:5432"]
+    environment:
+      POSTGRES_DB: spel
+      POSTGRES_USER: spel
+      POSTGRES_PASSWORD: spel
+
+  app:
+    extends:
+      file: ./compose/docker-compose-base.yml
+      service: microservice
+    depends_on: [infrastructure-db]
+    environment:
+      DATABASE_HOST: infrastructure-db
+    networks:
+      - backing-services-network
+      - public-network
+    ports: ["8080:8080"]
+    volumes:
+      - "app-data:/var/app"
+      - "./app/build/libs/app-0.0.1.jar:/var/app/app.jar:ro"
+
+networks:
+  backing-services-network:
+    driver: bridge
+  public-network:
+    driver: bridge
+
+volumes:
+  infrastructure-db-data: {}
+  app-data: {}

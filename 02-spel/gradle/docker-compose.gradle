@@ -1,0 +1,22 @@
+dockerCompose {
+    captureContainersOutput = true
+    captureContainersOutputToFile = "$rootProject.buildDir/docker-compose"
+    stopContainers = true
+    removeContainers = true
+    removeImages = "Local"
+    removeOrphans = true
+    removeVolumes = true
+    waitForTcpPorts = true
+    projectName = "spel"
+    dockerComposeWorkingDirectory = "$rootDir"
+///*
+  scale = [  // Pass docker compose --scale option like "docker-compose up --scale serviceName1=5 --scale serviceName2=2"
+      "infrastructure-db": 1,
+      "app": 0,
+  ]
+//*/
+}
+
+tasks.create(name: "stop") {
+    dependsOn composeDown
+}

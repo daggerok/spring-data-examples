@@ -1,0 +1,33 @@
+buildscript {
+    repositories {
+        maven { url "https://plugins.gradle.org/m2/" }
+        maven { url "http://smartbearsoftware.com/repository/maven2/" }
+    }
+}
+
+plugins {
+    id "idea"
+    id "eclipse"
+    id "com.github.ben-manes.versions" version "0.15.0"
+    id "com.avast.gradle.docker-compose" version "0.4.5"
+    id "org.springframework.boot" version "1.5.7.RELEASE" apply false
+    id "io.spring.dependency-management" version "1.0.3.RELEASE" apply false
+    id "io.github.daggerok.soapui-loadtestrunner" version "5.3.0-4" apply false
+}
+
+applyFrom("allprojects.gradle")
+applyFrom("docker-compose.gradle")
+applyFrom("app.gradle")
+
+def applyFrom(def filename) {
+    apply from: java.nio.file.Paths.get("$rootDir", "gradle", filename).toUri()
+}
+
+if (System.getenv("TRAVIS")) {
+    println "apply travis colored schema"
+    apply from: "https://raw.githubusercontent.com/mendhak/Gradle-Travis-Colored-Output/master/ColoredOutput.gradle"
+}
+
+wrapper {
+    gradleVersion = "4.2.1"
+}

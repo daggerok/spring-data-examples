@@ -1,0 +1,5 @@
+rootProject.name = "spring-data-key-value"
+include "docker"
+include "embedded-redis"
+include "key-value"
+include "redis"
