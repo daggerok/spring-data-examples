@@ -22,7 +22,7 @@ include::../../01-redis/README.adoc[tags=content]
 == spring expression language
 include::../../02-spel/README.adoc[tags=content]
 
-== boot your data (elasticsearch, mongodb, solr)
+== boot your data - NoSQL databases (elasticsearch, mongodb, solr)
 include::../../03-boot-your-data/README.adoc[tags=content]
 
 == QueryDSL
@@ -33,6 +33,9 @@ include::../../05-derby-create-drop/README.adoc[tags=content]
 
 == Reactive Redis
 include::../../06-reactive-redis-webflux/README.adoc[tags=content]
+
+== Boot your data - RDBMS (derby, h2, hsql, mysql, postgres)
+include::../../07-jpa-data-rest/README.adoc[tags=content]
 
 == links
 
