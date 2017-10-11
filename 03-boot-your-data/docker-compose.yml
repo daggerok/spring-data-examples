@@ -1,0 +1,81 @@
+version: "2.1"
+services:
+  # https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html
+  elasticsearch1:
+    image: docker.elastic.co/elasticsearch/elasticsearch:5.6.0
+    container_name: elasticsearch1
+    environment:
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "http.port=9200"
+      - 'http.cors.allow-origin="/.*/'
+      - 'http.cors.allow-methods="OPTIONS, HEAD, GET, POST, PUT, DELETE"'
+      - "http.cors.enabled=true"
+      - "http.cors.allow-headers=X-Requested-With,X-Auth-Token,Content-Type,Content-Length,Authorization"
+      - "http.cors.allow-credentials=true"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    mem_limit: 1g
+    volumes: ["elasticsearch1-data:/usr/share/elasticsearch/data"]
+    ports: ["9200:9200"]
+    networks: [backing-services]
+  elasticsearch2:
+    image: docker.elastic.co/elasticsearch/elasticsearch:5.6.0
+    environment:
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "discovery.zen.ping.unicast.hosts=elasticsearch1"
+      - "http.port=9300"
+      - 'http.cors.allow-origin="/.*/'
+      - 'http.cors.allow-methods="OPTIONS, HEAD, GET, POST, PUT, DELETE"'
+      - "http.cors.enabled=true"
+      - "http.cors.allow-headers=X-Requested-With,X-Auth-Token,Content-Type,Content-Length,Authorization"
+      - "http.cors.allow-credentials=true"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    mem_limit: 1g
+    volumes: ["elasticsearch2-data:/usr/share/elasticsearch/data"]
+    networks: [backing-services]
+#  elasticsearch:
+#    #image: elasticsearch:5.3.2-alpine
+#    ports:
+#      - 9200:9200
+#      - 9300:9300
+#    volumes:
+#      - elasticsearch-data:/usr/share/elasticsearch/config
+#      - elasticsearch-data:/usr/share/elasticsearch/data
+#    networks: [backing-services]
+  elasticsearch-gui:
+    depends_on:
+      - elasticsearch1
+      - elasticsearch2
+    image: appbaseio/mirage
+    ports: ["3030:3030"]
+    networks: [backing-services]
+  mongodb:
+    image: mvertes/alpine-mongo:3.2.10-3
+    environment:
+      MONGO_PORT_27017_TCP_PORT: 27017
+    ports: ["27017:27017"]
+    volumes: ["mongodb-data:/data/db"]
+    networks: [backing-services]
+  solr:
+    image: solr:5.5.4-alpine
+    ports: ["8983:8983"]
+    volumes: ["solr-data:/opt/solr"]
+    networks: [backing-services]
+volumes:
+  elasticsearch1-data: {}
+  elasticsearch2-data: {}
+#  elasticsearch-data: {}
+  mongodb-data: {}
+  solr-data: {}
+networks:
+  backing-services:
+    driver: bridge

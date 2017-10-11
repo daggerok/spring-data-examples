@@ -1,0 +1,49 @@
+plugins {
+  id "org.openrepose.gradle.plugins.jaxb" version "2.2.3"
+}
+
+def mainDir = "$project.projectDir/src/main"
+def genDir = "$mainDir/gen"
+
+dependencies {
+
+  compile("wsdl4j:wsdl4j:1.6.3")
+
+  jaxb("com.sun.xml.bind:jaxb-xjc:2.2.7-b41")
+  jaxb("com.sun.xml.bind:jaxb-impl:2.2.7-b41")
+  jaxb("javax.xml.bind:jaxb-api:2.2.7")
+  jaxb("org.jvnet.jaxb2_commons:jaxb2-basics-ant:0.6.5")
+}
+
+def resources = "$mainDir/resources/schema"
+
+jaxb {
+  xsdDir = "$resources"
+  bindingsDir = "$resources"
+
+  xjc {
+    generatePackage = "daggerok.gen"
+    destinationDir = genDir
+  }
+}
+
+sourceSets {
+  main {
+    java {
+      srcDirs += genDir
+    }
+  }
+}
+
+xjc.shouldRunAfter clean
+compileQuerydsl.shouldRunAfter xjc
+assemble.dependsOn xjc, compileQuerydsl
+assemble.shouldRunAfter xjc, compileQuerydsl
+
+[test, build, bootRun].each {
+  it.shouldRunAfter ":docker:composeUp"
+  it.dependsOn assemble, ":docker:composeUp"
+  it.finalizedBy ":docker:composeDown"
+}
+
+task wsServiceRun(dependsOn: bootRun)

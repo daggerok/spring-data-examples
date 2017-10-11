@@ -1,0 +1,17 @@
+= boot-your-data image:https://travis-ci.org/daggerok/spring-data-examples.svg?branch=master["Build Status", link="https://travis-ci.org/daggerok/spring-data-examples"]
+
+//tag::content[]
+
+This repository contains examples of usage NOSql databases such elasticsearch, mongodb, solr, couchbase, etc with spring, spring-boot and spring-data
+
+in fucking progress...
+
+[source,bash]
+----
+docker-compose up -d --remove-orphans
+gradle clean build
+# ...
+docker-compose down -v --remove-orphans
+----
+
+//end::content[]

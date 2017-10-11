@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>QueryDSL</title>
+  <link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css">
+  <style>
+    body {
+      padding-top: 1%;
+    }
+
+    ul {
+      list-style-type: none;
+    }
+  </style>
+</head>
+<body class="container">
+<div id="input"></div>
+<pre id="url"></pre>
+<div id="app"></div>
+<div id="de-normalized"></div>
+<script>
+
+  (function app() {
+    'use strict';
+
+    const $ = selector => document.querySelector(selector);
+    const valueBy = id => document.getElementById(id).value.trim() || '';
+    const render = (selector, ...content) =>
+      $(selector).innerHTML = content.join('');
+
+    const p = (...args) =>
+      args
+        .map(arg => `<p>${arg}</p>`)
+        .join('');
+
+    const pre = (content, tab = 0) => `<pre>${JSON.stringify(content, null, tab)}</pre>`;
+    const ul = objects => `<ul>${
+      objects
+        .filter(object => object.hasOwnProperty('name'))
+        .map(user => user.name)
+        .map((name, index) => `<li data-id='${index}'>${name}</li>`)
+        .join('')
+      }</ul>`;
+
+    const input = ({ id, placeholder }) => `
+      <input
+        type="text"
+        id="${id}"
+        placeholder="${placeholder}"
+      />
+      <br/>
+    `;
+
+    const requestParams = filters =>
+      Object.keys(filters)
+        .map((param, i) => (i > 0 ? '&' : '?') + `${param}=${filters[param]}`)
+        .join('');
+
+    const renderUsers = (filters = {}) =>
+      fetch('/api/v1/domains' + requestParams(filters))
+        .then(resp => resp.json())
+        .then(users => render(
+          '#app',
+          p(
+            pre(users),
+            ul(users),
+          )
+        ))
+        .then(() => render('#url', url))
+        .catch(alert);
+
+    const renderDeNormalized = (filters = {}) =>
+      fetch('/api/v2/de-normalized' + requestParams(filters))
+        .then(resp => resp.json())
+        .then(json => render(
+          '#de-normalized',
+          pre(json, 2)
+        ))
+        .catch(alert);
+
+    function onEnterPress({ keyCode }) {
+      if (!keyCode || keyCode !== 13) return;
+
+      const filters = {};
+
+      inputs
+        .map(item => item.id)
+        .map(key => ({ key, val: valueBy(key) }))
+        .filter(f => !!f.val && f.val.length)
+        .forEach(f => filters[f.key] = encodeURIComponent(f.val));
+
+      renderUsers(filters);
+      renderDeNormalized(filters);
+    }
+
+    const inputs = [
+      { id: 'username', placeholder: 'Domain username filter', },
+      { id: 'firstName', placeholder: 'Domain firstName filter', },
+      { id: 'lastName', placeholder: 'Domain lastName filter', },
+      { id: 'tests', placeholder: 'Other Domain tests filter', },
+      { id: 'de-normalized-input', placeholder: 'DeNormalized filter', },
+    ];
+
+    render('#input', p(inputs.map(input)
+      .join('')));
+
+    render('#app', p(`add filter criteria's`,
+      'or just press enter to fetch all domains'));
+
+    document.addEventListener('keydown', onEnterPress);
+
+  })();
+
+</script>
+</body>
+</html>

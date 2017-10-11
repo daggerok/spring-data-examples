@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: spring-data-querydsl-soap
+  profiles:
+    include: >
+      props,
+      rest,
+      db

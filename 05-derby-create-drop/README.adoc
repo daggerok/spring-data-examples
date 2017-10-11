@@ -1,0 +1,21 @@
+= spring-boot-derby-create-drop-example image:https://travis-ci.org/daggerok/spring-data-examples.svg?branch=master["Build Status", link="https://travis-ci.org/daggerok/spring-data-examples"]
+
+//tag::content[]
+
+This repo is contains simple example of usage spring-boot devtools reload/restart with derby
+
+[source,bash]
+----
+gradle bootRun
+http :8080
+http post :8080 id=user2 name=user2
+
+# 1. update some code (remove mail2 from User.class and from schema.sql)
+# 2. rebuild project inside IDEA oe STS to handle devtools
+# 3. check logs....
+
+http :8080 # 2 items again
+gradle --stop
+----
+
+//end::content[]

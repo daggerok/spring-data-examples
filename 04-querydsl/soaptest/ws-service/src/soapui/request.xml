@@ -1,0 +1,9 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+                  xmlns:soap="http://github.com/daggerok/services/soap-service">
+  <soapenv:Header/>
+  <soapenv:Body>
+    <soap:getCountryRequest>
+      <soap:name>Poland</soap:name>
+    </soap:getCountryRequest>
+  </soapenv:Body>
+</soapenv:Envelope>

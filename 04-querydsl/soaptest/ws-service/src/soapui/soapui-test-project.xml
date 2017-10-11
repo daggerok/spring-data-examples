@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="e325cd31-1051-47a6-9125-229faf627e77" activeEnvironment="Default" name="ws-service" resourceRoot="" soapui-version="5.3.0" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config">
+  <con:settings/>
+  <con:interface xsi:type="con:WsdlInterface" id="19e9747a-db9c-4308-a4b1-e11dc9841290" wsaVersion="NONE" name="GetCountriesSoap11Port" type="wsdl" bindingName="{http://github.com/daggerok/services/soap-service}CountriesPortSoap11" soapVersion="1_1" anonymous="optional" definition="http://localhost:8080/ws/countries.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <con:settings/>
+    <con:definitionCache type="TEXT" rootPart="http://localhost:8080/ws/countries.wsdl">
+      <con:part>
+        <con:url>http://localhost:8080/ws/countries.wsdl</con:url>
+        <con:content><![CDATA[<wsdl:definitions targetNamespace="http://github.com/daggerok/services/soap-service" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:sch="http://github.com/daggerok/services/soap-service" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://github.com/daggerok/services/soap-service">
+  <wsdl:types>
+    <xs:schema elementFormDefault="qualified" targetNamespace="http://github.com/daggerok/services/soap-service" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="getCountryRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="name" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getCountryResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="country" type="tns:country"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="country">
+        <xs:sequence>
+          <xs:element name="name" type="xs:string"/>
+          <xs:element name="population" type="xs:int"/>
+          <xs:element name="capital" type="xs:string"/>
+          <xs:element name="currency" type="tns:currency"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:simpleType name="currency">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="GBP"/>
+          <xs:enumeration value="EUR"/>
+          <xs:enumeration value="PLN"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="getCountryResponse">
+    <wsdl:part element="tns:getCountryResponse" name="getCountryResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCountryRequest">
+    <wsdl:part element="tns:getCountryRequest" name="getCountryRequest"></wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="CountriesPort">
+    <wsdl:operation name="getCountry">
+      <wsdl:input message="tns:getCountryRequest" name="getCountryRequest"></wsdl:input>
+      <wsdl:output message="tns:getCountryResponse" name="getCountryResponse"></wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="CountriesPortSoap11" type="tns:CountriesPort">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getCountry">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="getCountryRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getCountryResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="CountriesPortService">
+    <wsdl:port binding="tns:CountriesPortSoap11" name="CountriesPortSoap11">
+      <soap:address location="http://localhost:8080/ws"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content>
+        <con:type>http://schemas.xmlsoap.org/wsdl/</con:type>
+      </con:part>
+    </con:definitionCache>
+    <con:endpoints>
+      <con:endpoint>http://localhost:8080/ws</con:endpoint>
+    </con:endpoints>
+    <con:operation id="064fe0bf-f795-432a-a76f-d78a747f356d" isOneWay="false" action="" name="getCountry" bindingOperationName="getCountry" type="Request-Response" outputName="getCountryResponse" inputName="getCountryRequest" receivesAttachments="false" sendsAttachments="false" anonymous="optional">
+      <con:settings/>
+      <con:call id="4df420b0-7dfd-479c-bae4-85bdaf63acdd" name="Request">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+        </con:settings>
+        <con:encoding>UTF-8</con:encoding>
+        <con:endpoint>http://localhost:8080/ws</con:endpoint>
+        <con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:soap="http://github.com/daggerok/services/soap-service">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <soap:getCountryRequest>
+         <soap:name>WRONG</soap:name>
+      </soap:getCountryRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request>
+        <con:credentials>
+          <con:authType>No Authorization</con:authType>
+        </con:credentials>
+        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+        <con:jmsPropertyConfig/>
+        <con:wsaConfig mustUnderstand="NONE" version="200508" action="http://github.com/daggerok/services/soap-service/CountriesPort/getCountryRequest"/>
+        <con:wsrmConfig version="1.2"/>
+      </con:call>
+    </con:operation>
+  </con:interface>
+  <con:testSuite id="f2bc6895-1806-4703-880d-a3015ec9b23c" name="Test">
+    <con:settings/>
+    <con:runType>SEQUENTIAL</con:runType>
+    <con:testCase id="a6cbb8fe-e10f-4ed0-b6c1-616924744587" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="getCountry TestCase" searchProperties="true">
+      <con:settings/>
+      <con:testStep type="request" name="NOK" id="b40d0f46-b9af-4542-97d0-8a4dbf79d440">
+        <con:settings/>
+        <con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:interface>GetCountriesSoap11Port</con:interface>
+          <con:operation>getCountry</con:operation>
+          <con:request name="NOK" id="c5e1fe23-383f-46c4-8be1-6606d2db7bf3">
+            <con:settings>
+              <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+            </con:settings>
+            <con:encoding>UTF-8</con:encoding>
+            <con:endpoint>http://localhost:8080/ws</con:endpoint>
+            <con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:soap="http://github.com/daggerok/services/soap-service">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <soap:getCountryRequest>
+         <soap:name>?</soap:name>
+      </soap:getCountryRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request>
+            <con:assertion type="SOAP Response" id="bcb9827a-7b9a-4e01-bcc2-3fd1d1827e0b"/>
+            <con:assertion type="Schema Compliance" id="e088fb4f-7579-4ac1-b455-11c8ef03418e">
+              <con:configuration/>
+            </con:assertion>
+            <con:assertion type="XPath Match" id="7e28c08c-91b4-440d-84ed-99a782e437fe" name="XPath Match">
+              <con:configuration>
+                <path>declare namespace SOAP-ENV='http://schemas.xmlsoap.org/soap/envelope/';
+//SOAP-ENV:Fault/faultstring</path>
+                <content>country ? wasn't found.</content>
+                <allowWildcards>false</allowWildcards>
+                <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+                <ignoreComments>false</ignoreComments>
+              </con:configuration>
+            </con:assertion>
+            <con:credentials>
+              <con:authType>No Authorization</con:authType>
+            </con:credentials>
+            <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+            <con:jmsPropertyConfig/>
+            <con:wsaConfig mustUnderstand="NONE" version="200508"/>
+            <con:wsrmConfig version="1.2"/>
+          </con:request>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="request" name="OK" id="16f66af7-5b9c-4b8e-92af-8b864b5a0d6d">
+        <con:settings/>
+        <con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:interface>GetCountriesSoap11Port</con:interface>
+          <con:operation>getCountry</con:operation>
+          <con:request name="OK" id="ca2122fa-fce1-43d8-b047-0c5a513cd62d">
+            <con:settings>
+              <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+            </con:settings>
+            <con:encoding>UTF-8</con:encoding>
+            <con:endpoint>http://localhost:8080/ws</con:endpoint>
+            <con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:soap="http://github.com/daggerok/services/soap-service">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <soap:getCountryRequest>
+         <soap:name>Poland</soap:name>
+      </soap:getCountryRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request>
+            <con:assertion type="SOAP Response" id="76dca8be-ec8f-4c06-8f59-436acda24393"/>
+            <con:assertion type="Schema Compliance" id="bc65840f-6f5e-49bb-b964-59b979d22a09">
+              <con:configuration/>
+            </con:assertion>
+            <con:assertion type="SOAP Fault Assertion" id="585e8a3e-65cc-45fa-8397-7ec5b4509206"/>
+            <con:assertion type="XPath Match" id="165a284d-2c9b-431a-bbcf-cb608343d212" name="XPath Match">
+              <con:configuration>
+                <path>declare namespace ns2='http://github.com/daggerok/services/soap-service';
+declare namespace SOAP-ENV='http://schemas.xmlsoap.org/soap/envelope/';
+//ns2:getCountryResponse/ns2:country/ns2:capital</path>
+                <content>Warsaw</content>
+                <allowWildcards>false</allowWildcards>
+                <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+                <ignoreComments>false</ignoreComments>
+              </con:configuration>
+            </con:assertion>
+            <con:credentials>
+              <con:authType>No Authorization</con:authType>
+            </con:credentials>
+            <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+            <con:jmsPropertyConfig/>
+            <con:wsaConfig mustUnderstand="NONE" version="200508"/>
+            <con:wsrmConfig version="1.2"/>
+          </con:request>
+        </con:config>
+      </con:testStep>
+      <con:properties/>
+    </con:testCase>
+    <con:properties/>
+  </con:testSuite>
+  <con:properties/>
+  <con:wssContainer/>
+  <con:oAuth2ProfileContainer/>
+  <con:oAuth1ProfileContainer/>
+  <con:sensitiveInformation/>
+</con:soapui-project>

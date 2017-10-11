@@ -1,0 +1,27 @@
+plugins {
+  id "idea"
+  id "eclipse"
+}
+
+version "0.0.1"
+group "daggerok"
+
+/**
+ * dynamically create tasks (for current root project "spring-your-data"):
+ * - clean
+ * - assemble
+ * - test
+ * - build
+ *
+ * which is dependsOn according tasks from included builds:
+ * - spring-boot-elasticsearch
+ * - spring-boot-mongodb
+ * - spring-boot-solr
+ */
+["clean", "assemble", "test", "build", "bootRun"].each { taskName ->
+  tasks.create(taskName) { task ->
+    ["elasticsearch", "mongodb", "solr"].each { suffix ->
+      task.shouldRunAfter gradle.includedBuild("boot-$suffix").task(":$taskName")
+    }
+  }
+}

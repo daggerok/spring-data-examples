@@ -1,0 +1,14 @@
+version: "2.1"
+services:
+  mongodb:
+    image: mvertes/alpine-mongo:3.2.10-3
+    environment:
+      MONGO_PORT_27017_TCP_PORT: 27017
+    ports: ["27017:27017"]
+    volumes: ["mongodb-data:/data/db"]
+    networks: [backing-services]
+volumes:
+  mongodb-data: {}
+networks:
+  backing-services:
+    driver: bridge

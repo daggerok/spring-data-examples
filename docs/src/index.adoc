@@ -22,6 +22,18 @@ include::../../01-redis/README.adoc[tags=content]
 == spring expression language
 include::../../02-spel/README.adoc[tags=content]
 
+== boot your data (elasticsearch, mongodb, solr)
+include::../../03-boot-your-data/README.adoc[tags=content]
+
+== QueryDSL
+include::../../04-querydsl/README.adoc[tags=content]
+
+== Derby create-drop for development)
+include::../../05-derby-create-drop/README.adoc[tags=content]
+
+== Reactive Redis
+include::../../06-reactive-redis-webflux/README.adoc[tags=content]
+
 == links
 
 . link:http://asciidoctor.org/docs/user-manual/#builtin-attributes[asciidoctor attributes]

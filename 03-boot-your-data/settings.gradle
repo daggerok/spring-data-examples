@@ -1,0 +1,3 @@
+["elasticsearch", "mongodb", "solr"]
+    .collect { "boot-$it" }
+    .each { includeBuild it }

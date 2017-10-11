@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>QueryDSL</title>
+  <link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css">
+  <style>
+    body {
+      padding-top: 1%;
+    }
+
+    ul {
+      list-style-type: none;
+    }
+  </style>
+</head>
+<body class="container">
+<p id="request-info"></p>
+<pre id="request"></pre>
+<p id="response-info"></p>
+<code id="response"></code>
+<script>
+
+  (function app() {
+    'use strict';
+
+    /** 1 */
+
+    const $ = selector => document.querySelector(selector);
+
+    const render = (selector, ...content) =>
+      $(selector).innerHTML = content.join("");
+
+    const htmlEscape = str =>
+      str.replace(/&/g, "&amp;")
+        .replace(/>/g, "&gt;")
+        .replace(/</g, "&lt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;")
+        .replace(/`/g, "&#96;");
+
+    const country = name => `
+      <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+                  xmlns:soap="http://github.com/daggerok/services/soap-service">
+        <soapenv:Header/>
+        <soapenv:Body>
+          <soap:getCountryRequest>
+            <soap:name>${name}</soap:name>
+          </soap:getCountryRequest>
+        </soapenv:Body>
+      </soapenv:Envelope>
+    `;
+
+    /** 2 */
+
+    const countryName = "Spain";
+    const renderRequestInfo = () => render("#request-info", `${countryName} request`);
+
+    const spain = country(countryName);
+    const renderRequest = () =>
+      render("#request", htmlEscape(spain));
+
+    const renderResponseInfo = () => render("#response-info", `${countryName} response`);
+
+    const renderResponse = () =>
+      fetch("/ws", {
+        method: "POST",
+        headers: new Headers({
+          "Content-Type": "text/xml",
+        }),
+        body: spain,
+      }).then(data => data.text())
+        .then(text => render("#response", htmlEscape(text)));
+
+    /** 3 */
+
+    document.addEventListener("DOMContentLoaded", () => {
+      renderRequestInfo();
+      renderRequest();
+    });
+
+    /** 4 */
+
+    function onEnterPress({ keyCode }) {
+      if (!keyCode || keyCode !== 13) return;
+      renderResponseInfo();
+      renderResponse();
+    }
+
+    document.addEventListener("keydown", onEnterPress);
+
+  })();
+
+</script>
+</body>
+</html>

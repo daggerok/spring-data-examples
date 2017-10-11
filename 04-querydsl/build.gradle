@@ -1,0 +1,21 @@
+buildscript {
+  ext {
+    springBootVersion = "1.5.7.RELEASE"
+  }
+}
+
+plugins {
+  id "java"
+  id "idea"
+  id "eclipse"
+}
+
+configure(subprojects.findAll { it.name.contains("-service") }) {
+
+  apply plugin: "java"
+
+  version = "0.0.3"
+  sourceCompatibility = JavaVersion.VERSION_1_8
+
+  repositories { mavenCentral() }
+}

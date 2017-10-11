@@ -1,0 +1,67 @@
+/**
+ * functional testing using Gradle SoapUI Plugin:
+ * https://github.com/creising/soapui-gradle-plugin
+ *
+ * 1. build jar
+ * 2. start application using docker
+ * 3. run soaptests gradle task
+ * 4. shutdown docker
+ */
+
+buildscript {
+  repositories {
+    jcenter()
+    maven { url "https://plugins.gradle.org/m2/" }
+    maven { url "http://smartbearsoftware.com/repository/maven2/" }
+  }
+  dependencies { classpath "gradle.plugin.io.github.daggerok:soapui-runner:5.3.0-4" }
+}
+
+plugins {
+  id "com.avast.gradle.docker-compose" version "0.4.3" apply false
+}
+
+// fix windows paths... replace all: "\\" -> "/"
+def root = rootDir.absolutePath.replaceAll("\\\\", "/")
+def soapRoot = "$root/soaptest"
+
+configure(subprojects) { p ->
+
+  apply plugin: "docker-compose"
+  apply plugin: "io.github.daggerok.soapui-runner"
+
+  /** rest-service -> [rest, service] -> rest -> Rest */
+  def projectName = p.name.split("-")[0].capitalize()
+
+  def src = "$soapRoot/$project.name/src"
+
+  dockerCompose {
+    useComposeFiles = ["$src/docker/docker-compose.yml"]
+    captureContainersOutput = true
+    stopContainers = true
+    removeContainers = true
+    removeImages = "Local"
+    removeVolumes = true
+    removeOrphans = true
+    projectName = "$projectName"
+  }
+
+  def composeServiceUpTask = tasks.create("compose${projectName}Up") {
+    it.dependsOn composeUp
+  }
+
+  def composeServiceDownTask = tasks.create("compose${projectName}Down") {
+    it.dependsOn composeDown
+  }
+
+  testrunner {
+    projectFile = "$src/soapui/soapui-test-project.xml"
+    dependsOn ":assemble", composeServiceUpTask
+    shouldRunAfter ":clean", ":assemble", composeServiceUpTask
+    finalizedBy composeServiceDownTask
+  }
+
+  tasks.create("soaptest$projectName") {
+    it.dependsOn testrunner
+  }
+}

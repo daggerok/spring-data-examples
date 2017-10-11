@@ -1,0 +1,12 @@
+version: "2.1"
+services:
+  solr:
+    image: solr:5.5.4-alpine
+    ports: ["8983:8983"]
+    volumes: ["solr-data:/opt/solr"]
+    networks: [backing-services]
+volumes:
+  solr-data: {}
+networks:
+  backing-services:
+    driver: bridge

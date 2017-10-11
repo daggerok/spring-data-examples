@@ -1,0 +1,1 @@
+== SoapUI test project of ws-service project

@@ -14,6 +14,7 @@ before_install:
   - sudo usermod -aG docker $(whoami)
 
   # kill whatever running on ports
+  - sudo kill $(sudo lsof -t -i:5672) | true
   - sudo kill $(sudo lsof -t -i:5432) | true
   - lsof -i tcp:27017 | awk 'NR!=1 {print $2}' | xargs kill | true
   - sudo kill $(sudo lsof -t -i:27017) | true
@@ -26,6 +27,10 @@ script:
   - export ROOT=$PWD
   - >
     for path in \
+      06-reactive-redis-webflux \
+      05-derby-create-drop \
+      04-querydsl \
+      03-boot-your-data \
       02-spel \
       01-redis \
     ; do
@@ -36,6 +41,76 @@ script:
       bash gradlew clean build
 
     done;
+
+  # 04-querydsl:
+  - cd "$ROOT/04-querydsl"
+  - bash gradlew clean test build
+
+  # querydsl: test and build
+  - docker-compose -f soaptest/rest-service/src/docker/docker-compose.yml up -d --build
+  - docker-compose -f soaptest/rest-service/src/docker/docker-compose.yml down -v
+  - docker-compose -f soaptest/ws-service/src/docker/docker-compose.yml up -d --build
+  - docker-compose -f soaptest/ws-service/src/docker/docker-compose.yml down -v
+
+  # querydsl: run rest
+  - bash gradlew :docker:dockerUp
+  - sudo mkdir -p /var/app
+  - sudo mv -f services/rest-service/build/libs/*.jar /var/app/rest.jar
+  - sudo ln -s /var/app/rest.jar /etc/init.d/rest
+  - sudo service rest start
+
+  # querydsl: manual rest api tests
+  - sleep 15
+  - curl -sS localhost:8080/api/v1/domains | jq
+  - curl -sS localhost:8080/api/v2/flatten/2 | jq
+  - curl -sS localhost:8080/api/v2/flatten | jq
+  - curl -sS localhost:8080/api/v2/sorted\?sort=id,desc | jq
+  - curl -sS localhost:8080/api/v2/pagination\?page=0\&size=1\&sort=first.firstField1,desc | jq
+  - curl -sS localhost:8080/api/v3/predicate | jq
+  - curl -sS localhost:8080/api/v3/predicate\?second.secondField1=1 | jq
+  - curl -sS localhost:8080/api/v3/predicate\?createdDate=$(date +%Y-%m-%d) | jq
+  - curl -sS localhost:8080/api/v4/engineers | jq
+  - curl -sS localhost:8080/api/v4/engineers\?size=2\&page=0\&sort=username,desc | jq
+  - curl -sS localhost:8080/api/v4/engineers/any\?emails=u1@com,u3@mail.com | jq
+  - curl -sS localhost:8080/api/v4/engineers/any\?emails=u3@mail.com,u2.1@mail.com | jq
+  - curl -sS localhost:8080/rest/domains -H'content-type:application/json' -d '{"firstName":"1","lastName":"1","username":"1"}' | jq '._links.self'
+  - curl -sS localhost:8080/rest/domains -H'content-type:application/json' -d '{"firstName":"2","lastName":"2","username":"2"}' | jq '._links.self'
+  - curl -sS localhost:8080/rest/otherDomains -H'content-type:application/json' -d '{"test":"1"}' | jq '._links.self'
+  - curl -sS localhost:8080/rest/histories | jq '.page.totalElements'
+  - curl -sS localhost:8080/rest/engineers -H'content-type:application/json' -d '{"username":"tttest"}' | jq '._links.self'
+  - curl -sS localhost:8080/rest/histories | jq '.page.totalElements'
+  - curl -sS localhost:8080/api/v5/engineers/page-info -H'accept:application/json' | jq
+  - curl -sS localhost:8080/api/v6 | jq
+  - curl -sS localhost:8080/api/v6/catalog | jq
+  - curl -sS localhost:8080/api/v6/catalog\?size=1 | jq
+  - curl -sS localhost:8080/api/v6/enum-collection/TEST_ENTITY_1 | jq
+  - curl -sS localhost:8080/api/v6/enum-collection/TEST_ENTITY_2 | jq
+  - curl -sS localhost:8080/api/v6/enum-collection/not-found | jq
+  - curl -sS localhost:8080/api/v6/map-catalog/type/not-found | jq
+  - curl -sS localhost:8080/api/v6/map-catalog/type/TEST_ENTITY_2 | jq
+  - curl -sS localhost:8080/api/v6/map-catalog/status/NOK | jq
+  - curl -sS localhost:8080/api/v6/map-catalog/status/OK | jq
+  - curl -sS localhost:8080/api/v6/map-catalog/status/OK\?size=1 | jq
+  - curl -sS localhost:8080/api/v6/jpa-enum | jq
+  - curl -sS localhost:8080/api/v6/jpa-enum\?size=1 | jq
+  - sudo service rest stop
+  - bash gradlew :docker:dockerDown
+
+  # querydsl: run ws
+  - bash gradlew :docker:dockerUp
+  - sudo mkdir -p /var/app
+  - sudo mv -f services/ws-service/build/libs/*.jar /var/app/ws.jar
+  - sudo ln -s /var/app/ws.jar /etc/init.d/ws
+  - sudo service ws start
+  - sleep 15
+  - curl --header "content-type:text/xml" -d @services/ws-service/src/test/resources/request.xml http://localhost:8080/ws | xmllint --format -
+  - sudo service ws stop
+  - bash gradlew :docker:dockerDown
+
+  # querydsl: run SoapUI tests
+  - bash gradlew clean assemble soaptestRest soaptestWs
+  - bash gradlew clean assemble testrunner
+  - bash gradlew --stop
 
   # 02-spel
   - cd $ROOT/02-spel/

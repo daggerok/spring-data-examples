@@ -1,0 +1,21 @@
+plugins {
+    id "java"
+    id "idea"
+    id "eclipse"
+    id "org.springframework.boot" version "1.5.7.RELEASE"
+}
+
+repositories { mavenCentral() }
+
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-data-jpa")
+    compile("org.springframework.boot:spring-boot-starter-web")
+    runtime("org.springframework.boot:spring-boot-devtools")
+    runtime("org.apache.derby:derby")
+    compileOnly("org.projectlombok:lombok")
+    testCompile("org.springframework.boot:spring-boot-starter-test")
+}
+
+wrapper {
+    gradleVersion = "4.2.1"
+}

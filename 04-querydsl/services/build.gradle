@@ -1,0 +1,72 @@
+plugins {
+  id "org.springframework.boot" version "1.5.4.RELEASE" apply false
+  id "com.ewerk.gradle.plugins.querydsl" version "1.0.8" apply false
+  id "io.spring.dependency-management" version "1.0.3.RELEASE" apply false
+}
+
+configure(subprojects) { project ->
+
+  apply plugin: "org.springframework.boot"
+  apply plugin: "io.spring.dependency-management"
+  apply plugin: "com.ewerk.gradle.plugins.querydsl"
+
+  dependencyManagement {
+    imports {
+      mavenBom "org.springframework.boot:spring-boot-dependencies:$springBootVersion"
+    }
+  }
+
+  springBoot {
+    executable = true
+  }
+
+  repositories {
+    jcenter()
+    mavenCentral()
+  }
+
+  dependencies {
+
+    compile("org.springframework.boot:spring-boot-starter-data-rest")
+    compile("org.springframework.boot:spring-boot-starter-data-jpa")
+    compile("org.springframework.boot:spring-boot-starter-web")
+
+    compile("com.querydsl:querydsl-core")
+    compile("com.querydsl:querydsl-jpa")
+    compile("com.querydsl:querydsl-apt")
+
+    compile("org.webjars:webjars-locator:0.32")
+    compile("org.webjars:bootstrap:3.3.7")
+    compile("org.webjars.npm:types__whatwg-fetch:0.0.33")
+
+    compile("org.projectlombok:lombok")
+    compile("io.vavr:vavr:0.9.0")
+
+    compile("com.fasterxml.jackson.core:jackson-databind:2.8.8.1")
+    compile("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
+    compile("org.hibernate:hibernate-java8")
+
+    runtime("org.postgresql:postgresql")
+
+    runtime("org.springframework.boot:spring-boot-devtools")
+
+    compile("org.springframework.boot:spring-boot-starter-web-services")
+
+    testCompile("org.springframework.boot:spring-boot-starter-test")
+  }
+
+  def mainDir = "$project.projectDir/src/main"
+  def genDir = "$mainDir/gen"
+
+  querydsl {
+    querydslSourcesDir = genDir
+    querydslDefault = true
+    jpa = true
+  }
+
+  sourceSets {
+    generated
+    main
+    test
+  }
+}

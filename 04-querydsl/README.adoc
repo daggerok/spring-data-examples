@@ -1,0 +1,192 @@
+= spring-data-querydsl-example image:https://travis-ci.org/daggerok/spring-data-examples.svg?branch=master["Build Status", link="https://travis-ci.org/daggerok/spring-data-examples"]
+
+//tag::content[]
+
+==== functional REST API testing using SoapUI and Gradle plugin
+
+see `soaptest` subproject
+
+[source,bash]
+----
+gradle clean assemble soaptestRest soaptestWs
+----
+
+==== functional SOAP API testing using SoapUI and Gradle plugin
+
+[source,bash]
+----
+gradle wsServiceRun
+curl --header "content-type: text/xml" -d @services/ws-service/src/test/resources/request.xml http://localhost:8080/ws | xmllint --format -
+# ctrl+c
+gradle dockerDown
+gradle --stop
+
+gradle clean assemble soaptestWs
+----
+
+==== unit/integration testing using spring-boot-test and Docker
+
+[source,bash]
+----
+gradle celan build
+----
+
+==== JPA: persisting Collections of Enum
+
+[source,bash]
+----
+gradle restServiceRun
+
+http :8080/api/v6
+http :8080/api/v6/catalog
+http :8080/api/v6/catalog\?size=1
+
+http :8080/api/v6/enum-collection/TEST_ENTITY_1
+http :8080/api/v6/enum-collection/TEST_ENTITY_2
+http :8080/api/v6/enum-collection/not_found
+
+http :8080/api/v6/map-catalog/type/not-found
+http :8080/api/v6/map-catalog/type/TEST_ENTITY_2
+http :8080/api/v6/map-catalog/status/NOK
+http :8080/api/v6/map-catalog/status/OK
+http :8080/api/v6/map-catalog/status/OK\?size=1
+
+http :8080/api/v6/jpa-enum
+http :8080/api/v6/jpa-enum\?size=1
+
+gradle --stop
+----
+
+==== spring HATEOAS resources assembler page metadata
+
+[source,bash]
+----
+gradle restServiceRun
+http :8080/api/v5/engineers/page-metadata
+----
+
+==== Event Sourcing using spring application events
+
+see:
+
+. `service/**/src/main/java/daggerok/history/applicationevent`
+. `service/**/src/main/java/daggerok/history/service`
+
+[source,bash]
+----
+http :8080/rest/engineers username=tttest | jq '._links.self'
+http :8080/rest/histories | jq '._embedded.histories'
+----
+
+==== Event Sourcing (history) using spring data-rest
+
+see:
+
+. `service/**/src/main/java/daggerok/history/springdatarest`
+. `service/**/src/main/java/daggerok/history/service`
+
+[source,bash]
+----
+http :8080/rest/domains firstName=1 lastName=1 username=1 | jq '._links.self'
+http :8080/rest/domains firstName=2 lastName=2 username=2 | jq '._links.self'
+http :8080/rest/otherDomains test=1 | jq '._links.self'
+http :8080/rest/histories | jq '._embedded.histories'
+----
+
+==== Embedded primitive @OneToMany and @ManyToMany relationships
+
+see: `service/**/src/main/java/daggerok/relationships`
+
+@OneToMany -> @Embeddable Set emails (also could be a list)
+
+@ManyToMany -> @Embeddable Map tags (same for labels)
+
+[source,bash]
+----
+gradle compileQuerydsl xjc # gradle assemble
+gradle bootRun
+
+http ":8080/api/v4/engineers?size=2&page=0&sort=username,desc"
+
+gradle --stop
+gradle composeDown
+----
+
+==== Optimization: 3NF
+
+see: `service/**/src/main/java/daggerok/embedded`
+
+==== examine REST API using HTTPie:
+
+[source,bash]
+----
+http :8080/api/v3/predicate
+http ":8080/api/v3/predicate?second.secondField1=1"
+
+# bash
+http ":8080/api/v3/predicate?createdDate=$(date +%Y-%m-%d)"
+# fish
+http ":8080/api/v3/predicate?createdDate="(date +%Y-%m-%d)
+
+http ":8080/api/v2/pagination?page=0&size=1&sort=first.firstField1,desc"
+http ":8080/api/v2/sorted?sort=id,desc"
+
+http :8080/api/v2/flatten
+http :8080/api/v2/flatten/2
+----
+
+note: see `.travis.yml` for cURL examples
+
+==== generate Q-classes from JPA:
+
+[source,bash]
+----
+gradle compileQuerydsl xjc
+----
+
+==== quick startup
+
+bootstrapping docker before bootRun
+
+[source,bash]
+----
+gradle bootRun
+open http://localhost:8080 # press enter
+...
+gradle composeDown
+gradle --stop
+----
+
+==== integration tests
+
+see `docker` subproject
+
+[source,bash]
+----
+gradle clean assemble test
+gradle --stop
+----
+
+==== spring data jpa auditing
+
+see `service/**/src/main/java/daggerok/audit` package
+
+[width="90%"]
+|====================================================================================================================
+|id|created_date|modified_at               |de_normalized_field|first_field1|first_field2|second_field1|second_field2
+|1 |2017-06-10  |2017-06-10 22:18:35.516000|1                  |1           |1           |1            |1
+|2 |2017-06-10  |2017-06-10 22:18:35.545000|2                  |2           |2           |2            |2
+|====================================================================================================================
+
+==== stack:
+
+- spring-boot, spring-data, spring-web, fallback 404 handler
+- JPA auditing
+- Performance optimization: de-normalize JPA NF4 -> NF3, @Embedded, @Embeddable
+- QueryDSL (spring-data integration)
+- Event sourcing using spring data-rest and spring application events
+- gradle, SoapUI
+- Postgres, Docker
+- QueryDSL link:http://www.querydsl.com/static/querydsl/3.2.2/reference/html/index.html[referrence documentation] and link:http://www.querydsl.com/static/querydsl/3.2.2/reference/html/ch02.html[example]
+
+//end::content[]

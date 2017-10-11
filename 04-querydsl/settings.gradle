@@ -1,0 +1,8 @@
+rootProject.name = "spring-data-querydsl-example"
+include "services"
+include "services:rest-service"
+include "services:ws-service"
+include "docker"
+include "soaptest"
+include "soaptest:rest-service"
+include "soaptest:ws-service"

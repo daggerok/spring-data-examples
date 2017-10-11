@@ -1,0 +1,9 @@
+= REST Web Service
+
+stack:
+
+. rest web services
+. spring-boot, spring-web, spring-data, QueryDSL
+. postgres
+. gradle
+. js client: consuming REST web services using Fetch API

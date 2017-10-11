@@ -1,0 +1,32 @@
+version: "2.1"
+services:
+  soap-rest-app:
+    image: openjdk:8u131-jre-alpine
+    links: ["soap-rest-db:db"]
+    depends_on: [soap-rest-db]
+    ports: ["8080:8080"]
+    networks: [soap-network]
+    volumes:
+      - "soap-rest-app-data:/var/app"
+      - "../../../../services/rest-service/build/libs/rest-service-0.0.3.jar:/var/app/app.jar"
+    environment:
+      DB_HOST: db
+      JAVA_OPTS: ""
+    #command: sh -c "mkdir -f /var/app # not needed with docker-compose"
+    entrypoint: sh -c "java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar /var/app/app.jar"
+  soap-rest-db:
+    image: healthcheck/postgres:alpine
+    container_name: soap-rest-db
+    ports: ["5432:5432"]
+    networks: [soap-network]
+    volumes: ["soap-rest-db-data:/var/lib/postgresql/data"]
+    environment:
+      POSTGRES_DB: db
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+volumes:
+  soap-rest-app-data: {}
+  soap-rest-db-data: {}
+networks:
+  soap-network:
+    driver: bridge

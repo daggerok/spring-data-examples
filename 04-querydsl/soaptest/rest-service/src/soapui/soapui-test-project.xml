@@ -1,0 +1,807 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="1b736bd2-4878-4631-aa0a-bd6a05580d64" activeEnvironment="Default" name="rest-service" resourceRoot="" defaultScriptLanguage="Groovy" soapui-version="5.3.0" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config">
+  <con:settings>
+    <con:setting id="com.eviware.soapui.impl.wsdl.actions.iface.tools.soapui.TestRunnerAction@values-local"><![CDATA[<xml-fragment xmlns:con="http://eviware.com/soapui/config">
+  <con:entry key="Environment" value="Default"/>
+  <con:entry key="Global Properties" value=""/>
+  <con:entry key="TestSuite" value="&lt;all>"/>
+  <con:entry key="Password" value=""/>
+  <con:entry key="TestRunner Path" value=""/>
+  <con:entry key="Tool Args" value=""/>
+  <con:entry key="Ignore Errors" value="false"/>
+  <con:entry key="Host:Port" value=""/>
+  <con:entry key="user-settings.xml Password" value=""/>
+  <con:entry key="WSS Password Type" value=""/>
+  <con:entry key="Save Project" value="false"/>
+  <con:entry key="Enable UI" value="false"/>
+  <con:entry key="System Properties" value=""/>
+  <con:entry key="Domain" value=""/>
+  <con:entry key="Coverage Report" value="false"/>
+  <con:entry key="Export JUnit Results" value="false"/>
+  <con:entry key="Export JUnit Results with test properties" value="false"/>
+  <con:entry key="Open Report" value="false"/>
+  <con:entry key="Project Properties" value=""/>
+  <con:entry key="Export All" value="false"/>
+  <con:entry key="Project Password" value=""/>
+  <con:entry key="Report Format(s)" value=""/>
+  <con:entry key="TestCase" value="&lt;all>"/>
+  <con:entry key="Print Report" value="false"/>
+  <con:entry key="Username" value=""/>
+  <con:entry key="Root Folder" value=""/>
+  <con:entry key="Select Report Type" value=""/>
+  <con:entry key="Save After" value="false"/>
+  <con:entry key="Add Settings" value="false"/>
+  <con:entry key="Endpoint" value=""/>
+</xml-fragment>]]></con:setting>
+  </con:settings>
+  <con:interface xsi:type="con:RestService" id="642da67b-4b0a-466c-a89d-d3a77febb3bc" wadlVersion="http://wadl.dev.java.net/2009/02" name="http://localhost:8080" type="rest" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <con:settings/>
+    <con:definitionCache type="TEXT" rootPart=""/>
+    <con:endpoints>
+      <con:endpoint>http://localhost:8080</con:endpoint>
+    </con:endpoints>
+    <con:resource name="domainWithParams" path="/api/v1/domains?{param1}={value1}" id="b0746d02-8974-47a5-bcbb-37a611316a6e">
+      <con:description>domains endpoint</con:description>
+      <con:settings/>
+      <con:parameters>
+        <con:parameter>
+          <con:name>value1</con:name>
+          <con:value>required</con:value>
+          <con:style>TEMPLATE</con:style>
+          <con:default>required</con:default>
+          <con:description xsi:nil="true"/>
+        </con:parameter>
+        <con:parameter>
+          <con:name>param1</con:name>
+          <con:value>required</con:value>
+          <con:style>TEMPLATE</con:style>
+          <con:default>required</con:default>
+          <con:description xsi:nil="true"/>
+        </con:parameter>
+      </con:parameters>
+      <con:method name="GET" id="06e196bf-b20e-4815-a7c8-bf013b00e626" method="GET">
+        <con:description>get pageable domains</con:description>
+        <con:settings/>
+        <con:parameters/>
+        <con:representation type="RESPONSE">
+          <con:mediaType>application/json;charset=UTF-8</con:mediaType>
+          <con:status>200</con:status>
+          <con:params/>
+          <con:element>Response</con:element>
+        </con:representation>
+        <con:representation type="RESPONSE">
+          <con:mediaType xsi:nil="true"/>
+          <con:status>0</con:status>
+          <con:params/>
+          <con:element>data</con:element>
+        </con:representation>
+        <con:representation type="RESPONSE">
+          <con:mediaType xsi:nil="true"/>
+          <con:status>0</con:status>
+          <con:params/>
+          <con:element>data</con:element>
+        </con:representation>
+        <con:representation type="RESPONSE">
+          <con:mediaType xsi:nil="true"/>
+          <con:status>0</con:status>
+          <con:params/>
+          <con:element>data</con:element>
+        </con:representation>
+        <con:request name="OK" id="520f63ed-e2a0-41ed-883c-471e87bd7d75" mediaType="application/json" sslKeystore="">
+          <con:description>status should be 200</con:description>
+          <con:settings>
+            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="Authorization" value="Bearer ${#Project#Token}" xmlns="http://eviware.com/soapui/config"/></con:setting>
+            <con:setting id="com.eviware.soapui.impl.support.AbstractHttpRequest@follow-redirects">true</con:setting>
+            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@strip-whitespaces">false</con:setting>
+          </con:settings>
+          <con:encoding>UTF-8</con:encoding>
+          <con:endpoint>http://localhost:8080</con:endpoint>
+          <con:request/>
+          <con:originalUri>http://localhost/api/v1/domains</con:originalUri>
+          <con:credentials>
+            <con:domain/>
+            <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+            <con:authType>No Authorization</con:authType>
+          </con:credentials>
+          <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+          <con:jmsPropertyConfig/>
+          <con:parameters>
+            <con:entry key="v1" value=""/>
+            <con:entry key="param1" value="required"/>
+            <con:entry key="p1" value=""/>
+            <con:entry key="value1" value="required"/>
+          </con:parameters>
+          <con:parameterOrder>
+            <con:entry>param1</con:entry>
+            <con:entry>value1</con:entry>
+          </con:parameterOrder>
+        </con:request>
+      </con:method>
+    </con:resource>
+    <con:resource name="domains" path="/api/v1/domains" id="f2452a84-41f3-4e9c-8ecb-c10760bd288b">
+      <con:settings/>
+      <con:parameters/>
+      <con:method name="GET" id="26526c60-154b-4c15-9662-16f0095fe221" method="GET">
+        <con:settings/>
+        <con:parameters/>
+        <con:representation type="RESPONSE">
+          <con:mediaType>application/json;charset=UTF-8</con:mediaType>
+          <con:status>200</con:status>
+          <con:params/>
+          <con:element>Response</con:element>
+        </con:representation>
+        <con:request name="OK" id="e94f50a1-b2af-4e2a-a5d6-52bdced9ff5b" mediaType="application/json">
+          <con:settings>
+            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+          </con:settings>
+          <con:endpoint>http://localhost:8080</con:endpoint>
+          <con:request/>
+          <con:credentials>
+            <con:authType>No Authorization</con:authType>
+          </con:credentials>
+          <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+          <con:jmsPropertyConfig/>
+          <con:parameters/>
+        </con:request>
+      </con:method>
+    </con:resource>
+    <con:resource name="history" path="/rest/histories" id="b4df4556-b71f-4454-90dc-b6301dadfedd">
+      <con:settings/>
+      <con:parameters>
+        <con:parameter>
+          <con:name>event</con:name>
+          <con:value/>
+          <con:style>TEMPLATE</con:style>
+          <con:default/>
+          <con:description xsi:nil="true"/>
+        </con:parameter>
+        <con:parameter>
+          <con:name>name</con:name>
+          <con:value/>
+          <con:style>TEMPLATE</con:style>
+          <con:default/>
+          <con:description xsi:nil="true"/>
+        </con:parameter>
+        <con:parameter>
+          <con:name>id</con:name>
+          <con:value/>
+          <con:style>TEMPLATE</con:style>
+          <con:default/>
+          <con:description xsi:nil="true"/>
+        </con:parameter>
+      </con:parameters>
+      <con:resource name="{id}" path="{id}" id="7a8edb9f-8e3a-4932-a2fd-ddb3a7975f5b">
+        <con:settings/>
+        <con:parameters>
+          <con:parameter>
+            <con:name>id</con:name>
+            <con:value>id</con:value>
+            <con:style>TEMPLATE</con:style>
+            <con:default>id</con:default>
+          </con:parameter>
+        </con:parameters>
+        <con:method name="DELETE" id="e2142169-ba95-4437-90a0-6ffea2584ea3" method="DELETE">
+          <con:settings/>
+          <con:parameters/>
+          <con:representation type="RESPONSE">
+            <con:mediaType xsi:nil="true"/>
+            <con:status>204</con:status>
+            <con:params/>
+            <con:element>data</con:element>
+          </con:representation>
+          <con:representation type="REQUEST">
+            <con:mediaType>application/json</con:mediaType>
+            <con:params/>
+          </con:representation>
+          <con:representation type="RESPONSE">
+            <con:mediaType xsi:nil="true"/>
+            <con:status>204</con:status>
+            <con:params/>
+            <con:element>data</con:element>
+          </con:representation>
+          <con:representation type="FAULT">
+            <con:mediaType>application/hal+json;charset=UTF-8</con:mediaType>
+            <con:status>400</con:status>
+            <con:params/>
+            <con:element xmlns:ns="http://localhost/rest/histories/2">ns:Fault</con:element>
+          </con:representation>
+          <con:representation type="RESPONSE">
+            <con:mediaType xsi:nil="true"/>
+            <con:status>204</con:status>
+            <con:params/>
+            <con:element>data</con:element>
+          </con:representation>
+          <con:representation type="RESPONSE">
+            <con:mediaType xsi:nil="true"/>
+            <con:status>204</con:status>
+            <con:params/>
+            <con:element>data</con:element>
+          </con:representation>
+          <con:representation type="RESPONSE">
+            <con:mediaType xsi:nil="true"/>
+            <con:status>204</con:status>
+            <con:params/>
+            <con:element>data</con:element>
+          </con:representation>
+          <con:representation type="RESPONSE">
+            <con:mediaType xsi:nil="true"/>
+            <con:status>204</con:status>
+            <con:params/>
+            <con:element>data</con:element>
+          </con:representation>
+          <con:representation type="RESPONSE">
+            <con:mediaType xsi:nil="true"/>
+            <con:status>204</con:status>
+            <con:params/>
+            <con:element>data</con:element>
+          </con:representation>
+          <con:representation type="RESPONSE">
+            <con:mediaType xsi:nil="true"/>
+            <con:status>204</con:status>
+            <con:params/>
+            <con:element>data</con:element>
+          </con:representation>
+          <con:representation type="RESPONSE">
+            <con:mediaType xsi:nil="true"/>
+            <con:status>204</con:status>
+            <con:params/>
+            <con:element>data</con:element>
+          </con:representation>
+          <con:representation type="RESPONSE">
+            <con:mediaType xsi:nil="true"/>
+            <con:status>204</con:status>
+            <con:params/>
+            <con:element>data</con:element>
+          </con:representation>
+          <con:representation type="RESPONSE">
+            <con:mediaType xsi:nil="true"/>
+            <con:status>204</con:status>
+            <con:params/>
+            <con:element>data</con:element>
+          </con:representation>
+          <con:representation type="RESPONSE">
+            <con:mediaType xsi:nil="true"/>
+            <con:status>204</con:status>
+            <con:params/>
+            <con:element>data</con:element>
+          </con:representation>
+          <con:representation type="RESPONSE">
+            <con:mediaType xsi:nil="true"/>
+            <con:status>204</con:status>
+            <con:params/>
+            <con:element>data</con:element>
+          </con:representation>
+          <con:representation type="RESPONSE">
+            <con:mediaType xsi:nil="true"/>
+            <con:status>204</con:status>
+            <con:params/>
+            <con:element>data</con:element>
+          </con:representation>
+          <con:request name="histories" id="e1bb94c4-9ae3-41c8-a06e-55f69f0c1d9e" mediaType="application/json" postQueryString="false">
+            <con:settings>
+              <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+            </con:settings>
+            <con:endpoint>http://localhost:8080</con:endpoint>
+            <con:request/>
+            <con:credentials>
+              <con:authType>No Authorization</con:authType>
+            </con:credentials>
+            <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+            <con:jmsPropertyConfig/>
+            <con:parameters/>
+          </con:request>
+        </con:method>
+      </con:resource>
+      <con:method name="GET" id="da956789-954d-4492-a856-e91093f25a13" method="GET">
+        <con:settings/>
+        <con:parameters/>
+        <con:representation type="FAULT">
+          <con:mediaType>text/html;charset=UTF-8</con:mediaType>
+          <con:status>404</con:status>
+          <con:params/>
+          <con:element>html</con:element>
+        </con:representation>
+        <con:representation type="RESPONSE">
+          <con:mediaType>application/hal+json;charset=UTF-8</con:mediaType>
+          <con:status>200</con:status>
+          <con:params/>
+          <con:element xmlns:his="http://localhost/rest/history">his:Response</con:element>
+        </con:representation>
+        <con:request name="histories" id="c5633c15-c639-4b9a-814b-026322d8e1ea" mediaType="application/json">
+          <con:settings>
+            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+          </con:settings>
+          <con:endpoint>http://localhost:8080</con:endpoint>
+          <con:request/>
+          <con:originalUri>http://localhost/rest/history</con:originalUri>
+          <con:credentials>
+            <con:authType>No Authorization</con:authType>
+          </con:credentials>
+          <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+          <con:jmsPropertyConfig/>
+          <con:parameters>
+            <con:entry key="id" value=""/>
+            <con:entry key="event" value=""/>
+            <con:entry key="name" value=""/>
+          </con:parameters>
+          <con:parameterOrder>
+            <con:entry>event</con:entry>
+            <con:entry>name</con:entry>
+            <con:entry>id</con:entry>
+          </con:parameterOrder>
+        </con:request>
+      </con:method>
+    </con:resource>
+    <con:resource name="histories" path="/rest/histories" id="301f979e-d71d-4d56-affb-c7baddd46e79">
+      <con:settings/>
+      <con:parameters/>
+      <con:method name="POST" id="a0e49c7a-1782-4c43-bf67-15545daef5e7" method="POST">
+        <con:settings/>
+        <con:parameters/>
+        <con:representation type="FAULT">
+          <con:mediaType>application/hal+json;charset=UTF-8</con:mediaType>
+          <con:status>400</con:status>
+          <con:params/>
+          <con:element xmlns:his="http://localhost/rest/histories">his:Fault</con:element>
+        </con:representation>
+        <con:representation type="REQUEST">
+          <con:mediaType>application/x-www-form-urlencoded</con:mediaType>
+          <con:params/>
+        </con:representation>
+        <con:representation type="RESPONSE">
+          <con:mediaType xsi:nil="true"/>
+          <con:status>201</con:status>
+          <con:params/>
+          <con:element>data</con:element>
+        </con:representation>
+        <con:representation type="REQUEST">
+          <con:mediaType>application/json</con:mediaType>
+          <con:params/>
+        </con:representation>
+        <con:representation type="RESPONSE">
+          <con:mediaType xsi:nil="true"/>
+          <con:status>201</con:status>
+          <con:params/>
+          <con:element>data</con:element>
+        </con:representation>
+        <con:representation type="RESPONSE">
+          <con:mediaType xsi:nil="true"/>
+          <con:status>201</con:status>
+          <con:params/>
+          <con:element>data</con:element>
+        </con:representation>
+        <con:representation type="RESPONSE">
+          <con:mediaType xsi:nil="true"/>
+          <con:status>201</con:status>
+          <con:params/>
+          <con:element>data</con:element>
+        </con:representation>
+        <con:representation type="RESPONSE">
+          <con:mediaType xsi:nil="true"/>
+          <con:status>201</con:status>
+          <con:params/>
+          <con:element>data</con:element>
+        </con:representation>
+        <con:representation type="RESPONSE">
+          <con:mediaType xsi:nil="true"/>
+          <con:status>201</con:status>
+          <con:params/>
+          <con:element>data</con:element>
+        </con:representation>
+        <con:representation type="RESPONSE">
+          <con:mediaType xsi:nil="true"/>
+          <con:status>201</con:status>
+          <con:params/>
+          <con:element>data</con:element>
+        </con:representation>
+        <con:representation type="RESPONSE">
+          <con:mediaType xsi:nil="true"/>
+          <con:status>201</con:status>
+          <con:params/>
+          <con:element>data</con:element>
+        </con:representation>
+        <con:request name="histories" id="92be28ac-64aa-402d-9f8b-5c372b713d66" mediaType="application/json" postQueryString="false">
+          <con:settings>
+            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+          </con:settings>
+          <con:endpoint>http://localhost:8080</con:endpoint>
+          <con:request>{
+  "name": "${#TestCase#name}",
+  "event": "${#TestCase#event}"
+}</con:request>
+          <con:originalUri>http://localhost/rest/histories</con:originalUri>
+          <con:credentials>
+            <con:authType>No Authorization</con:authType>
+          </con:credentials>
+          <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+          <con:jmsPropertyConfig/>
+          <con:parameters/>
+          <con:parameterOrder/>
+        </con:request>
+      </con:method>
+    </con:resource>
+  </con:interface>
+  <con:testSuite id="2617c623-7995-49f6-8a21-5d4f8a1cfdac" name="Test">
+    <con:settings/>
+    <con:runType>SEQUENTIAL</con:runType>
+    <con:testCase id="e2b6b12d-b54a-444a-9e21-73ced9e7c0a9" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="TestCase" searchProperties="true">
+      <con:settings/>
+      <con:testStep type="groovy" name="ResetGlobalCounter" id="1166a496-475f-4265-9b4d-ec384d0eb97f">
+        <con:settings/>
+        <con:config>
+          <script>testRunner.testCase.testSuite.project.setPropertyValue('globalCounter', '1')
+log.info "reset project property: ${context.expand('${#Project#globalCounter}')}"</script>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="restrequest" name="getWithFilters" id="f825cf21-cb87-4d20-9fe3-2b541452e8d5">
+        <con:settings/>
+        <con:config service="http://localhost:8080" resourcePath="/api/v1/domains?{param1}={value1}" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:restRequest name="getWithFilters" id="520f63ed-e2a0-41ed-883c-471e87bd7d75" mediaType="application/json" sslKeystore="">
+            <con:description>status should be 200</con:description>
+            <con:settings>
+              <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="Authorization" value="Bearer ${#Project#Token}" xmlns="http://eviware.com/soapui/config"/></con:setting>
+              <con:setting id="com.eviware.soapui.impl.support.AbstractHttpRequest@follow-redirects">true</con:setting>
+              <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@strip-whitespaces">false</con:setting>
+            </con:settings>
+            <con:encoding>UTF-8</con:encoding>
+            <con:endpoint>http://localhost:8080</con:endpoint>
+            <con:request/>
+            <con:originalUri>http://localhost/api/v1/domains</con:originalUri>
+            <con:assertion type="Valid HTTP Status Codes" id="5dc2c504-2b1e-4cfb-8175-d3944fa88c09" name="Valid HTTP Status Codes">
+              <con:configuration>
+                <codes>200</codes>
+              </con:configuration>
+            </con:assertion>
+            <con:assertion type="JsonPath Count" id="7ab98320-e13d-4472-9115-4c7768d08e2b" name="JsonPath Count Not Exists">
+              <con:configuration>
+                <path>$.[?(@name==test1)]</path>
+                <content>0</content>
+                <allowWildcards>false</allowWildcards>
+                <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+                <ignoreComments>false</ignoreComments>
+              </con:configuration>
+            </con:assertion>
+            <con:assertion type="JsonPath Count" id="fa74ec5b-1c73-4a97-8315-234227d2d19a">
+              <con:configuration/>
+            </con:assertion>
+            <con:assertion type="JsonPath Count" id="fd30a794-e49a-43af-b681-67dfc4c37715" name="JsonPath Count Exists">
+              <con:configuration>
+                <path>$.[?(@name==test2)]</path>
+                <content>1</content>
+                <allowWildcards>false</allowWildcards>
+                <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+                <ignoreComments>false</ignoreComments>
+              </con:configuration>
+            </con:assertion>
+            <con:assertion type="JsonPath Count" id="b95dc687-3f43-48e3-9212-1497007eea25" name="JsonPath Count">
+              <con:configuration>
+                <path>$.[?(@name==test3)]</path>
+                <content>0</content>
+                <allowWildcards>false</allowWildcards>
+                <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+                <ignoreComments>false</ignoreComments>
+              </con:configuration>
+            </con:assertion>
+            <con:assertion type="GroovyScriptAssertion" id="857b7877-5399-4f18-afd9-11c53defb42c" name="Script Assertion">
+              <con:configuration>
+                <scriptText>import net.sf.json.groovy.*
+
+def jsonString = context.expand('${Response}')
+def obj = new JsonSlurper().parseText(jsonString)
+
+assert (
+	!obj.name.contains('test1')
+	&amp;&amp; obj.name.contains('test2')
+	&amp;&amp; !obj.name.contains('test3')
+)</scriptText>
+              </con:configuration>
+            </con:assertion>
+            <con:assertion type="Response SLA Assertion" id="ce95a556-ff4d-4941-9b9b-5ea11993c9d3" name="Response SLA" disabled="true">
+              <con:configuration>
+                <SLA>200</SLA>
+              </con:configuration>
+            </con:assertion>
+            <con:credentials>
+              <con:domain/>
+              <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+              <con:authType>No Authorization</con:authType>
+            </con:credentials>
+            <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+            <con:jmsPropertyConfig/>
+            <con:parameters>
+              <con:entry key="v1" value=""/>
+              <con:entry key="param1" value="username"/>
+              <con:entry key="p1" value=""/>
+              <con:entry key="value1" value="test2"/>
+            </con:parameters>
+            <con:parameterOrder>
+              <con:entry>param1</con:entry>
+              <con:entry>value1</con:entry>
+            </con:parameterOrder>
+          </con:restRequest>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="restrequest" name="getAll" id="8ae5837a-3eea-47e1-aeff-ffc5ba12c698">
+        <con:settings/>
+        <con:config service="http://localhost:8080" resourcePath="/api/v1/domains" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:restRequest name="getAll" id="e94f50a1-b2af-4e2a-a5d6-52bdced9ff5b" mediaType="application/json">
+            <con:settings>
+              <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+            </con:settings>
+            <con:endpoint>http://localhost:8080</con:endpoint>
+            <con:request/>
+            <con:originalUri>http://localhost/api/v1/domains</con:originalUri>
+            <con:assertion type="Valid HTTP Status Codes" id="63f30f19-108a-41fa-b4b9-8218950ef7aa" name="Valid HTTP Status Codes">
+              <con:configuration>
+                <codes>200</codes>
+              </con:configuration>
+            </con:assertion>
+            <con:assertion type="JsonPath Count" id="c9a91b96-3d55-4901-8955-ed373f6249b0" name="JsonPath Count">
+              <con:configuration>
+                <path>$.[?(@name==test1)]</path>
+                <content>1</content>
+                <allowWildcards>false</allowWildcards>
+                <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+                <ignoreComments>false</ignoreComments>
+              </con:configuration>
+            </con:assertion>
+            <con:assertion type="JsonPath Match" id="597feb32-3ccb-46c1-b4d5-81245d114526" name="JsonPath Match">
+              <con:configuration>
+                <path>$.[?(@name==test1)]</path>
+                <content>[{"name":"test1"}]</content>
+                <allowWildcards>false</allowWildcards>
+                <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+                <ignoreComments>false</ignoreComments>
+              </con:configuration>
+            </con:assertion>
+            <con:assertion type="GroovyScriptAssertion" id="74eaaed3-bb74-4885-ba85-3e05230808c2" name="Script Assertion">
+              <con:configuration>
+                <scriptText>def obj = new net.sf.json.groovy.JsonSlurper().parseText(context.expand('${Response}'))
+assert obj.name.containsAll('test3', 'test2', 'test1')
+log.info "o: $obj.name"</scriptText>
+              </con:configuration>
+            </con:assertion>
+            <con:credentials>
+              <con:authType>No Authorization</con:authType>
+            </con:credentials>
+            <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+            <con:jmsPropertyConfig/>
+            <con:parameters/>
+          </con:restRequest>
+        </con:config>
+      </con:testStep>
+      <con:setupScript/>
+      <con:properties/>
+    </con:testCase>
+    <con:testCase id="39020acc-9916-4155-84e1-5189e41293f2" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="HistoryTestCase" searchProperties="true">
+      <con:settings/>
+      <con:testStep type="restrequest" name="Get" id="7233bfd0-f010-486c-b533-45dca1392098">
+        <con:settings/>
+        <con:config service="http://localhost:8080" resourcePath="/rest/histories" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:restRequest name="Get" id="c5633c15-c639-4b9a-814b-026322d8e1ea" mediaType="application/json">
+            <con:settings>
+              <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+            </con:settings>
+            <con:endpoint>http://localhost:8080</con:endpoint>
+            <con:request/>
+            <con:originalUri>http://localhost/rest/history</con:originalUri>
+            <con:assertion type="Valid HTTP Status Codes" id="28d848fc-8bff-4ff5-847f-1be996982685" name="Valid HTTP Status Codes">
+              <con:configuration>
+                <codes>200</codes>
+              </con:configuration>
+            </con:assertion>
+            <con:assertion type="JsonPath Match" id="1fe71e80-2b1d-40d4-b86d-d890c9f498d2" name="JsonPath Match" disabled="true">
+              <con:configuration>
+                <path>$.page.totalElements</path>
+                <content>0</content>
+                <allowWildcards>false</allowWildcards>
+                <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+                <ignoreComments>false</ignoreComments>
+              </con:configuration>
+            </con:assertion>
+            <con:assertion type="JsonPath Count" id="18c48480-5d16-4dbf-91bf-4601a3c00896" name="JsonPath Count" disabled="true">
+              <con:configuration>
+                <path>$._embedded.histories</path>
+                <content>0</content>
+                <allowWildcards>false</allowWildcards>
+                <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+                <ignoreComments>false</ignoreComments>
+              </con:configuration>
+            </con:assertion>
+            <con:credentials>
+              <con:authType>No Authorization</con:authType>
+            </con:credentials>
+            <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+            <con:jmsPropertyConfig/>
+            <con:parameters>
+              <con:entry key="id" value=""/>
+              <con:entry key="event" value=""/>
+              <con:entry key="name" value=""/>
+            </con:parameters>
+            <con:parameterOrder>
+              <con:entry>event</con:entry>
+              <con:entry>name</con:entry>
+              <con:entry>id</con:entry>
+            </con:parameterOrder>
+          </con:restRequest>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="restrequest" name="Save" id="1e7cdfa8-bbc6-4ff7-b4c0-a936e9b86864">
+        <con:settings/>
+        <con:config service="http://localhost:8080" resourcePath="/rest/histories" methodName="POST" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:restRequest name="Save" id="92be28ac-64aa-402d-9f8b-5c372b713d66" mediaType="application/json" postQueryString="false">
+            <con:settings>
+              <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+            </con:settings>
+            <con:endpoint>http://localhost:8080</con:endpoint>
+            <con:request>{
+  "name": "name-${#Project#globalCounter}",
+  "event": "event-${#Project#globalCounter}"
+}</con:request>
+            <con:originalUri>http://localhost/rest/histories</con:originalUri>
+            <con:assertion type="Valid HTTP Status Codes" id="7f1e262f-bcb0-42e1-90d8-c6fff50b2d1f" name="Valid HTTP Status Codes">
+              <con:configuration>
+                <codes>201</codes>
+              </con:configuration>
+            </con:assertion>
+            <con:credentials>
+              <con:authType>No Authorization</con:authType>
+            </con:credentials>
+            <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+            <con:jmsPropertyConfig/>
+            <con:parameters/>
+            <con:parameterOrder/>
+          </con:restRequest>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="restrequest" name="RemoveAuto" id="d906b91e-9f6d-4d7e-bf1b-195a0d2893d6" disabled="true">
+        <con:settings/>
+        <con:config service="http://localhost:8080" resourcePath="/rest/histories/{id}" methodName="DELETE" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:restRequest name="RemoveAuto" id="e1bb94c4-9ae3-41c8-a06e-55f69f0c1d9e" mediaType="application/json" postQueryString="false">
+            <con:settings>
+              <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+            </con:settings>
+            <con:endpoint>http://localhost:8080</con:endpoint>
+            <con:request/>
+            <con:originalUri>http://localhost/rest/histories/1</con:originalUri>
+            <con:assertion type="Valid HTTP Status Codes" id="685620af-8bae-4f74-860b-50dc6c8c6ca3" name="Valid HTTP Status Codes">
+              <con:configuration>
+                <codes>204</codes>
+              </con:configuration>
+            </con:assertion>
+            <con:credentials>
+              <con:authType>No Authorization</con:authType>
+            </con:credentials>
+            <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+            <con:jmsPropertyConfig/>
+            <con:parameters>
+              <entry key="id" value="${#Project#globalCounter}" xmlns="http://eviware.com/soapui/config"/>
+            </con:parameters>
+          </con:restRequest>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="restrequest" name="RemoveMaual" id="e15cdd6a-47d5-46cb-a9bf-20a4de855f2d" disabled="true">
+        <con:settings/>
+        <con:config service="http://localhost:8080" resourcePath="/rest/histories/{id}" methodName="DELETE" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:restRequest name="RemoveMaual" id="e1bb94c4-9ae3-41c8-a06e-55f69f0c1d9e" mediaType="application/json" postQueryString="false">
+            <con:settings>
+              <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+            </con:settings>
+            <con:endpoint>http://localhost:8080</con:endpoint>
+            <con:request/>
+            <con:originalUri>http://localhost/rest/histories/2</con:originalUri>
+            <con:assertion type="Valid HTTP Status Codes" id="adf8b726-cdb0-47c2-bf98-e6170bd75506" name="Valid HTTP Status Codes">
+              <con:configuration>
+                <codes>204</codes>
+              </con:configuration>
+            </con:assertion>
+            <con:credentials>
+              <con:authType>No Authorization</con:authType>
+            </con:credentials>
+            <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+            <con:jmsPropertyConfig/>
+            <con:parameters>
+              <entry key="id" value="${=1 + ${#Project#globalCounter}}" xmlns="http://eviware.com/soapui/config"/>
+            </con:parameters>
+          </con:restRequest>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="restrequest" name="GetAgain" id="5d84b535-8919-419a-aab5-a24a1c3a7a84">
+        <con:settings/>
+        <con:config service="http://localhost:8080" resourcePath="/rest/histories" methodName="GET" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:restRequest name="GetAgain" id="c5633c15-c639-4b9a-814b-026322d8e1ea" mediaType="application/json">
+            <con:settings>
+              <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+            </con:settings>
+            <con:endpoint>http://localhost:8080</con:endpoint>
+            <con:request/>
+            <con:originalUri>http://localhost/rest/history</con:originalUri>
+            <con:assertion type="Valid HTTP Status Codes" id="28d848fc-8bff-4ff5-847f-1be996982685" name="Valid HTTP Status Codes">
+              <con:configuration>
+                <codes>200</codes>
+              </con:configuration>
+            </con:assertion>
+            <con:assertion type="JsonPath Count" id="7dc2a87f-144d-4647-af9a-15d489fa29e4" name="JsonPath Count">
+              <con:configuration>
+                <path>.page.totalElelements</path>
+                <content>0</content>
+                <allowWildcards>false</allowWildcards>
+                <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+                <ignoreComments>false</ignoreComments>
+              </con:configuration>
+            </con:assertion>
+            <con:credentials>
+              <con:authType>No Authorization</con:authType>
+            </con:credentials>
+            <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+            <con:jmsPropertyConfig/>
+            <con:parameters>
+              <con:entry key="id" value=""/>
+              <con:entry key="event" value=""/>
+              <con:entry key="name" value=""/>
+            </con:parameters>
+            <con:parameterOrder>
+              <con:entry>event</con:entry>
+              <con:entry>name</con:entry>
+              <con:entry>id</con:entry>
+            </con:parameterOrder>
+          </con:restRequest>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="groovy" name="IncrementGlobalCounter" id="3c9a503b-9b31-4f80-89c3-ff3fb4421a54">
+        <con:settings/>
+        <con:config>
+          <script>def project = testRunner.testCase.testSuite.project
+def globalCounterString = project.getPropertyValue('globalCounter')
+def globalCounter = Long.valueOf(globalCounterString)+2
+
+project.setPropertyValue('globalCounter', "$globalCounter")
+log.info "increment global counter to ${project.getPropertyValue('globalCounter')}"</script>
+        </con:config>
+      </con:testStep>
+      <con:properties>
+        <con:property>
+          <con:name>counter</con:name>
+          <con:value>1</con:value>
+        </con:property>
+      </con:properties>
+    </con:testCase>
+    <con:properties/>
+    <con:setupScript>def props = runner.testSuite.project.properties
+log.info("parsing ${props.size()} propertoies...")
+
+props.each {
+	it.value = "default value"
+	log.info("${it.key} property is reset to '${it.value}'")
+}</con:setupScript>
+  </con:testSuite>
+  <con:properties>
+    <con:property>
+      <con:name>Token</con:name>
+      <con:value>empty</con:value>
+    </con:property>
+    <con:property>
+      <con:name>ololo</con:name>
+      <con:value>trololo</con:value>
+    </con:property>
+    <con:property>
+      <con:name>localCounter</con:name>
+      <con:value>2</con:value>
+    </con:property>
+    <con:property>
+      <con:name>counter</con:name>
+      <con:value>1</con:value>
+    </con:property>
+    <con:property>
+      <con:name>globalCounter</con:name>
+      <con:value>3</con:value>
+    </con:property>
+  </con:properties>
+  <con:wssContainer/>
+  <con:oAuth2ProfileContainer/>
+  <con:oAuth1ProfileContainer/>
+  <con:beforeRunScript/>
+  <con:sensitiveInformation>
+    <ProjectSpecificExposureList>null###null</ProjectSpecificExposureList>
+  </con:sensitiveInformation>
+</con:soapui-project>

@@ -1,0 +1,6 @@
+[bootRun, test].each {
+  it.dependsOn ":docker:composeUp"
+  it.finalizedBy ":docker:composeDown"
+}
+
+task restServiceRun(dependsOn: bootRun)

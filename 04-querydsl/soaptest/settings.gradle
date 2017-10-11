@@ -1,0 +1,3 @@
+rootProject.name = "test"
+include "rest-service"
+include "ws-service"

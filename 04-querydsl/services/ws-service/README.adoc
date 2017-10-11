@@ -1,0 +1,9 @@
+= SOAP Web Service
+
+stack:
+
+. soap web services
+. spring-boot, spring-ws, spring-web, spring-data
+. postgres
+. gradle
+. js client: consuming SOAP web service using Fetch API
