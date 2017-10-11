@@ -54,10 +54,10 @@ script:
 
   # querydsl: run rest
   - bash gradlew :docker:dockerUp
-  - sudo mkdir -p /var/app
-  - sudo mv -f services/rest-service/build/libs/*.jar /var/app/rest.jar
-  - sudo ln -s /var/app/rest.jar /etc/init.d/rest
-  - sudo service rest start
+  - sudo mkdir -p /var/rest-service
+  - sudo mv -f services/rest-service/build/libs/*.jar /var/rest-service/rest-service.jar
+  - sudo ln -s /var/rest-service/rest-service.jar /etc/init.d/rest-service
+  - sudo service rest-service start
 
   # querydsl: manual rest api tests
   - sleep 15
@@ -93,18 +93,18 @@ script:
   - curl -sS localhost:8080/api/v6/map-catalog/status/OK\?size=1 | jq
   - curl -sS localhost:8080/api/v6/jpa-enum | jq
   - curl -sS localhost:8080/api/v6/jpa-enum\?size=1 | jq
-  - sudo service rest stop
+  - sudo service rest-service stop
   - bash gradlew :docker:dockerDown
 
   # querydsl: run ws
   - bash gradlew :docker:dockerUp
-  - sudo mkdir -p /var/app
-  - sudo mv -f services/ws-service/build/libs/*.jar /var/app/ws.jar
-  - sudo ln -s /var/app/ws.jar /etc/init.d/ws
-  - sudo service ws start
+  - sudo mkdir -p /var/ws-service
+  - sudo mv -f services/ws-service/build/libs/*.jar /var/ws-service/ws-service.jar
+  - sudo ln -s /var/ws-service/ws-service.jar /etc/init.d/ws-service
+  - sudo service ws-service start
   - sleep 15
   - curl --header "content-type:text/xml" -d @services/ws-service/src/test/resources/request.xml http://localhost:8080/ws | xmllint --format -
-  - sudo service ws stop
+  - sudo service ws-service stop
   - bash gradlew :docker:dockerDown
 
   # querydsl: run SoapUI tests
