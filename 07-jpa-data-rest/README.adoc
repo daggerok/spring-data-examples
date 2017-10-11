@@ -1,4 +1,4 @@
-= jpa-data-rest image:https://travis-ci.org/daggerok/spring-data-examples.svg?branch=master["Build Status", link="https://travis-ci.org/daggerok/spring-data-examples"]
+= boot-your-data: jpa-data-rest image:https://travis-ci.org/daggerok/spring-data-examples.svg?branch=master["Build Status", link="https://travis-ci.org/daggerok/spring-data-examples"]
 
 //tag::content[]
 
