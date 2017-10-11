@@ -30,7 +30,7 @@ script:
       06-reactive-redis-webflux \
       05-derby-create-drop \
       04-querydsl \
-      03-boot-your-data \
+      03-reactive-data \
       02-spel \
       01-redis \
     ; do

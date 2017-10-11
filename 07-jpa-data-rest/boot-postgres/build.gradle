@@ -1,0 +1,45 @@
+plugins {
+    id "java"
+    id "org.springframework.boot" version "1.5.7.RELEASE"
+}
+
+version "0.0.1"
+group "daggerok"
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+
+repositories { mavenCentral() }
+
+dependencies {
+    compileOnly("org.projectlombok:lombok")
+
+    compile("org.springframework.boot:spring-boot-starter-data-rest")
+    compile("org.springframework.boot:spring-boot-starter-data-jpa")
+    runtime("org.springframework.boot:spring-boot-devtools")
+
+    compile("io.vavr:vavr:0.9.0")
+
+    compile("com.fasterxml.jackson.core:jackson-databind:2.8.8.1")
+    compile("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
+    compile("org.hibernate:hibernate-java8")
+
+    runtime("org.postgresql:postgresql")
+
+    testCompileOnly("org.projectlombok:lombok")
+    testCompile("org.springframework.boot:spring-boot-starter-test")
+}
+
+springBoot.executable = true
+
+wrapper.gradleVersion = "4.2.1"
+
+[test, build, bootRun].each {
+    it.dependsOn assemble, ":docker:composeUp"
+    it.shouldRunAfter clean, assemble, ":docker:composeUp"
+    it.finalizedBy ":docker:composeDown"
+}
+
+clean {
+    dependsOn ":docker:composeDown"
+    shouldRunAfter ":docker:composeDown"
+}

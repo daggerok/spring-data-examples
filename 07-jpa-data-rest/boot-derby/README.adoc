@@ -1,0 +1,7 @@
+= derby
+
+----
+bash gradlew bootRun
+http post :8080/api/users username=ololo name=trololo
+http :8080/api/users
+----

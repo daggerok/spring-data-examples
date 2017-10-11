@@ -1,0 +1,3 @@
+["derby", "h2", "hsql", "mysql", "postgres"]
+    .collect { "boot-$it" }
+    .each { includeBuild it }

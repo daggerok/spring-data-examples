@@ -1,0 +1,28 @@
+version: "2.1"
+
+services:
+
+  mysql:
+    #image: mysql:5.7.19
+    image: healthcheck/mysql
+    ports: ["3306:3306"]
+    networks: [backing-services]
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+
+  postgres:
+    #image: postgres:10.0-alpine
+    image: healthcheck/postgres
+    ports: ["5432:5432"]
+    networks: [backing-services]
+    environment:
+      POSTGRES_DB: db
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+
+networks:
+  backing-services:
+    driver: bridge
