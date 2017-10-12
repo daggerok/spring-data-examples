@@ -9,3 +9,4 @@ This repository contains some spring-data playground projects
 . link:05-derby-create-drop/[Derby create-drop auto-ddl]
 . link:06-reactive-redis-webflux/[Reactive Redis]
 . link:07-jpa-data-rest/[derby, h2, hsql, mysql, postgres]
+. link:08-data-event-listener/[spring-data-rest event listening]
