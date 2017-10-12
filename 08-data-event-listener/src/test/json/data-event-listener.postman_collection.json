@@ -8,6 +8,26 @@
 	},
 	"item": [
 		{
+			"name": "post-tasks-data-rest",
+			"request": {
+				"url": "localhost:8080/api/tasks",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"body\": \"1111\"\n}\n"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
 			"name": "get-history",
 			"request": {
 				"url": "localhost:8080/api/histories",
