@@ -37,6 +37,9 @@ include::../../06-reactive-redis-webflux/README.adoc[tags=content]
 == Boot your data - RDBMS (derby, h2, hsql, mysql, postgres)
 include::../../07-jpa-data-rest/README.adoc[tags=content]
 
+== Listening spring-data events
+include::../../08-data-event-listener/README.adoc[tags=content]
+
 == links
 
 . link:http://asciidoctor.org/docs/user-manual/#builtin-attributes[asciidoctor attributes]

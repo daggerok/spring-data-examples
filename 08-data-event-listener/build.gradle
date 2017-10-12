@@ -1,0 +1,60 @@
+buildscript {
+    ext {
+        springBootVersion = "2.0.0.BUILD-SNAPSHOT"
+    }
+}
+
+plugins {
+    id "java"
+    id "idea"
+    id "eclipse"
+    id "org.springframework.boot" version "1.5.7.RELEASE"
+    id "io.spring.dependency-management" version "1.0.3.RELEASE"
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.boot:spring-boot-dependencies:$springBootVersion"
+    }
+}
+
+springBoot {
+    executable = true
+}
+
+version = "0.0.1"
+sourceCompatibility = JavaVersion.VERSION_1_8
+
+repositories {
+    mavenCentral()
+    maven { url "https://repo.spring.io/snapshot" }
+    maven { url "https://repo.spring.io/milestone" }
+}
+
+dependencies {
+    compile('org.springframework.boot:spring-boot-starter-data-jpa')
+    compile('org.springframework.boot:spring-boot-starter-data-rest')
+    compile('org.springframework.boot:spring-boot-starter-webflux')
+    compile('org.springframework.boot:spring-boot-starter-amqp')
+    compileOnly('org.projectlombok:lombok')
+    compile "io.vavr:vavr:0.9.0"
+    runtime('org.springframework.boot:spring-boot-devtools')
+    runtime('com.h2database:h2')
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+
+task ci {
+    shouldRunAfter clean, assemble, ":docker:composeDown"
+    dependsOn ":docker:composeUp", test
+    finalizedBy ":docker:composeDown"
+}
+
+[test, build, bootRun].each { Task t ->
+    t.shouldRunAfter clean, assemble, ":docker:composeUp"
+    t.dependsOn ":docker:composeUp"
+    t.finalizedBy ":docker:composeDown"
+}
+
+wrapper {
+    gradleVersion = "4.2.1"
+}

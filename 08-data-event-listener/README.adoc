@@ -1,0 +1,12 @@
+= spring-data event listening image:https://travis-ci.org/daggerok/spring-data-examples.svg?branch=master["Build Status", link="https://travis-ci.org/daggerok/spring-data-examples"]
+
+//tag::content[]
+
+this repository is containgn modern spring 5 web application which is listening spring-data events
+
+[source,bash]
+----
+bash gradew clean build
+----
+
+//end::content[]

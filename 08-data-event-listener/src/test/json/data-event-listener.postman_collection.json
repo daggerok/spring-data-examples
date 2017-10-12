@@ -1,0 +1,175 @@
+{
+	"variables": [],
+	"info": {
+		"name": "data-event-listener",
+		"_postman_id": "51e61d66-7de9-80ab-57d8-2e7a5bc1f59e",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "get-history",
+			"request": {
+				"url": "localhost:8080/api/histories",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"activity\": {\n\t\t\"tasks\": [\n\t\t\t{\n\t\t\t\t\"body\": \"1111\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"body\": \"2222\"\n\t\t\t}\n\t\t]\n\t}\n}\n"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "get-all",
+			"request": {
+				"url": "localhost:8080/all",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"activity\": {\n\t\t\"tasks\": [\n\t\t\t{\n\t\t\t\t\"body\": \"1111\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"body\": \"2222\"\n\t\t\t}\n\t\t]\n\t}\n}\n"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "get-all-by-id",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"postman.setEnvironmentVariable(\"id\", \"1\");",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "localhost:8080/all/{{id}}",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"activity\": {\n\t\t\"tasks\": [\n\t\t\t{\n\t\t\t\t\"body\": \"1111\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"body\": \"2222\"\n\t\t\t}\n\t\t]\n\t}\n}\n"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "post-activity",
+			"request": {
+				"url": "localhost:8080/activities",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"activity\": {\n\t\t\"tasks\": [\n\t\t\t{\n\t\t\t\t\"body\": \"1111\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"body\": \"2222\"\n\t\t\t}\n\t\t]\n\t}\n}\n"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "post-task",
+			"request": {
+				"url": "localhost:8080/tasks",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"task\": {\n\t\t\"body\": \"1111\"\n\t}\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "delete-by-id",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"postman.setEnvironmentVariable(\"id\", \"1\");",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "localhost:8080/all/{{id}}",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "delete-all",
+			"request": {
+				"url": "localhost:8080/all",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
