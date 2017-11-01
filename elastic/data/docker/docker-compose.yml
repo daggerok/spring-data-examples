@@ -1,48 +1,115 @@
 version: "2.1"
+
 services:
-  # https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html
+
   elasticsearch1:
-    image: docker.elastic.co/elasticsearch/elasticsearch:5.6.0
+    image: docker.elastic.co/elasticsearch/elasticsearch:5.6.3
     container_name: elasticsearch1
+    hostname: elasticsearch1
     environment:
-      - cluster.name=docker-cluster
-      - bootstrap.memory_lock=true
+      - "cluster.name=docker-cluster"
+      - "bootstrap.memory_lock=true"
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+#      - 'http.cors.allow-origin: "*"'
+      - 'http.cors.allow-origin: "/.*/"'
+      - "http.cors.enabled: true"
+      - "node.master: true"
+      - 'http.cors.allow-headers : "X-Requested-With, X-Auth-Token, Content-Type, Content-Length, Authorization"'
+      - 'http.cors.allow-methods: "OPTIONS, HEAD, GET, POST, PUT, DELETE"'
+      - "http.cors.allow-credentials: true"
     ulimits:
       memlock:
         soft: -1
         hard: -1
     mem_limit: 1g
-    volumes: ["elasticsearch1-data:/usr/share/elasticsearch/data"]
+    volumes: ["elastic-data-1:/usr/share/elasticsearch/data"]
     ports: ["9200:9200"]
     networks: [backing-services]
+
   elasticsearch2:
-    image: docker.elastic.co/elasticsearch/elasticsearch:5.6.0
+    image: docker.elastic.co/elasticsearch/elasticsearch:5.6.3
+    container_name: elasticsearch2
+    hostname: elasticsearch2
     environment:
-      - cluster.name=docker-cluster
-      - bootstrap.memory_lock=true
+      - "cluster.name=docker-cluster"
+      - "bootstrap.memory_lock=true"
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
       - "discovery.zen.ping.unicast.hosts=elasticsearch1"
+      - 'http.cors.allow-origin: "/.*/"'
+      - "http.cors.enabled: true"
+      - 'http.cors.allow-headers : "X-Requested-With, X-Auth-Token, Content-Type, Content-Length, Authorization"'
+      - 'http.cors.allow-methods: "OPTIONS, HEAD, GET, POST, PUT, DELETE"'
+      - "http.cors.allow-credentials: true"
     ulimits:
       memlock:
         soft: -1
         hard: -1
     mem_limit: 1g
-    volumes: ["elasticsearch2-data:/usr/share/elasticsearch/data"]
+    volumes: ["elastic-data-2:/usr/share/elasticsearch/data"]
     networks: [backing-services]
-#  elasticsearch:
-#    #image: elasticsearch:5.3.2-alpine
-#    ports:
-#      - 9200:9200
-#      - 9300:9300
-#    volumes:
-#      - elasticsearch-data:/usr/share/elasticsearch/config
-#      - elasticsearch-data:/usr/share/elasticsearch/data
-#    networks: [backing-services]
+
+  kibana:
+    image: 127.0.0.1:5000/kibana
+    build: ./kibana
+    depends_on:
+      - elasticsearch1
+      - elasticsearch2
+    links:
+      - "elasticsearch1:elasticsearch1"
+      - "elasticsearch2:elasticsearch2"
+    environment:
+      ELASTICSEARCH_URL: http://elasticsearch1:9200
+    ports: ["5601:5601"]
+    networks:
+      - backing-services
+      - public
+
 volumes:
-  elasticsearch1-data: {}
-  elasticsearch2-data: {}
-#  elasticsearch-data: {}
+  elastic-data-1:
+  elastic-data-2:
+
 networks:
   backing-services:
-    driver: bridge
+  public:
+
+#  kibana:
+#    image: docker.elastic.co/kibana/kibana:5.6.3
+#    depends_on:
+#      - elasticsearch1
+#      - elasticsearch2
+#    links:
+#      - "elasticsearch1:elasticsearch1"
+#      - "elasticsearch2:elasticsearch2"
+#    ports: ["5601:5601"]
+#    networks:
+#      - backing-services
+#      - public
+#    environment:
+#      ELASTICSEARCH_URL: http://elasticsearch1:9200
+##      SERVER_NAME: server.name (Kibana Setting)
+##      KIBANA_DEFAULTAPPID: kibana.defaultAppId (Kibana Setting)
+##      XPACK_MONITORING_ENABLED: xpack.monitoring.enabled (Kibana Setting)
+
+#  mirage:
+#    depends_on:
+#      - elasticsearch1
+#      - elasticsearch2
+#    image: appbaseio/mirage
+#    ports: ["3030:3030"]
+#    networks:
+#      - backing-services
+#      - public
+
+#  elasticsearch-hq:
+#    image: 127.0.0.1:5000/elasticsearch-hq
+#    build: ./elasticsearch-hq
+#    depends_on:
+#      - elasticsearch1
+#      - elasticsearch2
+#    links:
+#      - "elasticsearch1:elasticsearch1"
+#      - "elasticsearch2:elasticsearch2"
+#    ports: ["80:80"]
+#    networks:
+#      - backing-services
+#      - public

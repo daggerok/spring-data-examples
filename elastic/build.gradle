@@ -8,11 +8,23 @@ group "daggerok"
 
 ["clean", "assemble", "test", "build", "bootRun"].each { taskName ->
   tasks.create(taskName) { task ->
-    ["data"].each { suffix ->
-      task.shouldRunAfter gradle.includedBuild("$suffix").task(":$taskName")
+    ["data"].each { targetProjectName ->
+      task.shouldRunAfter gradle.includedBuild(targetProjectName)
+                                .task(":$taskName")
     }
   }
 }
+
+// composeUp   -> :data:docker:composeUp
+// composeDown -> :data:docker:composeDown
+["composeUp", "composeDown"].each { taskName ->
+  tasks.create(taskName) { task ->
+    task.shouldRunAfter gradle.includedBuild("data")
+                              .task(":docker:$taskName")
+  }
+}
+
+[test, build, bootRun]
 
 task wrapper(type: Wrapper) {
   gradleVersion = "4.3"
