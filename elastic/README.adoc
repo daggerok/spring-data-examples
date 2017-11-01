@@ -1,0 +1,17 @@
+= elastic image:https://travis-ci.org/daggerok/spring-data-examples.svg?branch=master["Build Status", link="https://travis-ci.org/daggerok/spring-data-examples"]
+
+//tag::content[]
+
+This repository contains spring-data elastic examples
+
+in fucking progress...
+
+[source,bash]
+----
+# docker-compose up -d --remove-orphans
+gradle clean build
+# ...
+# docker-compose down -v --remove-orphans
+----
+
+//end::content[]

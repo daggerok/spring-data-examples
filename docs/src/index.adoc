@@ -40,6 +40,9 @@ include::../../jpa-data-rest/README.adoc[tags=content]
 == Listening spring-data events
 include::../../data-event-listener/README.adoc[tags=content]
 
+== Elasticsearch
+include::../../elastic/README.adoc[tags=content]
+
 == links
 
 . link:http://asciidoctor.org/docs/user-manual/#builtin-attributes[asciidoctor attributes]

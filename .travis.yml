@@ -27,6 +27,7 @@ script:
   - export ROOT=$PWD
   - >
     for path in \
+      elastic \
       data-event-listener \
       jpa-data-rest \
       reactive-redis-webflux \
@@ -44,8 +45,8 @@ script:
 
     done;
 
-  # 04-querydsl:
-  - cd "$ROOT/04-querydsl"
+  # 4. querydsl:
+  - cd "$ROOT/querydsl"
   - bash gradlew clean test build
 
   # querydsl: test and build
@@ -114,8 +115,8 @@ script:
   - bash gradlew clean assemble testrunner
   - bash gradlew --stop
 
-  # 02-spel
-  - cd $ROOT/02-spel/
+  # 2. spel
+  - cd $ROOT/spel/
   - pwd
   - bash gradlew clean build
 
@@ -130,8 +131,8 @@ script:
   - sudo service spel-app stop
   - bash gradlew --stop
 
-  # 01-redis
-  - cd $ROOT/01-redis/
+  # 1. redis
+  - cd $ROOT/redis/
   - pwd
   - bash gradlew clean build
 

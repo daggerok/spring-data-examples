@@ -1,0 +1,2 @@
+# update according your docker hub and rename to gradle.properties
+dockerHubUsername=<change it to your hub.docker.com username>

@@ -1,0 +1,27 @@
+plugins {
+  id "java"
+  id "org.springframework.boot" version "1.5.8.RELEASE"
+}
+
+version "0.0.1"
+group "daggerok"
+sourceCompatibility = JavaVersion.VERSION_1_8
+
+repositories { mavenCentral() }
+
+dependencies {
+  compile("org.springframework.boot:spring-boot-starter-data-elasticsearch")
+  compile("org.springframework.boot:spring-boot-starter-web")
+  runtime("org.springframework.boot:spring-boot-devtools")
+  compileOnly("org.projectlombok:lombok")
+  testCompile("org.springframework.boot:spring-boot-starter-test")
+}
+
+springBoot { executable = true }
+
+[test, build, bootRun].each { task ->
+  def beforeTasks = [clean, assemble, ":docker:composeUp"]
+  task.dependsOn beforeTasks
+  task.shouldRunAfter beforeTasks
+  task.finalizedBy ":docker:composeDown"
+}
