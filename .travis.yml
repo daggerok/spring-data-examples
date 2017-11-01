@@ -27,14 +27,14 @@ script:
   - export ROOT=$PWD
   - >
     for path in \
-      08-data-event-listener \
-      07-jpa-data-rest \
-      06-reactive-redis-webflux \
-      05-derby-create-drop \
-      04-querydsl \
-      03-reactive-data \
-      02-spel \
-      01-redis \
+      data-event-listener \
+      jpa-data-rest \
+      reactive-redis-webflux \
+      derby-create-drop \
+      querydsl \
+      reactive-data \
+      spel \
+      redis \
     ; do
 
       export res="$ROOT/$path"

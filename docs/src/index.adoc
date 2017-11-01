@@ -17,28 +17,28 @@ This documentation contains some help to
 link:{github_url}[examples from spring-data-examples repository] is contains some node.js playground projects
 
 == redis
-include::../../01-redis/README.adoc[tags=content]
+include::../../redis/README.adoc[tags=content]
 
 == spring expression language
-include::../../02-spel/README.adoc[tags=content]
+include::../../spel/README.adoc[tags=content]
 
 == boot your data - NoSQL databases (elasticsearch, mongodb, solr)
-include::../../03-boot-your-data/README.adoc[tags=content]
+include::../../boot-your-data/README.adoc[tags=content]
 
 == QueryDSL
-include::../../04-querydsl/README.adoc[tags=content]
+include::../../querydsl/README.adoc[tags=content]
 
 == Derby create-drop for development)
-include::../../05-derby-create-drop/README.adoc[tags=content]
+include::../../derby-create-drop/README.adoc[tags=content]
 
 == Reactive Redis
-include::../../06-reactive-redis-webflux/README.adoc[tags=content]
+include::../../reactive-redis-webflux/README.adoc[tags=content]
 
 == Boot your data - RDBMS (derby, h2, hsql, mysql, postgres)
-include::../../07-jpa-data-rest/README.adoc[tags=content]
+include::../../jpa-data-rest/README.adoc[tags=content]
 
 == Listening spring-data events
-include::../../08-data-event-listener/README.adoc[tags=content]
+include::../../data-event-listener/README.adoc[tags=content]
 
 == links
 

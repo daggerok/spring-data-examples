@@ -2,11 +2,11 @@
 
 This repository contains some spring-data playground projects
 
-. link:01-redis/[redis]
-. link:02-spel/[spring expression language]
-. link:03-boot-your-data/[elasticsearch, mongodb, solr]
-. link:04-querydsl/[QueryDSL]
-. link:05-derby-create-drop/[Derby create-drop auto-ddl]
-. link:06-reactive-redis-webflux/[Reactive Redis]
-. link:07-jpa-data-rest/[derby, h2, hsql, mysql, postgres]
-. link:08-data-event-listener/[spring-data-rest event listening]
+. link:redis/[redis]
+. link:spel/[spring expression language]
+. link:boot-your-data/[elasticsearch, mongodb, solr]
+. link:querydsl/[QueryDSL]
+. link:derby-create-drop/[Derby create-drop auto-ddl]
+. link:reactive-redis-webflux/[Reactive Redis]
+. link:jpa-data-rest/[derby, h2, hsql, mysql, postgres]
+. link:data-event-listener/[spring-data-rest event listening]
