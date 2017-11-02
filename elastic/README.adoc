@@ -10,16 +10,37 @@ in fucking progress...
 [source,bash]
 ----
 cd data/
-gradle clean bootRun
+bash gradlew bootRun
 
 http -a elastic:changeme :9200
 
 http post :8080 name=max
 http :8080
-http :8080/user
+http :8080/users
 ----
 
-== others
+.explore with kibana
+[source,bash]
+----
+gradle clean bootRun
+http -a elastic:changeme :9200
+----
+
+.testing elasicsearch db with curl / httpie
+[source,bash]
+----
+gradle clean bootRun
+http -a elastic:changeme :9200
+curl -u elastic:changeme localhost:9200 | jq
+----
+
+.manual run
+[source,bash]
+----
+gradle clean build
+----
+
+== problem solving
 
 .ulimit -an
 [source,bash]
@@ -82,28 +103,7 @@ exit
 reboot
 ----
 
-.explore with kibana
-[source,bash]
-----
-gradle clean bootRun
-http -a elastic:changeme :9200
-----
-
-.testing with curl / httpie
-[source,bash]
-----
-gradle clean bootRun
-http -a elastic:changeme :9200
-curl -u elastic:changeme localhost:9200 | jq
-----
-
-.manual run
-[source,bash]
-----
-gradle clean build
-----
-
-resources:
+== resources
 
 . link:https://docs.spring.io/spring-data/elasticsearch/docs/current/reference/html/#elasticsearch.query-methods.criterions[documentation: query creation]
 
