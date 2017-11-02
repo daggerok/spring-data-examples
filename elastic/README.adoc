@@ -9,11 +9,19 @@ in fucking progress...
 .run app in idea
 [source,bash]
 ----
+cd data/
 gradle clean bootRun
+
 http -a elastic:changeme :9200
+
+http post :8080 name=max
+http :8080
+http :8080/user
 ----
 
-.ulimit -an /
+== others
+
+.ulimit -an
 [source,bash]
 ----
 # 2017-11-02 01:29:06.355  WARN 10993 --- [  restartedMain] org.elasticsearch.env                    : [Jackdaw] max file descriptors [10240] for elasticsearch process likely too low, consider increasing to at least [65536]

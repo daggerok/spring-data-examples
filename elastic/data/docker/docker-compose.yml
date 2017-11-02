@@ -28,7 +28,7 @@ services:
     networks: [backing-services]
     healthcheck:
       test: ["CMD-SHELL", "curl -u elastic:changeme -I -s -L http://127.0.0.1:9200/ || exit 1"]
-      interval: 10s
+#      interval: 10s
       timeout: 5s
       retries: 5
 
@@ -59,7 +59,7 @@ services:
     networks: [backing-services]
     healthcheck:
       test: ["CMD-SHELL", "curl -fu elastic:changeme http://127.0.0.1:9200/_cat/health || exit 1"]
-      interval: 10s
+#      interval: 10s
       timeout: 5s
       retries: 5
 

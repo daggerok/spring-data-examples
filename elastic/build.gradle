@@ -24,7 +24,10 @@ group "daggerok"
   }
 }
 
-[test, build, bootRun]
+[test, build, bootRun, composeUp].each {
+  it.dependsOn assemble
+  it.shouldRunAfter clean, assemble
+}
 
 task wrapper(type: Wrapper) {
   gradleVersion = "4.3"

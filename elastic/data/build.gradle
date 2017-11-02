@@ -21,9 +21,9 @@ dependencies {
 springBoot { executable = true }
 
 [test, build, bootRun].each { task ->
-  def beforeTasks = [clean, assemble, ":docker:composeUp"]
-  task.dependsOn beforeTasks
-  task.shouldRunAfter beforeTasks
+  def dependsOnTasks = [assemble, ":docker:composeUp"]
+  task.dependsOn dependsOnTasks
+  task.shouldRunAfter ([clean] + dependsOnTasks)
   task.finalizedBy ":docker:composeDown"
 }
 
