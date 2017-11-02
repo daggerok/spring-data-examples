@@ -1,4 +1,7 @@
-*/*/data/elasticsearch
+elasticsearch/
+docker-cluster/
+data/data/
+out/
 
 **/src/main/gen
 

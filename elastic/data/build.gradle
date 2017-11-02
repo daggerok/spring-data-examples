@@ -11,6 +11,7 @@ repositories { mavenCentral() }
 
 dependencies {
   compile("org.springframework.boot:spring-boot-starter-data-elasticsearch")
+  compile("org.springframework.boot:spring-boot-starter-hateoas")
   compile("org.springframework.boot:spring-boot-starter-web")
   runtime("org.springframework.boot:spring-boot-devtools")
   compileOnly("org.projectlombok:lombok")
@@ -24,6 +25,12 @@ springBoot { executable = true }
   task.dependsOn beforeTasks
   task.shouldRunAfter beforeTasks
   task.finalizedBy ":docker:composeDown"
+}
+
+clean {
+  ["build", "docker-cluster", "elasticsearch", "data", "out"].each { folder ->
+    delete "$projectDir/$folder"
+  }
 }
 
 task wrapper(type: Wrapper) {

@@ -15,6 +15,10 @@ services:
       - 'http.cors.allow-methods: "OPTIONS, HEAD, GET, POST, PUT, DELETE"'
       - "http.cors.allow-credentials: true"
     ulimits:
+#      nofile: "65536:65536"
+      nofile:
+        soft: 65536
+        hard: 65536
       memlock:
         soft: -1
         hard: -1
@@ -44,6 +48,9 @@ services:
       - 'http.cors.allow-methods: "OPTIONS, HEAD, GET, POST, PUT, DELETE"'
       - "http.cors.allow-credentials: true"
     ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
       memlock:
         soft: -1
         hard: -1
