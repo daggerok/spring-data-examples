@@ -1,12 +1,15 @@
 plugins {
+  id "base"
   id "com.avast.gradle.docker-compose" version "0.5.4"
 }
 
 // fix windows paths, replace all "\\" with "/"
 def root = rootDir.absolutePath.replaceAll("\\\\", "/")
+def dockerProp = System.getProperty("docker", "")
+def suffix = "all" != dockerProp ? ".yml" : "-all.yml"
 
 dockerCompose {
-  useComposeFiles = ["$root/docker/docker-compose.yml"]
+  useComposeFiles = ["$root/docker/docker-compose$suffix"]
   captureContainersOutput = true
   stopContainers = true
   removeContainers = true
