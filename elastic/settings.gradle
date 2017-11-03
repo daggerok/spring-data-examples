@@ -1,2 +1,1 @@
-["data", "docker", "blog"]
-    .each { include it }
+include "data", "docker", "blog"
