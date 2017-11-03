@@ -1,10 +1,12 @@
 package daggerok.elastic;
 
 import lombok.Data;
+import lombok.experimental.Accessors;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 
 @Data
+@Accessors(chain = true)
 @Document(indexName = "user", type = "customer")
 //@Document(indexName = "daggerok", type = "user")
 //@Document(indexName = "user", type = "user", shards = 1, replicas = 0, refreshInterval = "-1")

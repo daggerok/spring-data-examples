@@ -55,6 +55,7 @@ gradle clean build
 .create few users
 [source,bash]
 ----
+export auth=" -a elastic:changeme "
 echo '{"username":"daggerok","name":"Maksim Kostromin"}' | http $auth :9200/user/customer
 ----
 
@@ -72,6 +73,8 @@ pes user/customer '{
 "username": "ololo",
 "name": "Trololo"
 }'
+
+http -a elastic:changeme :9200/user/_search\?q=ololo
 ----
 
 == problem solving
@@ -140,5 +143,6 @@ reboot
 == resources
 
 . link:https://docs.spring.io/spring-data/elasticsearch/docs/current/reference/html/#elasticsearch.query-methods.criterions[documentation: query creation]
-
+. link:https://www.youtube.com/watch?v=G56aE1kiOZw&t=695s[spring talk]
+. link:https://www.youtube.com/watch?v=V15TtGIKLLM[elasticsearch for java dev]
 //end::content[]
