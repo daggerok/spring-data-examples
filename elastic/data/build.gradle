@@ -1,3 +1,5 @@
+import java.util.stream.Collectors
+
 plugins {
   id "java"
   id "org.springframework.boot" version "1.5.8.RELEASE"
@@ -32,6 +34,10 @@ clean {
   ["build", "docker-cluster", "elasticsearch", "data", "out"].each { folder ->
     delete "$projectDir/$folder"
   }
+}
+
+[assemble, clean].each {
+  it.dependsOn ":blog:$it.name"
 }
 
 task wrapper(type: Wrapper) {

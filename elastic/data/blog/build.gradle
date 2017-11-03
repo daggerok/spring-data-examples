@@ -1,0 +1,36 @@
+plugins {
+  id "base"
+  id "com.moowork.node" version "1.2.0"
+}
+
+node {
+  download = true
+  version = "8.9.0"
+  npmVersion = "5.5.1"
+  yarnVersion = "v0.24.5"
+  nodeModulesDir = file("${project.projectDir}")
+}
+
+clean {
+  delete "$projectDir/node_modules"
+  delete "$projectDir/build"
+  delete "$projectDir/dist"
+  delete "$projectDir/out"
+}
+
+task clear(type: Delete) {
+  [".gradle/nodejs", ".gradle/yarn", ".gradle/npm", "node_modules", "build", "dist", "out"].each {
+    delete "$projectDir/$it"
+  }
+}
+
+assemble.dependsOn yarn_build
+yarn_build.dependsOn yarn_install
+yarn_install.dependsOn clean
+//tasks.findByPath("yarn_install_--production").mustRunAfter clear
+//clear.shouldRunAfter yarn_build
+
+task wrapper(type: Wrapper) {
+  gradleVersion = "4.3"
+  distributionType = "ALL"
+}

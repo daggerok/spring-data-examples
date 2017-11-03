@@ -102,10 +102,31 @@ services:
       timeout: 5s
       retries: 15
 
+  blog:
+    image: 127.0.0.1:5000/blog
+    build:
+      context: ../..
+      dockerfile: ./data/docker/blog/Dockerfile
+    depends_on:
+      data:
+        condition: service_healthy
+    volumes: ["blog-data:/usr/share/nginx/html"]
+    ports: ["80:80"]
+    mem_limit: 512m
+    networks:
+      - backing-services
+      - public
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://127.0.0.1:80/ || exit 1"]
+      #interval: 10s
+      timeout: 5s
+      retries: 15
+
 volumes:
   elasticsearch-master-data:
   elasticsearch-node-data:
   data-data:
+  blog-data:
 
 networks:
   backing-services:

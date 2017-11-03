@@ -6,6 +6,16 @@ This repository contains spring-data elastic examples
 
 in fucking progress...
 
+.run it all using docker-compose
+[source,bash]
+----
+bash gradlew assemble composeUp -Ddocker=all
+
+open http://localhost/
+
+bash gradlew composeDown -Ddocker=all
+----
+
 .run app in idea
 [source,bash]
 ----

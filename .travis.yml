@@ -115,6 +115,15 @@ script:
   - bash gradlew clean assemble testrunner
   - bash gradlew --stop
 
+  # 3. elastic
+  - cd $ROOT/elastic
+  - bash gradlew assemble composeUp -Ddocker=all 
+  - curl http://localhost/
+  - curl http://localhost:8001/
+  - curl http://localhost:8001/users
+  - curl -u elastic:changeme http://localhost:9200/_cat/health
+  - bash gradlew composeDown -Ddocker=all 
+
   # 2. spel
   - cd $ROOT/spel/
   - pwd
