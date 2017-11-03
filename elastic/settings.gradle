@@ -1,2 +1,2 @@
-["data"]
-    .each { includeBuild it }
+["data", "docker", "blog"]
+    .each { include it }

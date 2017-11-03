@@ -3,33 +3,18 @@ plugins {
   id "eclipse"
 }
 
-version "0.0.1"
-group "daggerok"
+allprojects {
 
-["clean", "assemble", "test", "build", "bootRun"].each { taskName ->
-  tasks.create(taskName) { task ->
-    ["data"].each { targetProjectName ->
-      task.shouldRunAfter gradle.includedBuild(targetProjectName)
-                                .task(":$taskName")
-    }
+  apply plugin: "base"
+
+  version "0.0.1"
+  group "daggerok"
+
+  task wrapper(type: Wrapper) {
+    gradleVersion = "4.3"
+    distributionType = "ALL"
   }
-}
 
-// composeUp   -> :data:docker:composeUp
-// composeDown -> :data:docker:composeDown
-["composeUp", "composeDown"].each { taskName ->
-  tasks.create(taskName) { task ->
-    task.shouldRunAfter gradle.includedBuild("data")
-                              .task(":docker:$taskName")
-  }
-}
-
-[test, build, bootRun, composeUp].each {
-  it.dependsOn assemble
-  it.shouldRunAfter clean, assemble
-}
-
-task wrapper(type: Wrapper) {
-  gradleVersion = "4.3"
-  distributionType = "ALL"
+  build.shouldRunAfter assemble
+  assemble.shouldRunAfter clean
 }

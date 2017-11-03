@@ -85,8 +85,8 @@ services:
   data:
     image: 127.0.0.1:5000/data
     build:
-      context: ../..
-      dockerfile: ./data/docker/data/Dockerfile
+      context: ..
+      dockerfile: ./docker/data/Dockerfile
     depends_on:
       elasticsearch-master:
         condition: service_healthy
@@ -105,8 +105,8 @@ services:
   blog:
     image: 127.0.0.1:5000/blog
     build:
-      context: ../..
-      dockerfile: ./data/docker/blog/Dockerfile
+      context: ..
+      dockerfile: ./docker/blog/Dockerfile
     depends_on:
       data:
         condition: service_healthy

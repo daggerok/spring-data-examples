@@ -1,5 +1,3 @@
-import java.util.stream.Collectors
-
 plugins {
   id "java"
   id "org.springframework.boot" version "1.5.8.RELEASE"
@@ -23,24 +21,15 @@ dependencies {
 
 springBoot { executable = true }
 
-[test, build, bootRun].each { task ->
+[test, build, bootRun].each {
   def dependsOnTasks = [assemble, ":docker:composeUp"]
-  task.dependsOn dependsOnTasks
-  task.shouldRunAfter ([clean] + dependsOnTasks)
-  task.finalizedBy ":docker:composeDown"
+  it.dependsOn dependsOnTasks
+  it.shouldRunAfter ([clean] + dependsOnTasks)
+  it.finalizedBy ":docker:composeDown"
 }
 
-clean {
-  ["build", "docker-cluster", "elasticsearch", "data", "out"].each { folder ->
-    delete "$projectDir/$folder"
+clean.doFirst {
+  ["build", "docker-cluster", "elasticsearch", "data", "out"].each {
+    delete "$projectDir/$it"
   }
-}
-
-[assemble, clean].each {
-  it.dependsOn ":blog:$it.name"
-}
-
-task wrapper(type: Wrapper) {
-  gradleVersion = "4.3"
-  distributionType = "ALL"
 }

@@ -11,11 +11,10 @@ node {
   nodeModulesDir = file("${project.projectDir}")
 }
 
-clean {
-  delete "$projectDir/node_modules"
-  delete "$projectDir/build"
-  delete "$projectDir/dist"
-  delete "$projectDir/out"
+clean.doFirst {
+  ["node_modules", "build", "dist", "out"].each {
+    delete "$projectDir/$it"
+  }
 }
 
 task clear(type: Delete) {
@@ -25,12 +24,13 @@ task clear(type: Delete) {
 }
 
 assemble.dependsOn yarn_build
+assemble.shouldRunAfter yarn_build
+
 yarn_build.dependsOn yarn_install
+yarn_build.shouldRunAfter yarn_install
+
 yarn_install.dependsOn clean
+yarn_install.shouldRunAfter clean
+
 //tasks.findByPath("yarn_install_--production").mustRunAfter clear
 //clear.shouldRunAfter yarn_build
-
-task wrapper(type: Wrapper) {
-  gradleVersion = "4.3"
-  distributionType = "ALL"
-}

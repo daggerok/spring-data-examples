@@ -6,6 +6,7 @@
 </template>
 
 <script>
+
   import Vue from 'vue';
 
   export default {
@@ -19,13 +20,17 @@
     methods: {
       doIt() {
         return {
-          res: Vue.http.get(`${Vue.http.options.root}/users`)
-            .then(data => {
-              this.users = data;
-            })
-        }
+          res: Vue.http
+                  .get(`${Vue.http.options.root}/users`)
+                  .then(data => this.users = data),
+        };
       }
-    }
+    },
+    computed: {
+      background () {
+        return require('./assets/favicon.ico');
+      }
+    },
   }
 </script>
 

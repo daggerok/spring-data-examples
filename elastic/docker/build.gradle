@@ -1,5 +1,4 @@
 plugins {
-  id "base"
   id "com.avast.gradle.docker-compose" version "0.5.4"
 }
 
