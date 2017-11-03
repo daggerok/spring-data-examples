@@ -1,0 +1,109 @@
+version: "2.1"
+
+services:
+
+  elasticsearch-master:
+    image: docker.elastic.co/elasticsearch/elasticsearch:5.6.3
+    environment:
+      - "cluster.name=docker-cluster"
+      - "bootstrap.memory_lock=true"
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - 'http.cors.allow-origin: "/.*/"'
+      - "http.cors.enabled: true"
+      - "node.master: true"
+      - 'http.cors.allow-headers : "X-Requested-With, X-Auth-Token, Content-Type, Content-Length, Authorization"'
+      - 'http.cors.allow-methods: "OPTIONS, HEAD, GET, POST, PUT, DELETE"'
+      - "http.cors.allow-credentials: true"
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
+      memlock:
+        soft: -1
+        hard: -1
+    volumes: ["elasticsearch-master-data:/usr/share/elasticsearch/data"]
+    ports: ["9200:9200"]
+    networks: [backing-services]
+    healthcheck:
+      test: ["CMD-SHELL", "curl -u elastic:changeme -I -s -L http://127.0.0.1:9200/ || exit 1"]
+      #interval: 10s
+      timeout: 5s
+      retries: 5
+
+  elasticsearch-node:
+    image: docker.elastic.co/elasticsearch/elasticsearch:5.6.3
+    depends_on:
+      elasticsearch-master:
+        condition: service_healthy
+    environment:
+      - "cluster.name=docker-cluster"
+      - "bootstrap.memory_lock=true"
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "discovery.zen.ping.unicast.hosts=elasticsearch-master"
+      - 'http.cors.allow-origin: "/.*/"'
+      - "http.cors.enabled: true"
+      - 'http.cors.allow-headers : "X-Requested-With, X-Auth-Token, Content-Type, Content-Length, Authorization"'
+      - 'http.cors.allow-methods: "OPTIONS, HEAD, GET, POST, PUT, DELETE"'
+      - "http.cors.allow-credentials: true"
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
+      memlock:
+        soft: -1
+        hard: -1
+    volumes: ["elasticsearch-node-data:/usr/share/elasticsearch/data"]
+    networks: [backing-services]
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fu elastic:changeme http://127.0.0.1:9200/_cat/health || exit 1"]
+      #interval: 10s
+      timeout: 5s
+      retries: 5
+
+  data:
+    image: 127.0.0.1:5000/data
+    build:
+      context: ..
+      dockerfile: ./docker/data/Dockerfile
+    depends_on:
+      elasticsearch-master:
+        condition: service_healthy
+    environment:
+      ELASTICSEARCH_HOST: elasticsearch-master
+    volumes: ["data-data:/home/app"]
+    ports: ["8001:8001"]
+    networks: [backing-services]
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://127.0.0.1:8001/health || exit 1"]
+      #interval: 10s
+      timeout: 5s
+      retries: 15
+
+  blog:
+    image: 127.0.0.1:5000/blog
+    build:
+      context: ..
+      dockerfile: ./docker/blog/Dockerfile
+    depends_on:
+      data:
+        condition: service_healthy
+    volumes: ["blog-data:/usr/share/nginx/html"]
+    ports: ["80:80"]
+    networks:
+      - backing-services
+      - public
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://127.0.0.1:80/ || exit 1"]
+      #interval: 10s
+      timeout: 5s
+      retries: 15
+
+volumes:
+  elasticsearch-master-data:
+  elasticsearch-node-data:
+  data-data:
+  blog-data:
+
+networks:
+  backing-services:
+  public:

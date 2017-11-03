@@ -4,11 +4,10 @@ plugins {
 
 // fix windows paths, replace all "\\" with "/"
 def root = rootDir.absolutePath.replaceAll("\\\\", "/")
-def dockerProp = System.getProperty("docker", "")
-def suffix = "all" != dockerProp ? ".yml" : "-all.yml"
+def dockerSuffix = System.getProperty("docker", "compose")
 
 dockerCompose {
-  useComposeFiles = ["$root/docker/docker-compose$suffix"]
+  useComposeFiles = ["$root/docker/docker-${dockerSuffix}.yml"]
   captureContainersOutput = true
   stopContainers = true
   removeContainers = true

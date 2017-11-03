@@ -9,11 +9,11 @@ in fucking progress...
 .run it all using docker-compose
 [source,bash]
 ----
-bash gradlew assemble composeUp -Ddocker=all
+bash gradlew assemble composeUp -Ddocker=compose-all
 
 open http://localhost/
 
-bash gradlew composeDown -Ddocker=all
+bash gradlew composeDown -Ddocker=compose-all
 ----
 
 .run app in idea

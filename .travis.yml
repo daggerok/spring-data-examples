@@ -22,10 +22,16 @@ before_install:
   - sudo kill $(sudo lsof -t -i:5432) | true
   - lsof -i tcp:27017 | awk 'NR!=1 {print $2}' | xargs kill | true
   - sudo kill $(sudo lsof -t -i:27017) | true
+
   - sudo kill $(sudo lsof -t -i:9200) | true
   - sudo kill $(sudo lsof -t -i:9300) | true
-  - sudo kill $(sudo lsof -t -i:80) | true
+  - sudo kill $(sudo lsof -t -i:5601) | true
+
   - sudo kill $(sudo lsof -t -i:8001) | true
+  - sudo kill $(sudo lsof -t -i:8002) | true
+  - sudo kill $(sudo lsof -t -i:8080) | true
+  - sudo kill $(sudo lsof -t -i:8081) | true
+  - sudo kill $(sudo lsof -t -i:80) | true
 
 script:
   # build docs
@@ -62,7 +68,7 @@ script:
       export res="$ROOT/$path"
       echo $res
       cd $res
-      bash gradlew clean build
+      bash gradlew clean build -Ddocker=compose-travis
 
     done;
 
@@ -138,12 +144,12 @@ script:
 
   # 3. elastic
   - cd $ROOT/elastic
-  - bash gradlew assemble composeUp -Ddocker=all 
+  - bash gradlew assemble composeUp -Ddocker=compose-travis-all
   - curl http://localhost/
   - curl http://localhost:8001/
   - curl http://localhost:8001/users
   - curl -u elastic:changeme http://localhost:9200/_cat/health
-  - bash gradlew composeDown -Ddocker=all 
+  - bash gradlew composeDown -Ddocker=compose-travis-all
 
   # 2. spel
   - cd $ROOT/spel/
