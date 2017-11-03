@@ -16,9 +16,9 @@ public interface UserRepository extends ElasticsearchRepository<User, String> {
 
   long countAllByNameContainingIgnoreCase(final String name);
 
-  Page<User> findAllByEmailContainingIgnoreCase(final String email, final Pageable pageable);
+  Page<User> findAllByUsernameContainingIgnoreCase(final String username, final Pageable pageable);
 
-  long countAllByEmailContainingIgnoreCase(final String email);
+  long countAllByUsernameContainingIgnoreCase(final String username);
 
   @Query("{                                     " +
       "     \"bool\" : {                        " +
@@ -28,7 +28,7 @@ public interface UserRepository extends ElasticsearchRepository<User, String> {
       "             \"query\" : \"*?0\",        " +
       "             \"analyze_wildcard\" : true " +
       "           },                            " +
-      "           \"email\" : {                 " +
+      "           \"username\" : {              " +
       "             \"query\" : \"*?1\",        " +
       "             \"analyze_wildcard\" : true " +
       "           }                             " +
@@ -38,6 +38,6 @@ public interface UserRepository extends ElasticsearchRepository<User, String> {
       "   }                                     ")
   @Nullable
   Stream<User> streamPagedUsers(@Nullable final Stream name,
-                                @Nullable final Stream email,
+                                @Nullable final Stream username,
                                 final Pageable pageable);
 }

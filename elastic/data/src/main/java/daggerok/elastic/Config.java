@@ -30,7 +30,7 @@ public class Config {
 
       elasticsearchTemplate.refresh(User.class);
 
-      log.info("has type: {}", elasticsearchTemplate.typeExists("user-index", "user"));
+//      log.info("has type: {}", elasticsearchTemplate.typeExists("user-index", "user"));
       log.info("settings: {}", elasticsearchTemplate.getSetting(User.class));
     };
   }

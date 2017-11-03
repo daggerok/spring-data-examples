@@ -50,6 +50,30 @@ curl -u elastic:changeme localhost:9200 | jq
 gradle clean build
 ----
 
+== using elastic
+
+.create few users
+[source,bash]
+----
+echo '{"username":"daggerok","name":"Maksim Kostromin"}' | http $auth :9200/user/customer
+----
+
+.helper fish fuctions
+----
+function pes
+    echo $argv[2] | http -a elastic:changeme post :9200/$argv[1]
+end
+
+function ges
+    http -a elastic:changeme get :9200/$argv[1]
+end
+
+pes user/customer '{
+"username": "ololo",
+"name": "Trololo"
+}'
+----
+
 == problem solving
 
 .ulimit -an

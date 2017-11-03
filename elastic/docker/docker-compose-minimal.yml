@@ -78,3 +78,4 @@ volumes:
 
 networks:
   backing-services:
+  public:

@@ -31,45 +31,23 @@ services:
       timeout: 5s
       retries: 5
 
-  data:
-    image: 127.0.0.1:5000/data
-    build:
-      context: ..
-      dockerfile: ./docker/data/Dockerfile
+  kibana:
+    image: docker.elastic.co/kibana/kibana:5.6.3
     depends_on:
       elasticsearch:
         condition: service_healthy
     environment:
-      ELASTICSEARCH_HOST: elasticsearch
-    volumes: ["data-data:/home/app"]
-    ports: ["8001:8001"]
-    networks: [backing-services]
-    mem_limit: 512m
-    healthcheck:
-      test: ["CMD-SHELL", "curl -f http://127.0.0.1:8001/health || exit 1"]
-      #interval: 10s
-      timeout: 5s
-      retries: 15
-
-  blog:
-    image: 127.0.0.1:5000/blog
-    build:
-      context: ..
-      dockerfile: ./docker/blog/Dockerfile
-    depends_on:
-      data:
-        condition: service_healthy
-    volumes: ["blog-data:/usr/share/nginx/html"]
-    ports: ["80:80"]
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+    ports: ["5601:5601"]
     mem_limit: 512m
     networks:
       - backing-services
       - public
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://127.0.0.1:80/ || exit 1"]
+      test: ["CMD-SHELL", "curl -f http://127.0.0.1:5601/ || exit 1"]
       #interval: 10s
       timeout: 5s
-      retries: 15
+      retries: 5
 
 volumes:
   elasticsearch-data:
@@ -78,3 +56,4 @@ volumes:
 
 networks:
   backing-services:
+  public:
