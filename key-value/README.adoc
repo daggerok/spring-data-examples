@@ -1,0 +1,18 @@
+= spring-data-examples image:https://travis-ci.org/daggerok/spring-data-examples.svg?branch=master["Build Status", link="https://travis-ci.org/daggerok/spring-data-examples"]
+
+//tag::content[]
+
+This is a simple spring-boot 5 webflux REST API example using spring-boot-keyvalue (Map as database) and kotlin language.
+
+.build and run
+----
+bash gradlew clean build
+----
+
+using:
+
+. kotlin
+. spring-data-keyvalue
+
+//end::content[]
+

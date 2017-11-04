@@ -44,6 +44,7 @@ script:
 
 #  - >
 #    for path in \
+#      key-value \
 #      elastic \
 #      data-event-listener \
 #      jpa-data-rest \
@@ -64,7 +65,7 @@ script:
 
   - >
     for path in \
-      elastic \
+      key-value \
     ; do
 
       export res="$ROOT/$path"
@@ -73,6 +74,14 @@ script:
       bash gradlew clean build -Ddocker=compose-travis
 
     done;
+
+  # 5. key-value
+  - cd $ROOT/key-value
+  - bash gradlew assemble
+  - bash gradlew bootRun &
+  - sleep 15
+  - curl http://localhost:8080/ | jq
+  - sudo kill $(sudo lsof -t -i:8080) | killall -9 java | true
 
   # 4. elastic
   - cd $ROOT/elastic

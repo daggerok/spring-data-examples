@@ -43,6 +43,9 @@ include::../../data-event-listener/README.adoc[tags=content]
 == Elasticsearch
 include::../../elastic/README.adoc[tags=content]
 
+== Spring Data Key-Value (webflux / kotlin)
+include::../../key-value/README.adoc[tags=content]
+
 == links
 
 . link:http://asciidoctor.org/docs/user-manual/#builtin-attributes[asciidoctor attributes]
