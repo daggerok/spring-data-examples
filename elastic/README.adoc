@@ -77,6 +77,11 @@ pes user/customer '{
 http -a elastic:changeme :9200/user/_search\?q=ololo
 ----
 
+.more elastic
+----
+ges _cluster/health\?pretty
+----
+
 == problem solving
 
 .ulimit -an

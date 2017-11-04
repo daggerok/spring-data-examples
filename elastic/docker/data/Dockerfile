@@ -8,5 +8,5 @@ WORKDIR /home/app
 VOLUME ["/home/app"]
 ENTRYPOINT java -jar ./app.jar
 EXPOSE 8001
-HEALTHCHECK --timeout=5s --retries=15 CMD curl -f http://127.0.0.1:8001/health || exit 1
+HEALTHCHECK --timeout=10s --retries=5 CMD curl -f http://127.0.0.1:8001/health || exit 1
 COPY ./data/build/libs/*.jar ./app.jar
