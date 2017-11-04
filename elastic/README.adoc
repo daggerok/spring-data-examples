@@ -150,4 +150,6 @@ reboot
 . link:https://docs.spring.io/spring-data/elasticsearch/docs/current/reference/html/#elasticsearch.query-methods.criterions[documentation: query creation]
 . link:https://www.youtube.com/watch?v=G56aE1kiOZw&t=695s[spring talk]
 . link:https://www.youtube.com/watch?v=V15TtGIKLLM[elasticsearch for java dev]
+. link:https://www.youtube.com/watch?v=rf3aQRYxLBs[another spring search data talk]
+
 //end::content[]
