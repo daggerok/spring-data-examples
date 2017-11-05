@@ -2,7 +2,7 @@
 
 //tag::content[]
 
-This is a simple spring-boot 5 webflux REST API example using spring-boot-keyvalue (Map as database) and kotlin language.
+This is a simple spring-boot 5 webflux REST API example using spring-boot and native Hazelcast (IMap as database) with kotlin.
 
 .build and run
 ----

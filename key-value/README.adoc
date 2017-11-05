@@ -2,7 +2,7 @@
 
 //tag::content[]
 
-This is a simple spring-boot 5 webflux REST API example using spring-boot-keyvalue (Map as database) and kotlin language.
+This is a simple spring-boot 5 webflux REST API example using spring-data-keyvalue (Map as database) and kotlin language.
 
 .build and run
 ----

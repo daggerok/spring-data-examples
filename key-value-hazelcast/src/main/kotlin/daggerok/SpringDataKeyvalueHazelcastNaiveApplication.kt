@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.context.annotation.Bean
 import org.springframework.data.annotation.Id
 import org.springframework.data.keyvalue.annotation.KeySpace
+import org.springframework.data.keyvalue.repository.KeyValueRepository
 import org.springframework.http.MediaType
 import org.springframework.stereotype.Repository
 import org.springframework.web.reactive.function.server.ServerRequest
@@ -20,12 +21,11 @@ import java.io.Serializable
 import java.net.URI
 import java.util.*
 
-@KeySpace("user")
-data class User(@Id var id: String? = null,
+data class NaiveUser(@Id var id: String? = null,
                 var name: String? = null,
                 var username: String? = null) : Serializable
 
-fun User.of(name: String) = User(
+fun NaiveUser.of(name: String) = NaiveUser(
     this.id ?: UUID.randomUUID().toString(),
     name.capitalize(),
     name.toLowerCase()
@@ -33,66 +33,35 @@ fun User.of(name: String) = User(
 
 @Repository
 class NaiveUserRepository(val hazelcastInstance: HazelcastInstance,
-                          val repo: IMap<String, User> = hazelcastInstance.getMap("naiveUserKeySpace")) {
+                          val repo: IMap<String, NaiveUser> = hazelcastInstance.getMap("naiveUserKeySpace")) {
 
-  fun save(input: String): User {
-    val user = User().of(input)
+  fun save(input: String): NaiveUser {
+    val user = NaiveUser().of(input)
     return save(user)
   }
 
-  fun save(user: User): User {
+  fun save(user: NaiveUser): NaiveUser {
     if (user.id == null) user.id = UUID.randomUUID().toString()
     repo.put(user.id, user)
     return user
   }
 
-  fun findAll(): Iterable<User> = repo.values
+  fun findAll(): Iterable<NaiveUser> = repo.values
 
   fun findOne(id: String) = repo[id]
 }
 
-//@Repository
-//interface UserRepository : HazelcastRepository<User, String> {
-//
-//  @Query("name=Max")
-//  fun usersWiththeirNameIsMax(): List<User>
-//
-//  @Query("name=%s")
-//  fun usersWiththeirName(name: String): List<User>
-//
-//  @Query("name=%s or username=%s")
-//  fun usersWithNameOrUsername(name: String, username: String): List<User>
-//}
-
 @SpringBootApplication
-//@EnableHazelcastRepositories(basePackageClasses = arrayOf(UserRepository::class))
-class SpringDataKeyvalueHazelcastApplication {
+class SpringDataKeyvalueHazelcastNaiveApplication {
 
   @Bean
   fun hazelcastInstance() = Hazelcast.newHazelcastInstance()
-
-//  @Bean
-//  fun hazelcastKeyValueAdapter() = HazelcastKeyValueAdapter(hazelcastInstance())
-//
-//  @Bean
-//  fun keyValueTemplate(hazelcastKeyValueAdapter: HazelcastKeyValueAdapter) =
-//      KeyValueTemplate(HazelcastKeyValueAdapter(hazelcastInstance()))
-//
-////  @Bean
-////  fun keyValueTemplate(hazelcastKeyValueAdapter: HazelcastKeyValueAdapter) = KeyValueTemplate(hazelcastKeyValueAdapter)
-//
-////  @Bean
-////  fun initializer(repo: UserRepository) = ApplicationRunner {
-////    arrayOf("max", "dag", "daggerok")
-////        .map { User().of(it) }
-////        .forEach { repo.save(it) }
-////  }
 
   @Bean
   fun routes(repo: NaiveUserRepository) = router {
 
     fun postData(req: ServerRequest) =
-        req.bodyToMono(User::class.java)
+        req.bodyToMono(NaiveUser::class.java)
             .map { repo.save(it) }
             .map { it?.id }
             .flatMap {
@@ -134,5 +103,5 @@ class SpringDataKeyvalueHazelcastApplication {
 }
 
 fun main(args: Array<String>) {
-  SpringApplication.run(SpringDataKeyvalueHazelcastApplication::class.java, *args)
+  SpringApplication.run(SpringDataKeyvalueHazelcastNaiveApplication::class.java, *args)
 }

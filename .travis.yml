@@ -44,6 +44,7 @@ script:
 
 #  - >
 #    for path in \
+#      spring-data-hazelcast \
 #      key-value-hazelcast \
 #      shadov \
 #      key-value \
@@ -67,6 +68,7 @@ script:
 
   - >
     for path in \
+      spring-data-hazelcast \
       key-value-hazelcast \
       shadov \
       key-value \
@@ -78,6 +80,18 @@ script:
       bash gradlew clean build -Ddocker=compose-travis
 
     done;
+
+  # 7. spring-data-hazelcast
+  - cd $ROOT/spring-data-hazelcast
+  - bash gradlew assemble
+  - bash gradlew bootRun &
+  - sleep 30
+  - http :8080
+  - http :8080/not-found
+  - http http :8080/any/ma
+  - http post :8080 name=Maximus username=xxx
+  - http :8080/any/Ma
+  - sudo kill $(sudo lsof -t -i:8080) | killall -9 java | true
 
   # 6. key-value-hazelcast
   - cd $ROOT/key-value-hazelcast

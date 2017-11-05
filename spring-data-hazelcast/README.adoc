@@ -1,0 +1,94 @@
+= spring-data-examples image:https://travis-ci.org/daggerok/spring-data-examples.svg?branch=master["Build Status", link="https://travis-ci.org/daggerok/spring-data-examples"]
+
+//tag::content[]
+
+This is a simple spring-mvc REST API example using spring-data-hazelcast and kotlin language.
+
+.build and run
+----
+bash gradlew clean build
+
+http :8080/any/ma
+[
+    {
+        "id": "8f0c927a-cf68-430d-afab-cb9f3f9a9253",
+        "name": "Max",
+        "username": "max"
+    }
+]
+
+http post :8080 name=Maximus username=xxx
+HTTP/1.1 201
+Content-Length: 0
+Date: Sun, 05 Nov 2017 05:52:16 GMT
+Location: /id/d365b264-97de-4458-81da-c99b9f5be1f4
+
+http :8080/id/d365b264-97de-4458-81da-c99b9f5be1f4
+{
+    "id": "d365b264-97de-4458-81da-c99b9f5be1f4",
+    "name": "Maximus",
+    "username": "xxx"
+}
+
+http :8080/any/Ma
+[
+    {
+        "id": "d365b264-97de-4458-81da-c99b9f5be1f4",
+        "name": "Maximus",
+        "username": "xxx"
+    },
+    {
+        "id": "8f0c927a-cf68-430d-afab-cb9f3f9a9253",
+        "name": "Max",
+        "username": "max"
+    }
+]
+----
+
+.supported query
+----
+/*
+    1) SIMPLE_PROPERTY("Is", "Equals")
+    2)
+       TRUE(0, "IsTrue", "True")
+       FALSE(0, "IsFalse", "False")
+    3)
+       LESS_THAN("IsLessThan", "LessThan")
+       LESS_THAN_EQUAL("IsLessThanEqual", "LessThanEqual")
+       GREATER_THAN("IsGreaterThan","GreaterThan")
+       GREATER_THAN_EQUAL("IsGreaterThanEqual", "GreaterThanEqual")
+    4)
+       LIKE("IsLike", "Like")
+    5)
+       IS_NOT_NULL(0, "IsNotNull", "NotNull")
+       IS_NULL(0, "IsNull", "Null")
+----
+
+.supported query
+----
+    AFTER:
+    BEFORE:
+    BETWEEN:
+    CONTAINING:
+    ENDING_WITH:
+    EXISTS:
+    IN:
+    NEAR:
+    NEGATING_SIMPLE_PROPERTY:
+    NOT_CONTAINING:
+    NOT_IN:
+    NOT_LIKE:
+    REGEX:
+    STARTING_WITH:
+    WITHIN:
+----
+
+using:
+
+. kotlin
+. spring-data-hazelcast
+. link:https://spring.io/blog/2017/02/13/springone-platform-2016-replay-spring-data-hazelcast-fluently-accessing-distributed-repositories[talk]
+. link:http://docs.hazelcast.org/docs/latest-development/manual/html/Distributed_Query/How_Distributed_Query_Works/Querying_with_SQL.html[hazelcast query]
+
+//end::content[]
+
