@@ -126,7 +126,9 @@ class SpringDataKeyvalueHazelcastApplication {
 
     fun getOne(req: ServerRequest): Mono<ServerResponse> {
       val id = req.pathVariable("id")
-      return ServerResponse.ok().body(Mono.justOrEmpty(repo.findOne(id)!!))
+      val user = repo.findOne(id)
+      return if (null == user) ServerResponse.notFound().build()
+             else ServerResponse.ok().body(Mono.just(user))
     }
 
     (accept(MediaType.APPLICATION_JSON_UTF8) and "/{id}").nest {
