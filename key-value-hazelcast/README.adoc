@@ -1,0 +1,30 @@
+= spring-data-examples image:https://travis-ci.org/daggerok/spring-data-examples.svg?branch=master["Build Status", link="https://travis-ci.org/daggerok/spring-data-examples"]
+
+//tag::content[]
+
+This is a simple spring-boot 5 webflux REST API example using spring-boot-keyvalue (Map as database) and kotlin language.
+
+.build and run
+----
+bash gradlew clean build
+
+http post :8080/ name=max
+HTTP/1.1 202 Accepted
+Location: /a5c78752-129a-46f1-b1d6-73537d525ba5
+
+http get :8080/a5c78752-129a-46f1-b1d6-73537d525ba5
+{
+    "id": "a5c78752-129a-46f1-b1d6-73537d525ba5",
+    "name": "max",
+    "username": null
+}
+----
+
+using:
+
+. kotlin
+. spring-data-hazelcast
+. link:https://spring.io/blog/2017/02/13/springone-platform-2016-replay-spring-data-hazelcast-fluently-accessing-distributed-repositories[talk]
+
+//end::content[]
+

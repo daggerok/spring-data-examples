@@ -44,6 +44,7 @@ script:
 
 #  - >
 #    for path in \
+#      key-value-hazelcast \
 #      shadov \
 #      key-value \
 #      elastic \
@@ -66,7 +67,9 @@ script:
 
   - >
     for path in \
+      key-value-hazelcast \
       shadov \
+      key-value \
     ; do
 
       export res="$ROOT/$path"
