@@ -3,21 +3,11 @@ package daggerok
 import com.hazelcast.core.Hazelcast
 import com.hazelcast.core.HazelcastInstance
 import com.hazelcast.core.IMap
-import org.reactivestreams.Publisher
-import org.springframework.boot.ApplicationRunner
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.context.annotation.Bean
 import org.springframework.data.annotation.Id
-import org.springframework.data.hazelcast.HazelcastKeyValueAdapter
-import org.springframework.data.hazelcast.repository.HazelcastRepository
-import org.springframework.data.hazelcast.repository.config.EnableHazelcastRepositories
-import org.springframework.data.hazelcast.repository.query.Query
 import org.springframework.data.keyvalue.annotation.KeySpace
-import org.springframework.data.keyvalue.core.KeyValueAdapter
-import org.springframework.data.keyvalue.core.KeyValueOperations
-import org.springframework.data.keyvalue.core.KeyValueTemplate
-import org.springframework.data.repository.CrudRepository
 import org.springframework.http.MediaType
 import org.springframework.stereotype.Repository
 import org.springframework.web.reactive.function.server.ServerRequest
@@ -36,15 +26,14 @@ data class User(@Id var id: String? = null,
                 var username: String? = null) : Serializable
 
 fun User.of(name: String) = User(
-    this.id?: UUID.randomUUID().toString(),
+    this.id ?: UUID.randomUUID().toString(),
     name.capitalize(),
     name.toLowerCase()
 )
 
 @Repository
-class NaiveUserRepository(val hazelcastInstance: HazelcastInstance) {
-
-  val repo: IMap<String, User> = hazelcastInstance.getMap("naiveUserKeySpace")
+class NaiveUserRepository(val hazelcastInstance: HazelcastInstance,
+                          val repo: IMap<String, User> = hazelcastInstance.getMap("naiveUserKeySpace")) {
 
   fun save(input: String): User {
     val user = User().of(input)
@@ -60,17 +49,6 @@ class NaiveUserRepository(val hazelcastInstance: HazelcastInstance) {
   fun findAll(): Iterable<User> = repo.values
 
   fun findOne(id: String) = repo[id]
-
-//  @Query("name=Max")
-  fun usersWiththeirNameIsMax()/*: List<User>*/ {
-
-  }
-
-//  @Query("name=%s")
-  fun usersWiththeirName(name: String)/*: List<User>*/ {}
-
-//  @Query("name=%s or username=%s")
-  fun usersWithNameOrUsername(name: String, username: String)/*: List<User>*/ {}
 }
 
 //@Repository
@@ -115,11 +93,21 @@ class SpringDataKeyvalueHazelcastApplication {
 
     fun postData(req: ServerRequest) =
         req.bodyToMono(User::class.java)
-           .map { repo.save(it) }
-           .map { it?.id }
-           .flatMap { ServerResponse.accepted()
-                                    .location(URI.create("/$it"))
-                                    .build() }
+            .map { repo.save(it) }
+            .map { it?.id }
+            .flatMap {
+              ServerResponse.accepted()
+                  .location(URI.create("/$it"))
+                  .build()
+            }
+
+    fun postOne(req: ServerRequest): Mono<ServerResponse> {
+      val name = req.pathVariable("id")
+      val user = repo.save(name)
+      return ServerResponse.accepted()
+          .location(URI.create("/${user.id}"))
+          .build()
+    }
 
     fun getData(@Suppress("UNUSED_PARAMETER") req: ServerRequest) =
         ServerResponse.ok().body(Flux.fromIterable(repo.findAll()))
@@ -128,10 +116,11 @@ class SpringDataKeyvalueHazelcastApplication {
       val id = req.pathVariable("id")
       val user = repo.findOne(id)
       return if (null == user) ServerResponse.notFound().build()
-             else ServerResponse.ok().body(Mono.just(user))
+      else ServerResponse.ok().body(Mono.just(user))
     }
 
     (accept(MediaType.APPLICATION_JSON_UTF8) and "/{id}").nest {
+      POST("", ::postOne)
       GET("", ::getOne)
     }
 
