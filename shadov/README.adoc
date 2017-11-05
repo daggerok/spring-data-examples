@@ -1,0 +1,23 @@
+= spring-data-examples image:https://travis-ci.org/daggerok/spring-data-examples.svg?branch=master["Build Status", link="https://travis-ci.org/daggerok/spring-data-examples"]
+
+//tag::content[]
+
+.1. clone, run
+----
+git clone https://github.com/daggerok/spring-data-examples
+cd shadov/
+gradle bootRun
+----
+
+.2. open in browser
+http://127.0.0.1:8080/
+
+.3. or console and and test
+----
+curl http://localhost:8080/
+----
+
+link:https://stackoverflow.com/questions/30019408/how-to-shorten-names-of-query-methods-in-spring-data-jpa-repositories/38771834?noredirect=1#comment81180946_38771834[read this thread]
+
+//end::content[]
+
