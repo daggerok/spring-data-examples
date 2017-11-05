@@ -65,18 +65,18 @@ public class ShadovApplication {
 
     @PostMapping
     @Transactional
-    User get(@RequestBody @Validated final User user) {
+    User post(@RequestBody @Validated final User user) {
       return users.save(user);
     }
 
     @GetMapping("/{in}")
-    User get(@PathVariable(required = false) final Optional<String> in) {
+    public User get(@PathVariable(required = false) final Optional<String> in) {
       val input = in.orElse("default");
       return users.getByEmail(input);
     }
 
     @GetMapping
-    List<User> get() {
+    public List<User> getAll() {
       return users.findAll();
     }
   }
