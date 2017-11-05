@@ -16,7 +16,7 @@ before_install:
 
   # install docker-compose
   - sudo apt install -y python-pip curl jq libxml2-utils
-  - sudo pip install docker-compose
+  - sudo pip install docker-compose httpie
   - sudo usermod -aG docker $(whoami)
 
   # kill whatever running on ports
@@ -78,6 +78,18 @@ script:
       bash gradlew clean build -Ddocker=compose-travis
 
     done;
+
+  # 6. key-value-hazelcast
+  - cd $ROOT/key-value-hazelcast
+  - bash gradlew assemble
+  - bash gradlew bootRun &
+  - sleep 25
+  - http :8080
+  - http :8080/not-found
+  - http :8080/ name=max1
+  - http post :8080/max2
+  - http :8080/
+  - sudo kill $(sudo lsof -t -i:8080) | killall -9 java | true
 
   # 5. key-value
   - cd $ROOT/key-value

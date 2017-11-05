@@ -119,14 +119,16 @@ class SpringDataKeyvalueHazelcastApplication {
       else ServerResponse.ok().body(Mono.just(user))
     }
 
-    (accept(MediaType.APPLICATION_JSON_UTF8) and "/{id}").nest {
-      POST("", ::postOne)
-      GET("", ::getOne)
-    }
+    (accept(MediaType.APPLICATION_JSON_UTF8)).nest {
+      ("/{id}").nest {
+        POST("", ::postOne)
+        GET("", ::getOne)
+      }
 
-    (accept(MediaType.APPLICATION_JSON_UTF8) and "/").nest {
-      GET("**", ::getData)
-      POST("**", ::postData)
+      ("/").nest {
+        GET("**", ::getData)
+        POST("**", ::postData)
+      }
     }
   }
 }
