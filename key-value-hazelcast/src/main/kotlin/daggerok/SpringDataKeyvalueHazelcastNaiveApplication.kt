@@ -22,8 +22,8 @@ import java.net.URI
 import java.util.*
 
 data class NaiveUser(@Id var id: String? = null,
-                var name: String? = null,
-                var username: String? = null) : Serializable
+                     var name: String? = null,
+                     var username: String? = null) : Serializable
 
 fun NaiveUser.of(name: String) = NaiveUser(
     this.id ?: UUID.randomUUID().toString(),
