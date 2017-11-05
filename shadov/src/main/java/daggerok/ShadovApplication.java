@@ -42,8 +42,7 @@ interface UserRepository extends JpaRepository<User, Long> {
   User findFirstByEmailContainsIgnoreCaseAndField1NotNullAndField2NotNullAndField3NotNullAndField4NotNullAndField5NotNullAndField6NotNull(final String email);
 
   default User getByEmail(final String email) {
-    return findFirstByEmailContainsIgnoreCaseAndField1NotNullAndField2NotNullAndField3NotNullAndField4NotNullAndField5NotNullAndField6NotNull(
-        email);
+    return findFirstByEmailContainsIgnoreCaseAndField1NotNullAndField2NotNullAndField3NotNullAndField4NotNullAndField5NotNullAndField6NotNull(email);
   }
 }
 
