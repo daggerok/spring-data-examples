@@ -44,6 +44,7 @@ script:
 
 #  - >
 #    for path in \
+#      shadov \
 #      key-value \
 #      elastic \
 #      data-event-listener \
@@ -65,7 +66,7 @@ script:
 
   - >
     for path in \
-      key-value \
+      shadov \
     ; do
 
       export res="$ROOT/$path"
