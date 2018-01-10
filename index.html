@@ -538,7 +538,7 @@ table.CodeRay td.code>pre{padding:0}
 <span id="author" class="author">Maksim Kostromin</span><br>
 <span id="email" class="email"><a href="mailto:daggerok@gmail.com">daggerok@gmail.com</a></span><br>
 <span id="revnumber">version 0.0.1,</span>
-<span id="revdate">2017-11-01 17:51:26 EET</span>
+<span id="revdate">2017-11-04 21:48:44 EET</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -582,10 +582,12 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#boot-your-data-rdbms-derby-h2-hsql-mysql-postgres">10. Boot your data - RDBMS (derby, h2, hsql, mysql, postgres)</a></li>
 <li><a href="#listening-spring-data-events">11. Listening spring-data events</a></li>
 <li><a href="#elasticsearch">12. Elasticsearch</a></li>
-<li><a href="#problem-solving">13. problem solving</a></li>
-<li><a href="#resources">14. resources</a></li>
-<li><a href="#links-2">15. links</a></li>
-<li><a href="#enjoy">16. Enjoy! :)</a></li>
+<li><a href="#using-elastic">13. using elastic</a></li>
+<li><a href="#problem-solving">14. problem solving</a></li>
+<li><a href="#resources">15. resources</a></li>
+<li><a href="#spring-data-key-value-webflux-kotlin">16. Spring Data Key-Value (webflux / kotlin)</a></li>
+<li><a href="#links-2">17. links</a></li>
+<li><a href="#enjoy">18. Enjoy! :)</a></li>
 </ul>
 </div>
 </div>
@@ -1154,7 +1156,44 @@ curl -u elastic:changeme localhost:9200 | jq</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="problem-solving">13. problem solving</h2>
+<h2 id="using-elastic">13. using elastic</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="title">create few users</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">export auth=&quot; -a elastic:changeme &quot;
+echo '{&quot;username&quot;:&quot;daggerok&quot;,&quot;name&quot;:&quot;Maksim Kostromin&quot;}' | http $auth :9200/user/customer</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">helper fish fuctions</div>
+<div class="content">
+<pre>function pes
+    echo $argv[2] | http -a elastic:changeme post :9200/$argv[1]
+end
+
+function ges
+    http -a elastic:changeme get :9200/$argv[1]
+end
+
+pes user/customer '{
+"username": "ololo",
+"name": "Trololo"
+}'
+
+http -a elastic:changeme :9200/user/_search\?q=ololo</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">more elastic</div>
+<div class="content">
+<pre>ges _cluster/health\?pretty</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="problem-solving">14. problem solving</h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="title">ulimit -an</div>
@@ -1220,19 +1259,55 @@ reboot</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="resources">14. resources</h2>
+<h2 id="resources">15. resources</h2>
 <div class="sectionbody">
 <div class="olist arabic">
 <ol class="arabic">
 <li>
 <p><a href="https://docs.spring.io/spring-data/elasticsearch/docs/current/reference/html/#elasticsearch.query-methods.criterions">documentation: query creation</a></p>
 </li>
+<li>
+<p><a href="https://www.youtube.com/watch?v=G56aE1kiOZw&amp;t=695s">spring talk</a></p>
+</li>
+<li>
+<p><a href="https://www.youtube.com/watch?v=V15TtGIKLLM">elasticsearch for java dev</a></p>
+</li>
+<li>
+<p><a href="https://www.youtube.com/watch?v=rf3aQRYxLBs">another spring search data talk</a></p>
+</li>
 </ol>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="links-2">15. links</h2>
+<h2 id="spring-data-key-value-webflux-kotlin">16. Spring Data Key-Value (webflux / kotlin)</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This is a simple spring-boot 5 webflux REST API example using spring-data-keyvalue (Map as database) and kotlin language.</p>
+</div>
+<div class="listingblock">
+<div class="title">build and run</div>
+<div class="content">
+<pre>bash gradlew clean build</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>using:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>kotlin</p>
+</li>
+<li>
+<p>spring-data-keyvalue</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="links-2">17. links</h2>
 <div class="sectionbody">
 <div class="olist arabic">
 <ol class="arabic">
@@ -1244,7 +1319,7 @@ reboot</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="enjoy">16. Enjoy! :)</h2>
+<h2 id="enjoy">18. Enjoy! :)</h2>
 <div class="sectionbody">
 
 </div>
@@ -1253,7 +1328,7 @@ reboot</code></pre>
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1<br>
-Last updated 2017-11-01 17:51:26 EET
+Last updated 2017-11-04 21:48:44 EET
 </div>
 </div>
 </body>
