@@ -1,4 +1,5 @@
 sudo: required
+group: travis_lts
 
 service: docker
 
@@ -13,12 +14,8 @@ env:
 
 install: true
 before_install:
-  ## docker
-  #- wget get.docker.com -O- | sudo sh -
-  #- sudo usermod -aG docker $(whoami)
-
   # docker-compose, curl, jq, httpie
-  - sudo apt update --allow-unauthenticated
+  - sudo apt update -y || true
   - sudo apt -y install curl jq libxml2-utils python-pip
   - sudo pip install docker-compose httpie
 
@@ -42,8 +39,8 @@ script:
   - http put :8080/my-entities/1 value=ololo
   - http put :8080/my-entities/1 value=trololo
   - http put :8080/my-entities/1 value=ho-ho-ho
-  - http put :8080/my-entities
-  - http put :8080/my-entities-history
+  - http get :8080/my-entities
+  - http get :8080/my-entities-history
   - docker-compose down -v
 
 #  - >

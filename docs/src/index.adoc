@@ -46,6 +46,15 @@ include::../../elastic/README.adoc[tags=content]
 == Spring Data Key-Value (webflux / kotlin)
 include::../../key-value/README.adoc[tags=content]
 
+== Spring Data Hazelcast
+include::../../spring-data-hazelcast/README.adoc[tags=content]
+
+== Spring data reactive (mongo, solr, elastic)
+include::../../reactive-data/README.adoc[tags=content]
+
+== Spring Data (spring-data-rest) advanced audit
+include::../../spring-data-history-audit/README.adoc[tags=content]
+
 == links
 
 . link:http://asciidoctor.org/docs/user-manual/#builtin-attributes[asciidoctor attributes]
