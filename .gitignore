@@ -2,6 +2,7 @@ elasticsearch/
 docker-cluster/
 elastic/data/data/
 out/
+target/
 
 **/src/main/gen
 

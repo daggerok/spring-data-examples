@@ -1,5 +1,6 @@
-group: edge
-dist: trusty
+sudo: required
+
+service: docker
 
 language: java
 jdk:
@@ -12,28 +13,18 @@ env:
 
 install: true
 before_install:
-  - sudo apt update
+  ## docker
+  #- wget get.docker.com -O- | sudo sh -
+  #- sudo usermod -aG docker $(whoami)
 
-  # install docker-compose
-  - sudo apt install -y python-pip curl jq libxml2-utils
+  # docker-compose, curl, jq, httpie
+  - sudo apt update --allow-unauthenticated
+  - sudo apt -y install curl jq libxml2-utils python-pip
   - sudo pip install docker-compose httpie
-  - sudo usermod -aG docker $(whoami)
 
-  # kill whatever running on ports
-  - sudo kill $(sudo lsof -t -i:5672) | true
-  - sudo kill $(sudo lsof -t -i:5432) | true
-  - lsof -i tcp:27017 | awk 'NR!=1 {print $2}' | xargs kill | true
-  - sudo kill $(sudo lsof -t -i:27017) | true
-
-  - sudo kill $(sudo lsof -t -i:9200) | true
-  - sudo kill $(sudo lsof -t -i:9300) | true
-  - sudo kill $(sudo lsof -t -i:5601) | true
-
-  - sudo kill $(sudo lsof -t -i:8001) | true
-  - sudo kill $(sudo lsof -t -i:8002) | true
-  - sudo kill $(sudo lsof -t -i:8080) | true
-  - sudo kill $(sudo lsof -t -i:8081) | true
-  - sudo kill $(sudo lsof -t -i:80) | true
+  # kill ports
+  - source <(curl -fsSL https://raw.github.com/daggerok/bash-functions/master/main.bash)
+  - stop_any 5672 5432 27017 9200 9300 5601 8001 8002 8080 80
 
 script:
   # build docs
@@ -41,6 +32,19 @@ script:
 
   # build all
   - export ROOT=$PWD
+
+  - cd ${ROOT}/spring-data-history-audit
+  - bash mvnw
+  - bash gradlew
+  - docker-compose build --force-rm --no-cache --pull
+  - docker-compose up --force-recreate --remove-orphans &
+  - sleep 30
+  - http put :8080/my-entities/1 value=ololo
+  - http put :8080/my-entities/1 value=trololo
+  - http put :8080/my-entities/1 value=ho-ho-ho
+  - http put :8080/my-entities
+  - http put :8080/my-entities-history
+  - docker-compose down -v
 
 #  - >
 #    for path in \
@@ -74,9 +78,7 @@ script:
       key-value \
     ; do
 
-      export res="$ROOT/$path"
-      echo $res
-      cd $res
+      cd ${ROOT}/${path}
       bash gradlew clean build -Ddocker=compose-travis
 
     done;

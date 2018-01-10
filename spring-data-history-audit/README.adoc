@@ -1,0 +1,29 @@
+= spring-data-history-audit image:https://travis-ci.org/daggerok/spring-data-examples.svg?branch=master["Build Status", link="https://travis-ci.org/daggerok/spring-data-examples"]
+
+//tag::content[]
+
+This repository contains spring-data audition implementation: object diff history audit
+
+.test
+----
+http put :8080/my-entities/1 value=ololo
+http put :8080/my-entities/1 value=trololo
+http put :8080/my-entities/1 value=ho-ho-ho
+
+http get :8080/my-entities
+http get :8080/my-entities-history
+----
+
+.build abd run
+----
+bash gradlew clean bootRun # bash mvnw clean spring-boot:run
+
+# or in docker:
+docker-compose down -v; ./gradlew; docker-compose up --build --force-recreate --remove-orphans
+
+# or using maven:
+cp -Rf ./mvn/Dockerfile ./
+docker-compose down -v; ./mvnw; docker-compose up --build --force-recreate --remove-orphans
+----
+
+//end::content[]
