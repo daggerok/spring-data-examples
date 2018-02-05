@@ -16,3 +16,7 @@ This repository contains some spring-data playground projects
 . link:spring-data-history-audit/[spring-data-rest advanced audit]
 . link:reactive-data-flow-systems/[reactive data flow systems]
 . link:infinispan-example/[Using infinispan data grid]
+
+TODO:
+
+. link:https://www.youtube.com/watch?v=N8ElAVRecaM[Reactive Data Access with Spring Data - Christoph Strobl, Mark Paluch]
