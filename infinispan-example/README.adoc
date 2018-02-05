@@ -1,14 +1,24 @@
 = infinispan-example
 
-generated using link:https://github.com/daggerok/generator-daggerok-fatjar/[daggerok-fatjar] yeoman generator
+.test
+----
+http :8080
 
-inside:
+http :8080 message=hey!
+# ...
+Location: http://localhost:8080/5b0b3fdd-a7fc-4a81-8253-02649b53e10a
 
-. java 8 based parent multi project
-. vavr (javaslang)
-. support maven
-. support gradle
-. docker / docker-compose support
+http :8080 message=ho!
+# ...
+http://localhost:8080/a95faed1-e518-43dc-995b-0fb450276bb8
+
+http http://localhost:8080/a95faed1-e518-43dc-995b-0fb450276bb8
+# ...
+{
+    "_self": "http://localhost:8080/a95faed1-e518-43dc-995b-0fb450276bb8",
+    "message": "ho!"
+}
+----
 
 .build
 ----

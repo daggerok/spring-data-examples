@@ -1,8 +1,11 @@
 buildscript {
   ext {
+    infinispanVersion = "8.2.8.Final"
+    infinispanStarterVersion = "1.0.0"
     springBootVersion = "1.5.10.RELEASE"
   }
   repositories {
+    mavenLocal()
     mavenCentral()
   }
   dependencies {
@@ -13,16 +16,20 @@ buildscript {
 apply plugin: "org.springframework.boot"
 
 repositories {
+  mavenLocal()
   mavenCentral()
 }
 
 dependencies {
-  compile("org.infinispan:infinispan-spring:8.2.8.Final") {
+  compile("org.infinispan:spring-boot-starter-infinispan:$infinispanStarterVersion")
+  compile("org.infinispan:infinispan-core:$infinispanVersion")
+  compile("org.infinispan:infinispan-spring:$infinispanVersion") {
     exclude group: "org.springframework", module: "spring-context"
     exclude group: "org.apache.logging.log4j", module: "log4j-slf4j-impl"
   }
 
   compile("org.springframework.boot:spring-boot-starter-actuator")
+  compile("org.springframework.boot:spring-boot-starter-hateoas")
   compile("org.springframework.boot:spring-boot-starter-cache")
   compile("org.springframework.boot:spring-boot-starter-web")
   runtime("org.springframework.boot:spring-boot-devtools")
@@ -33,5 +40,6 @@ dependencies {
 dependencyManagement {
   imports {
     mavenBom "org.springframework.boot:spring-boot-starter-parent:$springBootVersion"
+    mavenBom "org.infinispan:infinispan-bom:$infinispanVersion"
   }
 }

@@ -19,13 +19,25 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <java.version>1.8</java.version>
+    <infinispan.version>8.2.8.Final</infinispan.version>
+    <infinispan.starter.version>1.0.0</infinispan.starter.version>
   </properties>
 
   <dependencies>
     <dependency>
       <groupId>org.infinispan</groupId>
+      <artifactId>spring-boot-starter-infinispan</artifactId>
+      <version>${infinispan.starter.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.infinispan</groupId>
+      <artifactId>infinispan-core</artifactId>
+      <version>${infinispan.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.infinispan</groupId>
       <artifactId>infinispan-spring</artifactId>
-      <version>8.2.8.Final</version>
+      <version>${infinispan.version}</version>
       <exclusions>
         <exclusion>
           <groupId>org.apache.logging.log4j</groupId>
@@ -51,6 +63,10 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-actuator</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-hateoas</artifactId>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -86,7 +102,63 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
       </plugin>
+
+      <!-- docker -->
+      <plugin>
+        <groupId>com.dkanejs.maven.plugins</groupId>
+        <artifactId>docker-compose-maven-plugin</artifactId>
+        <version>1.0.1</version>
+        <executions>
+          <execution>
+            <id>up</id>
+            <!--<phase>process-resources</phase>-->
+            <phase>verify</phase>
+            <goals>
+              <goal>up</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>down</id>
+            <!--<phase>test</phase>-->
+            <phase>verify</phase>
+            <goals>
+              <goal>down</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <composeFile>${project.basedir}/docker-compose-maven.yaml</composeFile>
+          <detachedMode>true</detachedMode>
+          <removeVolumes>true</removeVolumes>
+          <detail>true</detail>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
+
+  <dependencyManagement>
+    <dependencies>
+      <!-- https://mvnrepository.com/artifact/org.infinispan/infinispan-bom -->
+      <dependency>
+        <groupId>org.infinispan</groupId>
+        <artifactId>infinispan-bom</artifactId>
+        <version>${infinispan.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.5.10.RELEASE</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.infinispan</groupId>
+        <artifactId>infinispan-spring-boot-starter</artifactId>
+        <version>${infinispan.starter.version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 
 </project>

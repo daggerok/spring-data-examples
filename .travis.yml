@@ -1,35 +1,59 @@
+service:
+- docker
 sudo: required
 group: travis_lts
-
-service: docker
-
 language: java
 jdk:
- - oraclejdk8
- - openjdk8
-
+- oraclejdk8
+- openjdk8
 env:
   global:
     TERM=dumb
-
 install: true
 before_install:
-  # docker-compose, curl, jq, httpie
-  - sudo apt update -y || true
-  - sudo apt -y install curl jq libxml2-utils python-pip
-  - sudo pip install docker-compose httpie
-
-  # kill ports
-  - source <(curl -fsSL https://raw.github.com/daggerok/bash-functions/master/main.bash)
-  - stop_any 5672 5432 27017 9200 9300 5601 8001 8002 8080 80
-
+- sudo apt update -y || true
+- sudo apt install -y --no-install-recommends docker-ce curl jq libxml2-utils python-pip
+- sudo pip install docker-compose httpie
+- source <(curl -fsSL https://raw.github.com/daggerok/bash-functions/master/main.bash)
+- stop_any 5672 5432 27017 9200 9300 5601 8001 8002 8080 80
 script:
-  # build docs
   - bash gradlew clean build
-
-  # build all
   - export ROOT=$PWD
 
+  # infinispan-example plain
+  - cd ${ROOT}/infinispan-example
+  - bash mvnw
+  - bash gradlew
+  - java -jar ./infinispan-service/build/libs/*.jar &
+  - java -jar ./infinispan-service/target/*.jar --server.port=8000 &
+  - wait_for 8080 8000
+  - http :8080
+  - http :8080 message=ololo\ 1
+  - http :8080 message=trololo\ 1
+  - http :8080/not-exists
+  - http :8000
+  - http :8000 message=ololo-2
+  - http :8000 message=trololo-2
+  - http :8000/not-exists
+  - stop_any 8080 8000
+  # infinispan-example docker
+  - docker-compose -f docker-compose-maven.yaml build --force-rm --no-cache --pull
+  - docker-compose -f docker-compose-maven.yaml up --force-recreate --remove-orphans &
+  - sleep 30
+  - http :8080
+  - http :8080 message=ololo
+  - http :8080 message=trololo
+  - http :8080/not-exists
+  - docker-compose -f docker-compose-maven.yaml down -v
+  # infinispan-example gradle docker
+  - bash gradlew composeUp
+  - http :8080
+  - http :8080 message=ololo
+  - http :8080 message=trololo
+  - http :8080/not-exists
+  - bash gradlew composeDown
+
+  # spring-data-history-audit
   - cd ${ROOT}/spring-data-history-audit
   - bash mvnw
   - bash gradlew
@@ -42,7 +66,6 @@ script:
   - http get :8080/my-entities
   - http get :8080/my-entities-history
   - docker-compose down -v
-
 #  - >
 #    for path in \
 #      spring-data-hazelcast \
