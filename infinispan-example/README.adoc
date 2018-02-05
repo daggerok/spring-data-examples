@@ -28,3 +28,7 @@ http http://localhost:8080/a95faed1-e518-43dc-995b-0fb450276bb8
 ./gradlew clean build composeUp
 ./gradlew composeDown
 ----
+
+links:
+
+. link:https://www.youtube.com/watch?v=eyf2Fs7GBo0[Microservices Data Patterns: CQRS & Event Sourcing by Edson Yanaga]
