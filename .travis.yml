@@ -30,11 +30,11 @@ script:
   - http :8080
   - http :8080 message=ololo\ 1
   - http :8080 message=trololo\ 1
-  - http :8080/not-exists
+  - http :8080/all
   - http :8000
   - http :8000 message=ololo-2
   - http :8000 message=trololo-2
-  - http :8000/not-exists
+  - http :8000/all
   - stop_any 8080 8000
   # infinispan-example docker
   - docker-compose -f docker-compose-maven.yaml build --force-rm --no-cache --pull
@@ -43,14 +43,14 @@ script:
   - http :8080
   - http :8080 message=ololo
   - http :8080 message=trololo
-  - http :8080/not-exists
+  - http :8080/all
   - docker-compose -f docker-compose-maven.yaml down -v
   # infinispan-example gradle docker
   - bash gradlew composeUp
   - http :8080
   - http :8080 message=ololo
   - http :8080 message=trololo
-  - http :8080/not-exists
+  - http :8080/all
   - bash gradlew composeDown
 
   # spring-data-history-audit

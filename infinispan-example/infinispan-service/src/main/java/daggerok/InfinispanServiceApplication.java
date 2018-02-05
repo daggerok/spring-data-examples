@@ -1,12 +1,13 @@
 package daggerok;
 
+import io.vavr.Tuple;
 import io.vavr.collection.HashMap;
 import io.vavr.control.Try;
 import lombok.RequiredArgsConstructor;
+import org.infinispan.manager.EmbeddedCacheManager;
 import org.infinispan.spring.provider.SpringEmbeddedCacheManagerFactoryBean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import static java.util.Collections.singletonMap;
+import static java.util.stream.Collectors.toList;
 import static org.springframework.http.HttpStatus.CREATED;
 
 @SpringBootApplication
@@ -39,19 +41,27 @@ public class InfinispanServiceApplication {
   @RequiredArgsConstructor
   static class CachedService {
 
-    final CacheManager cacheManager;
+    final EmbeddedCacheManager cacheManager;
 
     public void add(final String key, final String value) {
 
-      cacheManager.getCache("messages")
+      cacheManager.getCache("messages", true)
                   .put(key, value);
     }
 
     public String getMessage(final String key) {
 
-      return String.class.cast(cacheManager.getCache("messages")
-                                           .get(key)
-                                           .get());
+      return String.class.cast(cacheManager.getCache("messages", true)
+                                           .get(key));
+    }
+
+    public List<Map.Entry<Object, Object>> getMessages() {
+
+      return cacheManager.getCache("messages", true)
+                         .entrySet()
+                         .parallelStream()
+                         .map(e -> Tuple.of(e.getKey(), e.getValue()).toEntry())
+                         .collect(toList());
     }
   }
 
@@ -60,6 +70,11 @@ public class InfinispanServiceApplication {
   static class CacheResource {
 
     final CachedService cachedService;
+
+    @GetMapping("/all")
+    public List<Map.Entry<Object, Object>> check() {
+      return cachedService.getMessages();
+    }
 
     @PostMapping
     @ResponseStatus(CREATED)
