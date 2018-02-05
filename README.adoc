@@ -20,3 +20,4 @@ This repository contains some spring-data playground projects
 TODO:
 
 . link:https://www.youtube.com/watch?v=N8ElAVRecaM[Reactive Data Access with Spring Data - Christoph Strobl, Mark Paluch]
+. link:https://www.youtube.com/watch?v=BKYXu25sziI[Under the Hood of Reactive Data Access - Mark Paluch]
