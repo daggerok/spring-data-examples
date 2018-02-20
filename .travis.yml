@@ -17,7 +17,7 @@ before_install:
 - source <(curl -fsSL https://raw.github.com/daggerok/bash-functions/master/main.bash)
 - stop_any 5672 5432 27017 9200 9300 5601 8001 8002 8080 80
 script:
-  - bash gradlew clean build
+  - bash gradlew clean build asciidoctor
   - export ROOT=$PWD
 
   # infinispan-example plain

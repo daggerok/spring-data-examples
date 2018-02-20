@@ -1,11 +1,17 @@
+buildscript {
+  ext {
+    asciidocBuildDir = "$buildDir/asciidoc"
+  }
+}
+
 plugins {
   id "base"
-  id "org.asciidoctor.convert" version "1.5.3"
+  id "org.asciidoctor.convert" version "1.5.6"
   id "org.ajoberstar.git-publish" version "0.2.2"
 }
 
-group "daggerok"
 version "0.0.1"
+group "daggerok"
 
 asciidoctorj {
   version = "1.5.5"
@@ -16,7 +22,7 @@ asciidoctor {
   sources {
     include "index.adoc"
   }
-  outputDir = project.file("$buildDir/asciidoc")
+  outputDir = project.file("$asciidocBuildDir")
   attributes toc: "left",
       idprefix: "",
       docinfo1: "",
@@ -29,6 +35,11 @@ asciidoctor {
       "endpoint-url": "https://daggerok.github.io/spring-data-examples"
 }
 
+asciidoctor.doLast {
+  file("$asciidocBuildDir/html5/404.html").text = file("$asciidocBuildDir/html5/index.html").text
+  file("$asciidocBuildDir/html5/.nojekyll").text = "\n"
+}
+
 asciidoctor.shouldRunAfter clean
 
 // read more: https://github.com/ajoberstar/gradle-git-publish
@@ -36,20 +47,14 @@ gitPublish {
   repoUri = "git@github.com:daggerok/spring-data-examples.git"
   branch = "gh-pages"
   contents {
-    from "$buildDir/asciidoc/html5"
+    from "$asciidocBuildDir/html5"
     from "$projectDir/src/static"
     into "."
   }
+  commitMessage = "Documentation for ${project.group}:${project.name}:$project.version"
 }
 
-build.dependsOn asciidoctor
-gitPublishPush.dependsOn build
-gitPublishPush.shouldRunAfter clean, build
-task deploy(dependsOn: [gitPublishPush]) {
-  shouldRunAfter build
-}
+gitPublishPush.dependsOn asciidoctor
+gitPublishPush.shouldRunAfter clean, asciidoctor, build
 
-task wrapper(type: Wrapper) {
-  gradleVersion = "4.3"
-  distributionType = "ALL"
-}
+task docs(dependsOn: gitPublishPush)

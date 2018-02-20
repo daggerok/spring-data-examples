@@ -2,5 +2,5 @@
 
 .build and deploy docks
 ----
-bash gradlew clean build deploy
+bash gradlew clean build docs
 ----

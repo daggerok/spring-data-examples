@@ -55,6 +55,9 @@ include::../../reactive-data/README.adoc[tags=content]
 == Spring Data (spring-data-rest) advanced audit
 include::../../spring-data-history-audit/README.adoc[tags=content]
 
+== MapDB | Spring Webflux
+. link:https://github.com/daggerok/spring-5-examples/tree/master/mapdb
+
 == links
 
 . link:http://asciidoctor.org/docs/user-manual/#builtin-attributes[asciidoctor attributes]
