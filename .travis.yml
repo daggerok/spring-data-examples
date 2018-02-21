@@ -20,6 +20,13 @@ script:
   - bash gradlew clean build asciidoctor
   - export ROOT=$PWD
 
+  # redis-store
+  - cd ${ROOT}/redis-store
+  - bash gradlew clean installDist
+  - bash lettuce/build/install/lettuce/bin/lettuce
+  - bash mvnw
+  - java -jar lettuce/target/*-all.jar
+
   # infinispan-example plain
   - cd ${ROOT}/infinispan-example
   - bash mvnw

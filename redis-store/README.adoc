@@ -1,0 +1,11 @@
+= redis-store
+
+//tag::content[]
+
+links:
+
+. link:https://lettuce.io/[Reactive Java Redis Client]
+. link:https://github.com/flapdoodle-oss/de.flapdoodle.embed.redis[Embedded Redis]
+. link:http://projectreactor.io/docs/core/release/reference/[Rector Reference]
+
+//end::content[]

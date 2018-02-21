@@ -18,6 +18,7 @@ link:{github_url}[examples from spring-data-examples repository] is contains som
 
 == redis
 include::../../redis/README.adoc[tags=content]
+include::../../redis-store/README.adoc[tags=content]
 
 == spring expression language
 include::../../spel/README.adoc[tags=content]

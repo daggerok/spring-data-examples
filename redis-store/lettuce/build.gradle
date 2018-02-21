@@ -1,0 +1,13 @@
+plugins {
+    id "application"
+    id "com.github.johnrengelman.shadow" version "2.0.2"
+}
+
+mainClassName = "daggerok.App"
+shadowJar.mustRunAfter jar
+
+dependencies {
+    compile "io.lettuce:lettuce-core:5.0.2.RELEASE",
+            "com.google.code.gson:gson:2.8.2",
+            "com.github.kstyrc:embedded-redis:0.6"
+}
