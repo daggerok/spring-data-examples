@@ -11,9 +11,9 @@ env:
   - TERM=dumb
 install: true
 before_install:
-- sudo apt update -y || true
-- sudo apt install -y --no-install-recommends docker-ce curl jq libxml2-utils python-pip
-- sudo pip install docker-compose httpie
+- sudo apt update -y >/dev/null 2>&1 || true
+- sudo apt install -y --no-install-recommends docker-ce curl jq libxml2-utils python-pip >/dev/null 2>&1
+- sudo pip install docker-compose httpie >/dev/null 2>&1
 - source <(curl -fsSL https://raw.github.com/daggerok/bash-functions/master/main.bash)
 - stop_any 5672 5432 27017 9200 9300 5601 8001 8002 8080 80
 script:
@@ -22,15 +22,15 @@ script:
 
 # redis-store
 - cd ${ROOT}/redis-store
-- bash gradlew clean installDist
+- bash gradlew clean installDist >/dev/null 2>&1
 - bash lettuce/build/install/lettuce/bin/lettuce
-- bash mvnw
+- bash mvnw >/dev/null 2>&1
 - java -jar lettuce/target/*-all.jar
 
 # infinispan-example plain
 - cd ${ROOT}/infinispan-example
-- bash mvnw
-- bash gradlew
+- bash mvnw >/dev/null 2>&1
+- bash gradlew >/dev/null 2>&1
 - java -jar ./infinispan-service/build/libs/*.jar &
 - java -jar ./infinispan-service/target/*.jar --server.port=8000 &
 - wait_for 8080 8000
@@ -44,7 +44,7 @@ script:
 - http :8000/all
 - stop_any 8080 8000
 # infinispan-example docker
-- docker-compose -f docker-compose-maven.yaml build --force-rm --no-cache --pull
+- docker-compose -f docker-compose-maven.yaml build --force-rm --no-cache --pull >/dev/null 2>&1
 - docker-compose -f docker-compose-maven.yaml up --force-recreate --remove-orphans &
 - sleep 30
 - http :8080
@@ -53,7 +53,7 @@ script:
 - http :8080/all
 - docker-compose -f docker-compose-maven.yaml down -v
 # infinispan-example gradle docker
-- bash gradlew composeUp
+- bash gradlew composeUp >/dev/null 2>&1
 - http :8080
 - http :8080 message=ololo
 - http :8080 message=trololo
@@ -62,9 +62,9 @@ script:
 
 # spring-data-history-audit
 - cd ${ROOT}/spring-data-history-audit
-- bash mvnw
-- bash gradlew
-- docker-compose build --force-rm --no-cache --pull
+- bash mvnw >/dev/null 2>&1
+- bash gradlew >/dev/null 2>&1
+- docker-compose build --force-rm --no-cache --pull >/dev/null 2>&1
 - docker-compose up --force-recreate --remove-orphans &
 - sleep 30
 - http put :8080/my-entities/1 value=ololo
@@ -107,13 +107,13 @@ script:
   ; do
 
     cd ${ROOT}/${path}
-    bash gradlew clean build -Ddocker=compose-travis
+    bash gradlew clean build -Ddocker=compose-travis >/dev/null 2>&1
 
   done;
 
 # 7. spring-data-hazelcast
 - cd $ROOT/spring-data-hazelcast
-- bash gradlew assemble
+- bash gradlew assemble >/dev/null 2>&1
 - bash gradlew bootRun &
 - sleep 30
 - http :8080
@@ -121,11 +121,11 @@ script:
 - http http :8080/any/ma
 - http post :8080 name=Maximus username=xxx
 - http :8080/any/Ma
-- sudo kill $(sudo lsof -t -i:8080) | killall -9 java | true
+- stop_any 8080 8080 80
 
 # 6. key-value-hazelcast
 - cd $ROOT/key-value-hazelcast
-- bash gradlew assemble
+- bash gradlew assemble >/dev/null 2>&1
 - bash gradlew bootRun &
 - sleep 25
 - http :8080
@@ -133,19 +133,19 @@ script:
 - http :8080/ name=max1
 - http post :8080/max2
 - http :8080/
-- sudo kill $(sudo lsof -t -i:8080) | killall -9 java | true
+- stop_any 8080 8080 80
 
 # 5. key-value
 - cd $ROOT/key-value
-- bash gradlew assemble
+- bash gradlew assemble >/dev/null 2>&1
 - bash gradlew bootRun &
 - sleep 15
 - curl http://localhost:8080/ | jq
-- sudo kill $(sudo lsof -t -i:8080) | killall -9 java | true
+- stop_any 8080 8080 80
 
 # 4. elastic
 - cd $ROOT/elastic
-- bash gradlew assemble composeUp -Ddocker=compose-travis-all
+- bash gradlew assemble composeUp -Ddocker=compose-travis-all >/dev/null 2>&1
 - curl http://localhost/
 - curl http://localhost:8001/
 - curl http://localhost:8001/users
@@ -163,7 +163,7 @@ script:
 - docker-compose -f soaptest/ws-service/src/docker/docker-compose.yml down -v
 
 # querydsl: run rest
-- bash gradlew :docker:dockerUp
+- bash gradlew :docker:dockerUp >/dev/null 2>&1
 - sudo mkdir -p /var/rest-service
 - sudo mv -f services/rest-service/build/libs/*.jar /var/rest-service/rest-service.jar
 - sudo ln -s /var/rest-service/rest-service.jar /etc/init.d/rest-service
@@ -207,7 +207,7 @@ script:
 - bash gradlew :docker:dockerDown
 
 # querydsl: run ws
-- bash gradlew :docker:dockerUp
+- bash gradlew :docker:dockerUp >/dev/null 2>&1
 - sudo mkdir -p /var/ws-service
 - sudo mv -f services/ws-service/build/libs/*.jar /var/ws-service/ws-service.jar
 - sudo ln -s /var/ws-service/ws-service.jar /etc/init.d/ws-service
@@ -225,9 +225,9 @@ script:
 # 2. spel
 - cd $ROOT/spel/
 - pwd
-- bash gradlew clean build
+- bash gradlew clean build >/dev/null 2>&1
 
-- bash gradlew composeUp
+- bash gradlew composeUp >/dev/null 2>&1
 - sudo mkdir -p /var/spel-app
 - sudo mv -f ./app/build/libs/*.jar /var/spel-app/spel-app.jar
 - sudo ln -s /var/spel-app/spel-app.jar /etc/init.d/spel-app
@@ -241,14 +241,14 @@ script:
 # 1. redis
 - cd $ROOT/redis/
 - pwd
-- bash gradlew clean build
+- bash gradlew clean build >/dev/null 2>&1
 
 # redis: docker
 - docker-compose -f ./docker/src/docker-compose.yml up -d --build
 - docker-compose -f ./docker/src/docker-compose.yml down -v
 
 # redis: manual redis-app tests
-- bash gradlew composeUp
+- bash gradlew composeUp >/dev/null 2>&1
 - sudo mkdir -p /var/redis-app
 - sudo mv -f ./redis/build/libs/*.jar /var/redis-app/redis-app.jar
 - sudo ln -s /var/redis-app/redis-app.jar /etc/init.d/redis-app
