@@ -1,14 +1,17 @@
 service:
 - docker
-sudo: required
-group: travis_lts
+
 language: java
-jdk:
-- oraclejdk8
-- openjdk8
+jdk: oraclejdk8
+
+#jdk:
+#- oraclejdk8
+#- openjdk8
+
 env:
   global:
   - TERM=dumb
+
 install: true
 before_install:
 - sudo apt update -y >/dev/null 2>&1 || true
