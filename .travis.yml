@@ -173,7 +173,7 @@ script:
 - sudo service rest-service start
 
 # querydsl: manual rest api tests
-- sleep 15
+- wait_for 8080
 - curl -sS localhost:8080/api/v1/domains | jq
 - curl -sS localhost:8080/api/v2/flatten/2 | jq
 - curl -sS localhost:8080/api/v2/flatten | jq
@@ -208,6 +208,7 @@ script:
 - curl -sS localhost:8080/api/v6/jpa-enum\?size=1 | jq
 - sudo service rest-service stop
 - bash gradlew :docker:dockerDown
+- stop_any 8080 80
 
 # querydsl: run ws
 - bash gradlew :docker:dockerUp >/dev/null 2>&1
@@ -215,13 +216,14 @@ script:
 - sudo mv -f services/ws-service/build/libs/*.jar /var/ws-service/ws-service.jar
 - sudo ln -s /var/ws-service/ws-service.jar /etc/init.d/ws-service
 - sudo service ws-service start
-- sleep 15
+- wait_for 8080
 - curl --header "content-type:text/xml" -d @services/ws-service/src/test/resources/request.xml http://localhost:8080/ws | xmllint --format -
 - sudo service ws-service stop
+- stop_any 8080 80
 - bash gradlew :docker:dockerDown
 
 # querydsl: run SoapUI tests
-- bash gradlew clean assemble soaptestRest soaptestWs
+#- bash gradlew clean assemble soaptestRest soaptestWs
 - bash gradlew clean assemble testrunner
 - bash gradlew --stop
 

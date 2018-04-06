@@ -1,6 +1,6 @@
 buildscript {
   ext {
-    springBootVersion = "1.5.7.RELEASE"
+    springBootVersion = "1.5.10.RELEASE"
   }
 }
 
@@ -18,4 +18,9 @@ configure(subprojects.findAll { it.name.contains("-service") }) {
   sourceCompatibility = JavaVersion.VERSION_1_8
 
   repositories { mavenCentral() }
+}
+
+task wrapper(type: Wrapper) {
+  distributionType = "ALL"
+  gradleVersion = "4.6"
 }

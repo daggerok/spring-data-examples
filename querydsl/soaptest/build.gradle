@@ -14,11 +14,11 @@ buildscript {
     maven { url "https://plugins.gradle.org/m2/" }
     maven { url "http://smartbearsoftware.com/repository/maven2/" }
   }
-  dependencies { classpath "gradle.plugin.io.github.daggerok:soapui-runner:5.3.0-4" }
+  dependencies { classpath "gradle.plugin.io.github.daggerok:soapui-runner:5.3.0-5" }
 }
 
 plugins {
-  id "com.avast.gradle.docker-compose" version "0.4.3" apply false
+  id "com.avast.gradle.docker-compose" version "0.6.13"
 }
 
 // fix windows paths... replace all: "\\" -> "/"
@@ -37,13 +37,16 @@ configure(subprojects) { p ->
 
   dockerCompose {
     useComposeFiles = ["$src/docker/docker-compose.yml"]
-    captureContainersOutput = true
+    // captureContainersOutput = true
+    captureContainersOutput = false
     stopContainers = true
     removeContainers = true
     removeImages = "Local"
     removeVolumes = true
     removeOrphans = true
-    projectName = "$projectName"
+    forceRecreate = true
+    waitForTcpPorts = false
+    projectName = project.name
   }
 
   def composeServiceUpTask = tasks.create("compose${projectName}Up") {

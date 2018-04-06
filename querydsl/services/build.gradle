@@ -1,7 +1,7 @@
 plugins {
-  id "org.springframework.boot" version "1.5.4.RELEASE" apply false
+  id "org.springframework.boot" version "1.5.10.RELEASE" apply false
   id "com.ewerk.gradle.plugins.querydsl" version "1.0.8" apply false
-  id "io.spring.dependency-management" version "1.0.3.RELEASE" apply false
+  id "io.spring.dependency-management" version "1.0.5.RELEASE" apply false
 }
 
 configure(subprojects) { project ->
