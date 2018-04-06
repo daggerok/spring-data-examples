@@ -45,23 +45,21 @@ script:
 - http :8000 message=ololo-2
 - http :8000 message=trololo-2
 - http :8000/all
-- stop_any 8080 8000
+- stop_any 8080 8000 8081 80
 # infinispan-example docker
-- docker-compose -f docker-compose-maven.yaml build --force-rm --no-cache --pull >/dev/null 2>&1
-- docker-compose -f docker-compose-maven.yaml up --force-recreate --remove-orphans &
-- sleep 30
+- bash ./gradlew -Pprofile=maven composeUp >/dev/null 2>&1
 - http :8080
 - http :8080 message=ololo
 - http :8080 message=trololo
 - http :8080/all
-- docker-compose -f docker-compose-maven.yaml down -v
+- bash ./gradlew -Pprofile=maven composeDown
 # infinispan-example gradle docker
-- bash gradlew composeUp >/dev/null 2>&1
+- bash gradlew composeUp -Pprofile=gradle >/dev/null 2>&1
 - http :8080
 - http :8080 message=ololo
 - http :8080 message=trololo
 - http :8080/all
-- bash gradlew composeDown
+- bash gradlew composeDown -Pprofile=gradle >/dev/null 2>&1
 
 # spring-data-history-audit
 - cd ${ROOT}/spring-data-history-audit

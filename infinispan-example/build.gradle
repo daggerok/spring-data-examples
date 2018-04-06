@@ -23,7 +23,7 @@ allprojects {
   defaultTasks "clean", "build"
 
   task wrapper(type: Wrapper) {
-    gradleVersion = "4.5"
+    gradleVersion = "4.6"
     distributionType = "ALL"
   }
 }
@@ -44,8 +44,10 @@ subprojects {
   }
 }
 
+def profile = project.hasProperty("profile") ? project.property("profile") : "gradle"
+
 dockerCompose {
-  useComposeFiles = [project.file("docker-compose-gradle.yaml")]
+  useComposeFiles = [project.file("docker-compose-${profile}.yaml")]
   // captureContainersOutput = true
   captureContainersOutput = false
   stopContainers = true
