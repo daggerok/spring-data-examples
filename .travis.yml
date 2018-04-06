@@ -228,14 +228,14 @@ script:
 # 2. spel
 - cd $ROOT/spel/
 - pwd
-- bash gradlew clean build >/dev/null 2>&1
-
-- bash gradlew composeUp >/dev/null 2>&1
+- bash gradlew
+- bash gradlew composeUp
 - sudo mkdir -p /var/spel-app
 - sudo mv -f ./app/build/libs/*.jar /var/spel-app/spel-app.jar
 - sudo ln -s /var/spel-app/spel-app.jar /etc/init.d/spel-app
 - sudo service spel-app start
-- sleep 20
+- sleep 10
+- wait_for 8080
 - curl -sS localhost:8080/all | jq
 - curl -sS localhost:8080/names | jq
 - sudo service spel-app stop

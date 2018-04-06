@@ -10,8 +10,8 @@ plugins {
     id "eclipse"
     id "com.github.ben-manes.versions" version "0.15.0"
     id "com.avast.gradle.docker-compose" version "0.4.5"
-    id "org.springframework.boot" version "1.5.7.RELEASE" apply false
-    id "io.spring.dependency-management" version "1.0.3.RELEASE" apply false
+    id "org.springframework.boot" version "1.5.10.RELEASE" apply false
+    id "io.spring.dependency-management" version "1.0.5.RELEASE" apply false
     id "io.github.daggerok.soapui-loadtestrunner" version "5.3.0-4" apply false
 }
 
@@ -29,5 +29,7 @@ if (System.getenv("TRAVIS")) {
 }
 
 wrapper {
-    gradleVersion = "4.2.1"
+    gradleVersion = "4.6"
 }
+
+defaultTasks("clean", "build")
