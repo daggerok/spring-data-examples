@@ -1,4 +1,4 @@
-= spring-data-examples {project-name} ({project-version}) image:https://travis-ci.org/daggerok/spring-data-examples.svg?branch=master["Build Status", link={github_url}]
+= spring-data-examples {project-name} ({project-version})
 Maksim Kostromin <daggerok@gmail.com>
 {docdatetime}
 :toc:
@@ -9,6 +9,8 @@ Maksim Kostromin <daggerok@gmail.com>
 :numbered:
 :github_url: https://github.com/daggerok/spring-data-examples
 :github_project_path: {github_url}/tree/master
+
+ifdef::backend-html5[GitHub CI build status: image:https://travis-ci.org/daggerok/{root-project-name}.svg?branch=master["Build Status", link={github_url}]]
 
 [discrete]
 == Introduction

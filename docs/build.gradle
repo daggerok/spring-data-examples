@@ -1,60 +1,88 @@
 buildscript {
   ext {
-    asciidocBuildDir = "$buildDir/asciidoc"
+    adocProcessingOutputDir = project.file("$buildDir/asciidoc")
+    adocOutputDir = project.file("$rootDir/target/generated-docs")
+    asciidoctorjPdfVersion = '1.5.0-alpha.15'
+  }
+  dependencies {
+    classpath "org.asciidoctor:asciidoctorj-pdf:$asciidoctorjPdfVersion"
   }
 }
 
 plugins {
-  id "base"
-  id "org.asciidoctor.convert" version "1.5.6"
-  id "org.ajoberstar.git-publish" version "0.2.2"
+  id 'org.asciidoctor.convert' version '1.5.7'
+  id 'org.ajoberstar.git-publish' version '0.3.0'
 }
 
-version "0.0.1"
-group "daggerok"
+version '0.0.1'
+group 'daggerok'
 
 asciidoctorj {
-  version = "1.5.5"
+  version = '1.5.7'
 }
 
 asciidoctor {
-  sourceDir = project.file("src")
+  sourceDir = project.file('src')
   sources {
-    include "index.adoc"
+    include 'index.adoc'
   }
-  outputDir = project.file("$asciidocBuildDir")
-  attributes toc: "left",
-      idprefix: "",
-      docinfo1: "",
-      icons: "font",
-      idseparator: "-",
-      setanchors: "true",
-      "source-highlighter": "coderay",
-      "toc-title": "Table of Contents",
-      "build-gradle": file("build.gradle"),
-      "endpoint-url": "https://daggerok.github.io/spring-data-examples"
+  outputDir = adocProcessingOutputDir
+  attributes toc: 'left',
+      doctype: 'book',
+      ruby: 'erubis',
+      encoding: 'utf-8',
+      linkattrs: true,
+      numbered: true,
+      sectanchors: true,
+      sectlink: true,
+      idprefix: '',
+      docinfo1: '',
+      icons: 'font',
+      idseparator: '-',
+      setanchors: 'true',
+      imagesdir: './images',
+      'source-highlighter': 'coderay',
+      'toc-title': 'Table of Contents',
+      'root-project-name': rootProject.name,
+      'build-gradle': project.file('build.gradle'),
+      'endpoint-url': 'https://daggerok.github.io/spring-data-examples'
+  backends 'pdf', 'html5'
 }
 
 asciidoctor.doLast {
-  file("$asciidocBuildDir/html5/404.html").text = file("$asciidocBuildDir/html5/index.html").text
-  file("$asciidocBuildDir/html5/.nojekyll").text = "\n"
+  def html5 = "$adocProcessingOutputDir/html5"
+  project.file("$html5/404.html").text = project.file("$html5/index.html").text
+  project.file("$html5/.nojekyll").text = ''
 }
 
-asciidoctor.shouldRunAfter clean
-
-// read more: https://github.com/ajoberstar/gradle-git-publish
-gitPublish {
-  repoUri = "git@github.com:daggerok/spring-data-examples.git"
-  branch = "gh-pages"
-  contents {
-    from "$asciidocBuildDir/html5"
-    from "$projectDir/src/static"
-    into "."
+task documentation(type: Copy, dependsOn: asciidoctor) {
+  shouldRunAfter clean, asciidoctor
+  from "$asciidoctor.outputDir/html5"
+  from "$asciidoctor.outputDir/pdf"
+  from "$asciidoctor.sourceDir/static", {
+    into '.'
   }
-  commitMessage = "Documentation for ${project.group}:${project.name}:$project.version"
+  into adocOutputDir
 }
 
-gitPublishPush.dependsOn asciidoctor
-gitPublishPush.shouldRunAfter clean, asciidoctor, build
+gitPublish {
+  repoUri = 'git@github.com:daggerok/spring-data-examples.git'
+  branch = 'gh-pages'
+  contents {
+    from adocOutputDir, {
+      into '.'
+    }
+  }
+  commitMessage = "Publish $rootProject.name documentation (${project.group}:${project.name}:$project.version)".toString()
+}
 
-task docs(dependsOn: gitPublishPush)
+gitPublishPush.dependsOn documentation
+gitPublishPush.shouldRunAfter clean, documentation
+
+task docs(dependsOn: gitPublishPush) {
+  shouldRunAfter clean, documentation
+}
+
+clean {
+  delete adocOutputDir
+}

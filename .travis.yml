@@ -4,34 +4,37 @@ service:
 language: java
 jdk: oraclejdk8
 
-#jdk:
-#- oraclejdk8
-#- openjdk8
-
-env:
-  global:
-  - TERM=dumb
+addons:
+  apt:
+    update: true
+    packages:
+    - docker-ce
+    - bash
+    - curl
+    - jq
+    - libxml2-utils
+    - python-pip
+    - google-chrome-stable
 
 install: true
 before_install:
-- sudo apt update -y >/dev/null 2>&1 || true
-- sudo apt install -y --no-install-recommends docker-ce curl jq libxml2-utils python-pip >/dev/null 2>&1
 - sudo pip install docker-compose httpie >/dev/null 2>&1
 - source <(curl -fsSL https://raw.github.com/daggerok/bash-functions/master/main.bash)
 - stop_any 5672 5432 27017 9200 9300 5601 8001 8002 8080 80
+
 script:
 - bash gradlew clean build asciidoctor
-- export ROOT=$PWD
+- export root=$(pwd)
 
 # redis-store
-- cd ${ROOT}/redis-store
+- cd $root/redis-store
 - bash gradlew clean installDist >/dev/null 2>&1
 - bash lettuce/build/install/lettuce/bin/lettuce
 - bash mvnw >/dev/null 2>&1
 - java -jar lettuce/target/*-all.jar
 
 # infinispan-example plain
-- cd ${ROOT}/infinispan-example
+- cd $root/infinispan-example
 - bash mvnw >/dev/null 2>&1
 - bash gradlew >/dev/null 2>&1
 - java -jar ./infinispan-service/build/libs/*.jar &
@@ -64,7 +67,7 @@ script:
 - bash gradlew composeDown
 
 # spring-data-history-audit
-- cd ${ROOT}/spring-data-history-audit
+- cd $root/spring-data-history-audit
 - bash mvnw >/dev/null 2>&1
 - bash gradlew >/dev/null 2>&1
 - docker-compose build --force-rm --no-cache --pull >/dev/null 2>&1
@@ -77,30 +80,6 @@ script:
 - http get :8080/my-entities-history
 - docker-compose down -v
 
-#- >
-#  for path in \
-#    spring-data-hazelcast \
-#    key-value-hazelcast \
-#    shadov \
-#    key-value \
-#    elastic \
-#    data-event-listener \
-#    jpa-data-rest \
-#    reactive-redis-webflux \
-#    derby-create-drop \
-#    querydsl \
-#    reactive-data \
-#    spel \
-#    redis \
-#  ; do
-#
-#    export res="$ROOT/$path"
-#    echo $res
-#    cd $res
-#    bash gradlew clean build
-#
-#  done;
-
 - >
   for path in \
     spring-data-hazelcast \
@@ -109,13 +88,13 @@ script:
     key-value \
   ; do
 
-    cd ${ROOT}/${path}
+    cd $root/$path
     bash gradlew clean build -Ddocker=compose-travis >/dev/null 2>&1
 
   done;
 
 # 7. spring-data-hazelcast
-- cd $ROOT/spring-data-hazelcast
+- cd $root/spring-data-hazelcast
 - bash gradlew assemble >/dev/null 2>&1
 - bash gradlew bootRun &
 - sleep 30
@@ -127,7 +106,7 @@ script:
 - stop_any 8080 8080 80
 
 # 6. key-value-hazelcast
-- cd $ROOT/key-value-hazelcast
+- cd $root/key-value-hazelcast
 - bash gradlew assemble >/dev/null 2>&1
 - bash gradlew bootRun &
 - sleep 25
@@ -139,7 +118,7 @@ script:
 - stop_any 8080 8080 80
 
 # 5. key-value
-- cd $ROOT/key-value
+- cd $root/key-value
 - bash gradlew assemble >/dev/null 2>&1
 - bash gradlew bootRun &
 - sleep 15
@@ -147,7 +126,7 @@ script:
 - stop_any 8080 8080 80
 
 # 4. elastic
-- cd $ROOT/elastic
+- cd $root/elastic
 - bash gradlew assemble composeUp -Ddocker=compose-travis-all >/dev/null 2>&1
 - curl http://localhost/
 - curl http://localhost:8001/
@@ -226,7 +205,7 @@ script:
 - bash gradlew --stop
 
 # 2. spel
-- cd $ROOT/spel/
+- cd $root/spel/
 - pwd
 - bash gradlew
 - bash gradlew composeUp
@@ -242,7 +221,7 @@ script:
 - bash gradlew --stop
 
 # 1. redis
-- cd $ROOT/redis/
+- cd $root/redis/
 - pwd
 - bash gradlew clean build >/dev/null 2>&1
 
@@ -272,3 +251,34 @@ script:
 - curl -sS localhost:8082/embeddedRedisObjs | jq
 - sudo service embedded-redis-app stop
 - bash gradlew --stop
+
+env:
+  global:
+  - TERM=dumb
+  - secure: N19h/iVKmx9lY4zvTdp3idPJWe06oJMNEkllLc3A//UsU570kYxYP5uy1Dn/eTvK6sqvTQKuv6p8mg4KbR8mOexxuXm009IA5m4Y1cKbnlIWZsFaHxsXZuBFFnFes8Zh1Kscs3ak8DCVnxzUxI/gb1M4aUAUoOgaeoQm1Y9YRjPMWJ7Lll3hf7lRcUrsSyNbMsRFSZT3Ktiq2POvbVnXVZ2HajTntmFLjKajjDeNVSVU+OkjqeuzyFfYgIuENnr0JGjhDYtS4NTa+Rn66OKT6hZGYzkxy2MkYaYlXNplv9L1J4zeWxD1w0c6s3kCTEY6Hbj9sYySdl9WfyVgErQmeURGzJ23F6SfFyBYWYpcbNqd0toCkzGMGSnzyCA4IG3HgbKekTiQjPbzRfHed6MP35g33mQo00JQ9B1duMtbdGyywOyM8WQJunq31pXraqqkX4nM8Ias46bevPvTs3g08/LPs2ZITChThvtr/LVjFs5Ahyvf1Yencg/MbVW6uRyw3GzsTQc2/tsMB+9Y4igx4O2VuCxmxqnzYISquRS2af8G+HZnR7MfhQaZtyxtHqpjIC8e7mUjyW38BlD76hpUk6cZoLp0ysw0e7DRMgGJL41P+jbeweehKQpEyGfdAJKvYlJ0qPM6pT+tNGpoHlvShEJ6mFmgTrDoXfQh+MPAuZ0=
+
+before_deploy:
+- cd $root/
+- ./gradlew documentation
+
+deploy:
+  provider: pages
+  skip-cleanup: true
+  # travis encrypt GITHUB_TOKEN=<your github repo token> --add
+  github-token: "$GITHUB_TOKEN"
+  keep-history: true
+  on:
+    branch: master
+  local-dir: target/generated-docs
+  target_branch: gh-pages
+
+before_cache:
+- sudo rm -rf $HOME/.gradle/caches/*/fileHashes/fileHashes.bin
+- sudo rm -rf $HOME/.gradle/caches/*/fileHashes/fileHashes.lock
+- sudo rm -rf $HOME/.gradle/caches/modules-2/modules-2.lock
+
+cache:
+  directories:
+  - $HOME/.m2
+  - $HOME/.gradle
+  - $HOME/.docker
