@@ -1,0 +1,16 @@
+buildscript {
+  ext {
+    asciidoctorjPdfVersion = '1.5.0-alpha.15'
+  }
+
+  dependencies {
+    classpath "org.asciidoctor:asciidoctorj-pdf:$asciidoctorjPdfVersion"
+  }
+}
+
+plugins {
+  id 'org.asciidoctor.convert' version '1.5.7' apply false
+  id 'org.ajoberstar.git-publish' version '0.3.0' apply false
+}
+
+apply from: "$projectDir/gradle/docs.gradle"

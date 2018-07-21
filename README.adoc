@@ -8,7 +8,6 @@ This repository contains some spring-data playground projects
 . link:https://github.com/daggerok/spring-5-examples/tree/master/mapdb[MapDB | Spring Webflux]
 . link:redis/[redis]
 . link:spel/[spring expression language]
-. link:boot-your-data/[elasticsearch, mongodb, solr]
 . link:querydsl/[QueryDSL]
 . link:derby-create-drop/[Derby create-drop auto-ddl]
 . link:reactive-redis-webflux/[Reactive Redis]

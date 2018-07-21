@@ -4,9 +4,9 @@ This repo is contains simple example to help reproduce spring-data-jpa SpEL issu
 
 //tag::content[]
 
-== how to reproduce issue
+=== how to reproduce issue
 
-=== update custom countQuery
+==== update custom countQuery
 
 in file app/src/main/java/daggerok/domain/MyEntityRepository.java:
 
@@ -21,7 +21,7 @@ in file app/src/main/java/daggerok/domain/MyEntityRepository.java:
   // ...
 ----
 
-=== verify bootstrapping fail with exception
+==== verify bootstrapping fail with exception
 
 [source,bash]
 ----
@@ -32,7 +32,7 @@ Caused by: org.hibernate.QueryException: unexpected char: '#' [ select count(me.
 	...
 ----
 
-== run app
+=== run app
 
 [source,bash]
 ----
@@ -43,7 +43,7 @@ bash gradlew stop
 bash gradlew --stop
 ----
 
-== links
+=== links
 
 . link:https://stackoverflow.com/questions/45579346/spring-data-jpa-spel-in-countquery-using-entityname-unexpected-char[stackoverflow question]
 . link:https://jira.spring.io/browse/DATAJPA-1163[DATAJPA-1163: spring data jpa JIRA bug]

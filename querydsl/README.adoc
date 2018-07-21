@@ -2,7 +2,7 @@
 
 //tag::content[]
 
-==== functional REST API testing using SoapUI and Gradle plugin
+=== functional REST API testing using SoapUI and Gradle plugin
 
 see `soaptest` subproject
 
@@ -11,7 +11,7 @@ see `soaptest` subproject
 gradle clean assemble soaptestRest soaptestWs
 ----
 
-==== functional SOAP API testing using SoapUI and Gradle plugin
+=== functional SOAP API testing using SoapUI and Gradle plugin
 
 [source,bash]
 ----
@@ -24,14 +24,14 @@ gradle --stop
 gradle clean assemble soaptestWs
 ----
 
-==== unit/integration testing using spring-boot-test and Docker
+=== unit/integration testing using spring-boot-test and Docker
 
 [source,bash]
 ----
 gradle celan build
 ----
 
-==== JPA: persisting Collections of Enum
+=== JPA: persisting Collections of Enum
 
 [source,bash]
 ----
@@ -57,7 +57,7 @@ http :8080/api/v6/jpa-enum\?size=1
 gradle --stop
 ----
 
-==== spring HATEOAS resources assembler page metadata
+=== spring HATEOAS resources assembler page metadata
 
 [source,bash]
 ----
@@ -65,7 +65,7 @@ gradle restServiceRun
 http :8080/api/v5/engineers/page-metadata
 ----
 
-==== Event Sourcing using spring application events
+=== Event Sourcing using spring application events
 
 see:
 
@@ -78,7 +78,7 @@ http :8080/rest/engineers username=tttest | jq '._links.self'
 http :8080/rest/histories | jq '._embedded.histories'
 ----
 
-==== Event Sourcing (history) using spring data-rest
+=== Event Sourcing (history) using spring data-rest
 
 see:
 
@@ -93,7 +93,7 @@ http :8080/rest/otherDomains test=1 | jq '._links.self'
 http :8080/rest/histories | jq '._embedded.histories'
 ----
 
-==== Embedded primitive @OneToMany and @ManyToMany relationships
+=== Embedded primitive @OneToMany and @ManyToMany relationships
 
 see: `service/**/src/main/java/daggerok/relationships`
 
@@ -112,11 +112,11 @@ gradle --stop
 gradle composeDown
 ----
 
-==== Optimization: 3NF
+=== Optimization: 3NF
 
 see: `service/**/src/main/java/daggerok/embedded`
 
-==== examine REST API using HTTPie:
+=== examine REST API using HTTPie:
 
 [source,bash]
 ----
@@ -137,14 +137,14 @@ http :8080/api/v2/flatten/2
 
 note: see `.travis.yml` for cURL examples
 
-==== generate Q-classes from JPA:
+=== generate Q-classes from JPA:
 
 [source,bash]
 ----
 gradle compileQuerydsl xjc
 ----
 
-==== quick startup
+=== quick startup
 
 bootstrapping docker before bootRun
 
@@ -157,7 +157,7 @@ gradle composeDown
 gradle --stop
 ----
 
-==== integration tests
+=== integration tests
 
 see `docker` subproject
 
@@ -167,7 +167,7 @@ gradle clean assemble test
 gradle --stop
 ----
 
-==== spring data jpa auditing
+=== spring data jpa auditing
 
 see `service/**/src/main/java/daggerok/audit` package
 
@@ -178,7 +178,7 @@ see `service/**/src/main/java/daggerok/audit` package
 |2 |2017-06-10  |2017-06-10 22:18:35.545000|2                  |2           |2           |2            |2
 |====================================================================================================================
 
-==== stack:
+=== stack:
 
 - spring-boot, spring-data, spring-web, fallback 404 handler
 - JPA auditing

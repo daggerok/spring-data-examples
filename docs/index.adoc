@@ -1,0 +1,70 @@
+ifdef::backend-html5[]
+= {root-project-name} ({project-version}) image:https://travis-ci.org/daggerok/{root-project-name}.svg?branch=master["Build Status", link={github-url}]
+endif::[]
+ifndef::backend-html5[]
+= {root-project-name} ({project-version})
+endif::[]
+Maksim Kostromin <daggerok@gmail.com>
+{docdatetime}
+:toc:
+:revnumber: {project-version}
+:example-caption!:
+:icons: font
+:toc: left
+:source-highlighter: highlightjs
+
+[discrete]
+
+== Introduction
+
+This documentation contains some help to
+link:{github-url}[examples from spring-data-examples repository] is contains some node.js playground projects
+
+== spring expression language (issue)
+include::../spel/README.adoc[tags=content]
+
+== spring expression language (fixes)
+include::../spel-fixed/README.adoc[tags=content]
+
+== redis
+include::../redis/README.adoc[tags=content]
+include::../redis-store/README.adoc[tags=content]
+
+== QueryDSL
+include::../querydsl/README.adoc[tags=content]
+
+== Derby create-drop for development)
+include::../derby-create-drop/README.adoc[tags=content]
+
+== Reactive Redis
+include::../reactive-redis-webflux/README.adoc[tags=content]
+
+== Boot your data - RDBMS (derby, h2, hsql, mysql, postgres)
+include::../jpa-data-rest/README.adoc[tags=content]
+
+== Listening spring-data events
+include::../data-event-listener/README.adoc[tags=content]
+
+== Elasticsearch
+include::../elastic/README.adoc[tags=content]
+
+== Spring Data Key-Value (webflux / kotlin)
+include::../key-value/README.adoc[tags=content]
+
+== Spring Data Hazelcast
+include::../spring-data-hazelcast/README.adoc[tags=content]
+
+== Spring data reactive (mongo, solr, elastic)
+include::../reactive-data/README.adoc[tags=content]
+
+== Spring Data (spring-data-rest) advanced audit
+include::../spring-data-history-audit/README.adoc[tags=content]
+
+== MapDB | Spring Webflux
+- link:https://github.com/daggerok/spring-5-examples/tree/master/mapdb
+
+== links
+- link:http://asciidoctor.org/docs/user-manual/#builtin-attributes[asciidoctor attributes]
+
+---
+Enjoy! :)

@@ -1,1 +1,3 @@
-include ":docs"
+rootProject.name = 'spring-data-examples'
+//enableFeaturePreview 'STABLE_PUBLISHING'
+include 'docs'
