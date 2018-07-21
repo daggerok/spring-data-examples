@@ -1,0 +1,741 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?asciidoc-toc?>
+<?asciidoc-numbered?>
+<book xmlns="http://docbook.org/ns/docbook" xmlns:xl="http://www.w3.org/1999/xlink" version="5.0" xml:lang="en">
+<info>
+<title>spring-data-examples (0.0.1)</title>
+<date>2018-07-21 21:35:08 UTC</date>
+<author>
+<personname>
+<firstname>Maksim</firstname>
+<surname>Kostromin</surname>
+</personname>
+<email>daggerok@gmail.com</email>
+</author>
+<authorinitials>MK</authorinitials>
+<revhistory>
+<revision>
+<revnumber>0.0.1</revnumber>
+<date>2018-07-21 21:35:08 UTC</date>
+<authorinitials>MK</authorinitials>
+</revision>
+</revhistory>
+</info>
+<preface>
+<title></title>
+<bridgehead xml:id="introduction" renderas="sect1">Introduction</bridgehead>
+<simpara>This documentation contains some help to
+<link xl:href="https://github.com/daggerok/spring-data-examples">examples from spring-data-examples repository</link> is contains some node.js playground projects</simpara>
+</preface>
+<chapter xml:id="spring-expression-language-issue">
+<title>spring expression language (issue)</title>
+<section xml:id="how-to-reproduce-issue">
+<title>how to reproduce issue</title>
+<section xml:id="update-custom-countquery">
+<title>update custom countQuery</title>
+<simpara>in file app/src/main/java/daggerok/domain/MyEntityRepository.java:</simpara>
+<programlisting language="java" linenumbering="unnumbered">  // ...
+  @Query(
+      value = " select me.name from #{#entityName} me ",
+      countQuery = " select count(me.id) from #{#entityName} me "
+  )
+  Page&lt;String&gt; findAllNames(final Pageable pageable);
+  // ...</programlisting>
+</section>
+<section xml:id="verify-bootstrapping-fail-with-exception">
+<title>verify bootstrapping fail with exception</title>
+<programlisting language="bash" linenumbering="unnumbered">...
+Caused by: java.lang.IllegalArgumentException: org.hibernate.QueryException: unexpected char: '#' [ select count(me.id) from #{#entityName} me ]
+	...
+Caused by: org.hibernate.QueryException: unexpected char: '#' [ select count(me.id) from #{#entityName} me ]
+	...</programlisting>
+</section>
+</section>
+<section xml:id="run-app">
+<title>run app</title>
+<programlisting language="bash" linenumbering="unnumbered">bash gradlew bootRun # installed docker and compose are required
+curl -sS localhost:8080 | jq
+curl -sS localhost:8080/names | jq
+bash gradlew stop
+bash gradlew --stop</programlisting>
+</section>
+<section xml:id="links">
+<title>links</title>
+<orderedlist numeration="arabic">
+<listitem>
+<simpara><link xl:href="https://stackoverflow.com/questions/45579346/spring-data-jpa-spel-in-countquery-using-entityname-unexpected-char">stackoverflow question</link></simpara>
+</listitem>
+<listitem>
+<simpara><link xl:href="https://jira.spring.io/browse/DATAJPA-1163">DATAJPA-1163: spring data jpa JIRA bug</link></simpara>
+</listitem>
+</orderedlist>
+</section>
+</chapter>
+<chapter xml:id="spring-expression-language-fixes">
+<title>spring expression language (fixes)</title>
+<simpara>Unresolved directive in index.adoc - include::../spel-fixed/README.adoc[tags=content]</simpara>
+</chapter>
+<chapter xml:id="redis">
+<title>redis</title>
+<simpara>bootstrapping docker before bootRun</simpara>
+<formalpara>
+<title>build, run, test</title>
+<para>
+<programlisting language="bash" linenumbering="unnumbered">gradle redisUp
+gradle redis:bootRun
+http :8080/redisObjs data=test
+http :8080/redisObjs
+gradle redisDown
+
+gradle embedded-redis:bootRun
+http :8082/embeddedRedisObjs data=embedded-test
+http :8082/embeddedRedisObjs
+
+gradle --stop</programlisting>
+</para>
+</formalpara>
+<section xml:id="stack">
+<title>stack:</title>
+<orderedlist numeration="arabic">
+<listitem>
+<simpara>spring-boot</simpara>
+</listitem>
+<listitem>
+<simpara>spring-data-rest</simpara>
+</listitem>
+<listitem>
+<simpara><link xl:href="http://docs.spring.io/spring-hateoas/docs/current/reference/html/">spring HATEOAS</link></simpara>
+</listitem>
+<listitem>
+<simpara><link xl:href="http://docs.spring.io/spring-data/keyvalue/docs/current/reference/html/#key-value">spring-data-keyvalue</link></simpara>
+</listitem>
+<listitem>
+<simpara>spring-data-redis</simpara>
+</listitem>
+<listitem>
+<simpara>embedded redis server</simpara>
+</listitem>
+<listitem>
+<simpara>gradle</simpara>
+</listitem>
+<listitem>
+<simpara>Docker</simpara>
+</listitem>
+<listitem>
+<simpara>Redis</simpara>
+</listitem>
+<listitem>
+<simpara>Redis web UI</simpara>
+</listitem>
+<listitem>
+<simpara>install spring app as linux service</simpara>
+</listitem>
+</orderedlist>
+<simpara>links:</simpara>
+<orderedlist numeration="arabic">
+<listitem>
+<simpara><link xl:href="https://lettuce.io/">Reactive Java Redis Client</link></simpara>
+</listitem>
+<listitem>
+<simpara><link xl:href="https://github.com/flapdoodle-oss/de.flapdoodle.embed.redis">Embedded Redis</link></simpara>
+</listitem>
+<listitem>
+<simpara><link xl:href="http://projectreactor.io/docs/core/release/reference/">Rector Reference</link></simpara>
+</listitem>
+</orderedlist>
+</section>
+</chapter>
+<chapter xml:id="querydsl">
+<title>QueryDSL</title>
+<section xml:id="functional-rest-api-testing-using-soapui-and-gradle-plugin">
+<title>functional REST API testing using SoapUI and Gradle plugin</title>
+<simpara>see <literal>soaptest</literal> subproject</simpara>
+<programlisting language="bash" linenumbering="unnumbered">gradle clean assemble soaptestRest soaptestWs</programlisting>
+</section>
+<section xml:id="functional-soap-api-testing-using-soapui-and-gradle-plugin">
+<title>functional SOAP API testing using SoapUI and Gradle plugin</title>
+<programlisting language="bash" linenumbering="unnumbered">gradle wsServiceRun
+curl --header "content-type: text/xml" -d @services/ws-service/src/test/resources/request.xml http://localhost:8080/ws | xmllint --format -
+# ctrl+c
+gradle dockerDown
+gradle --stop
+
+gradle clean assemble soaptestWs</programlisting>
+</section>
+<section xml:id="unit-integration-testing-using-spring-boot-test-and-docker">
+<title>unit/integration testing using spring-boot-test and Docker</title>
+<programlisting language="bash" linenumbering="unnumbered">gradle celan build</programlisting>
+</section>
+<section xml:id="jpa-persisting-collections-of-enum">
+<title>JPA: persisting Collections of Enum</title>
+<programlisting language="bash" linenumbering="unnumbered">gradle restServiceRun
+
+http :8080/api/v6
+http :8080/api/v6/catalog
+http :8080/api/v6/catalog\?size=1
+
+http :8080/api/v6/enum-collection/TEST_ENTITY_1
+http :8080/api/v6/enum-collection/TEST_ENTITY_2
+http :8080/api/v6/enum-collection/not_found
+
+http :8080/api/v6/map-catalog/type/not-found
+http :8080/api/v6/map-catalog/type/TEST_ENTITY_2
+http :8080/api/v6/map-catalog/status/NOK
+http :8080/api/v6/map-catalog/status/OK
+http :8080/api/v6/map-catalog/status/OK\?size=1
+
+http :8080/api/v6/jpa-enum
+http :8080/api/v6/jpa-enum\?size=1
+
+gradle --stop</programlisting>
+</section>
+<section xml:id="spring-hateoas-resources-assembler-page-metadata">
+<title>spring HATEOAS resources assembler page metadata</title>
+<programlisting language="bash" linenumbering="unnumbered">gradle restServiceRun
+http :8080/api/v5/engineers/page-metadata</programlisting>
+</section>
+<section xml:id="event-sourcing-using-spring-application-events">
+<title>Event Sourcing using spring application events</title>
+<simpara>see:</simpara>
+<orderedlist numeration="arabic">
+<listitem>
+<simpara><literal>service/**/src/main/java/daggerok/history/applicationevent</literal></simpara>
+</listitem>
+<listitem>
+<simpara><literal>service/**/src/main/java/daggerok/history/service</literal></simpara>
+</listitem>
+</orderedlist>
+<programlisting language="bash" linenumbering="unnumbered">http :8080/rest/engineers username=tttest | jq '._links.self'
+http :8080/rest/histories | jq '._embedded.histories'</programlisting>
+</section>
+<section xml:id="event-sourcing-history-using-spring-data-rest">
+<title>Event Sourcing (history) using spring data-rest</title>
+<simpara>see:</simpara>
+<orderedlist numeration="arabic">
+<listitem>
+<simpara><literal>service/**/src/main/java/daggerok/history/springdatarest</literal></simpara>
+</listitem>
+<listitem>
+<simpara><literal>service/**/src/main/java/daggerok/history/service</literal></simpara>
+</listitem>
+</orderedlist>
+<programlisting language="bash" linenumbering="unnumbered">http :8080/rest/domains firstName=1 lastName=1 username=1 | jq '._links.self'
+http :8080/rest/domains firstName=2 lastName=2 username=2 | jq '._links.self'
+http :8080/rest/otherDomains test=1 | jq '._links.self'
+http :8080/rest/histories | jq '._embedded.histories'</programlisting>
+</section>
+<section xml:id="embedded-primitive-onetomany-and-manytomany-relationships">
+<title>Embedded primitive @OneToMany and @ManyToMany relationships</title>
+<simpara>see: <literal>service/**/src/main/java/daggerok/relationships</literal></simpara>
+<simpara>@OneToMany &#8594; @Embeddable Set emails (also could be a list)</simpara>
+<simpara>@ManyToMany &#8594; @Embeddable Map tags (same for labels)</simpara>
+<programlisting language="bash" linenumbering="unnumbered">gradle compileQuerydsl xjc # gradle assemble
+gradle bootRun
+
+http ":8080/api/v4/engineers?size=2&amp;page=0&amp;sort=username,desc"
+
+gradle --stop
+gradle composeDown</programlisting>
+</section>
+<section xml:id="optimization-3nf">
+<title>Optimization: 3NF</title>
+<simpara>see: <literal>service/**/src/main/java/daggerok/embedded</literal></simpara>
+</section>
+<section xml:id="examine-rest-api-using-httpie">
+<title>examine REST API using HTTPie:</title>
+<programlisting language="bash" linenumbering="unnumbered">http :8080/api/v3/predicate
+http ":8080/api/v3/predicate?second.secondField1=1"
+
+# bash
+http ":8080/api/v3/predicate?createdDate=$(date +%Y-%m-%d)"
+# fish
+http ":8080/api/v3/predicate?createdDate="(date +%Y-%m-%d)
+
+http ":8080/api/v2/pagination?page=0&amp;size=1&amp;sort=first.firstField1,desc"
+http ":8080/api/v2/sorted?sort=id,desc"
+
+http :8080/api/v2/flatten
+http :8080/api/v2/flatten/2</programlisting>
+<simpara>note: see <literal>.travis.yml</literal> for cURL examples</simpara>
+</section>
+<section xml:id="generate-q-classes-from-jpa">
+<title>generate Q-classes from JPA:</title>
+<programlisting language="bash" linenumbering="unnumbered">gradle compileQuerydsl xjc</programlisting>
+</section>
+<section xml:id="quick-startup">
+<title>quick startup</title>
+<simpara>bootstrapping docker before bootRun</simpara>
+<programlisting language="bash" linenumbering="unnumbered">gradle bootRun
+open http://localhost:8080 # press enter
+...
+gradle composeDown
+gradle --stop</programlisting>
+</section>
+<section xml:id="integration-tests">
+<title>integration tests</title>
+<simpara>see <literal>docker</literal> subproject</simpara>
+<programlisting language="bash" linenumbering="unnumbered">gradle clean assemble test
+gradle --stop</programlisting>
+</section>
+<section xml:id="spring-data-jpa-auditing">
+<title>spring data jpa auditing</title>
+<simpara>see <literal>service/**/src/main/java/daggerok/audit</literal> package</simpara>
+<informaltable frame="all" rowsep="1" colsep="1">
+<?dbhtml table-width="90%"?>
+<?dbfo table-width="90%"?>
+<?dblatex table-width="90%"?>
+<tgroup cols="8">
+<colspec colname="col_1" colwidth="48*"/>
+<colspec colname="col_2" colwidth="48*"/>
+<colspec colname="col_3" colwidth="48*"/>
+<colspec colname="col_4" colwidth="48*"/>
+<colspec colname="col_5" colwidth="48*"/>
+<colspec colname="col_6" colwidth="48*"/>
+<colspec colname="col_7" colwidth="48*"/>
+<colspec colname="col_8" colwidth="48*"/>
+<tbody>
+<row>
+<entry align="left" valign="top"><simpara>id</simpara></entry>
+<entry align="left" valign="top"><simpara>created_date</simpara></entry>
+<entry align="left" valign="top"><simpara>modified_at</simpara></entry>
+<entry align="left" valign="top"><simpara>de_normalized_field</simpara></entry>
+<entry align="left" valign="top"><simpara>first_field1</simpara></entry>
+<entry align="left" valign="top"><simpara>first_field2</simpara></entry>
+<entry align="left" valign="top"><simpara>second_field1</simpara></entry>
+<entry align="left" valign="top"><simpara>second_field2</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>1</simpara></entry>
+<entry align="left" valign="top"><simpara>2017-06-10</simpara></entry>
+<entry align="left" valign="top"><simpara>2017-06-10 22:18:35.516000</simpara></entry>
+<entry align="left" valign="top"><simpara>1</simpara></entry>
+<entry align="left" valign="top"><simpara>1</simpara></entry>
+<entry align="left" valign="top"><simpara>1</simpara></entry>
+<entry align="left" valign="top"><simpara>1</simpara></entry>
+<entry align="left" valign="top"><simpara>1</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>2</simpara></entry>
+<entry align="left" valign="top"><simpara>2017-06-10</simpara></entry>
+<entry align="left" valign="top"><simpara>2017-06-10 22:18:35.545000</simpara></entry>
+<entry align="left" valign="top"><simpara>2</simpara></entry>
+<entry align="left" valign="top"><simpara>2</simpara></entry>
+<entry align="left" valign="top"><simpara>2</simpara></entry>
+<entry align="left" valign="top"><simpara>2</simpara></entry>
+<entry align="left" valign="top"><simpara>2</simpara></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+</section>
+<section xml:id="stack-2">
+<title>stack:</title>
+<itemizedlist>
+<listitem>
+<simpara>spring-boot, spring-data, spring-web, fallback 404 handler</simpara>
+</listitem>
+<listitem>
+<simpara>JPA auditing</simpara>
+</listitem>
+<listitem>
+<simpara>Performance optimization: de-normalize JPA NF4 &#8594; NF3, @Embedded, @Embeddable</simpara>
+</listitem>
+<listitem>
+<simpara>QueryDSL (spring-data integration)</simpara>
+</listitem>
+<listitem>
+<simpara>Event sourcing using spring data-rest and spring application events</simpara>
+</listitem>
+<listitem>
+<simpara>gradle, SoapUI</simpara>
+</listitem>
+<listitem>
+<simpara>Postgres, Docker</simpara>
+</listitem>
+<listitem>
+<simpara>QueryDSL <link xl:href="http://www.querydsl.com/static/querydsl/3.2.2/reference/html/index.html">referrence documentation</link> and <link xl:href="http://www.querydsl.com/static/querydsl/3.2.2/reference/html/ch02.html">example</link></simpara>
+</listitem>
+</itemizedlist>
+</section>
+</chapter>
+<chapter xml:id="derby-create-drop-for-development">
+<title>Derby create-drop for development)</title>
+<simpara>This repo is contains simple example of usage spring-boot devtools reload/restart with derby</simpara>
+<programlisting language="bash" linenumbering="unnumbered">gradle bootRun
+http :8080
+http post :8080 id=user2 name=user2
+
+# 1. update some code (remove mail2 from User.class and from schema.sql)
+# 2. rebuild project inside IDEA oe STS to handle devtools
+# 3. check logs....
+
+http :8080 # 2 items again
+gradle --stop</programlisting>
+</chapter>
+<chapter xml:id="reactive-redis">
+<title>Reactive Redis</title>
+<simpara>this repository is containgn modern spring 5 web application which is using reactive spring webflux and spring data redis</simpara>
+<programlisting language="bash" linenumbering="unnumbered">gradle composeUp bootRun
+
+http :8080/tasks
+http :8080/activities
+
+http delete :8080
+
+http :8080/tasks
+http :8080/activities
+
+gradle composeDown
+gradle --stop</programlisting>
+</chapter>
+<chapter xml:id="boot-your-data-rdbms-derby-h2-hsql-mysql-postgres">
+<title>Boot your data - RDBMS (derby, h2, hsql, mysql, postgres)</title>
+<simpara>This repository contains examples of usage relation databases with spring-data-rest</simpara>
+<simpara>in progress&#8230;&#8203;</simpara>
+</chapter>
+<chapter xml:id="listening-spring-data-events">
+<title>Listening spring-data events</title>
+<simpara>this repository is containgn modern spring 5 web application which is listening spring-data events</simpara>
+<programlisting language="bash" linenumbering="unnumbered">bash gradew clean build</programlisting>
+</chapter>
+<chapter xml:id="elasticsearch">
+<title>Elasticsearch</title>
+<simpara>This repository contains spring-data elastic examples</simpara>
+<simpara>in fucking progress&#8230;&#8203;</simpara>
+<formalpara>
+<title>run it all using docker-compose</title>
+<para>
+<programlisting language="bash" linenumbering="unnumbered">bash gradlew assemble composeUp -Ddocker=compose-all
+
+open http://localhost/
+
+bash gradlew composeDown -Ddocker=compose-all</programlisting>
+</para>
+</formalpara>
+<formalpara>
+<title>run app in idea</title>
+<para>
+<programlisting language="bash" linenumbering="unnumbered">cd data/
+bash gradlew bootRun
+
+http -a elastic:changeme :9200
+
+http post :8080 name=max
+http :8080
+http :8080/users</programlisting>
+</para>
+</formalpara>
+<formalpara>
+<title>explore with kibana</title>
+<para>
+<programlisting language="bash" linenumbering="unnumbered">gradle clean bootRun
+http -a elastic:changeme :9200</programlisting>
+</para>
+</formalpara>
+<formalpara>
+<title>testing elasicsearch db with curl / httpie</title>
+<para>
+<programlisting language="bash" linenumbering="unnumbered">gradle clean bootRun
+http -a elastic:changeme :9200
+curl -u elastic:changeme localhost:9200 | jq</programlisting>
+</para>
+</formalpara>
+<formalpara>
+<title>manual run</title>
+<para>
+<programlisting language="bash" linenumbering="unnumbered">gradle clean build</programlisting>
+</para>
+</formalpara>
+</chapter>
+<chapter xml:id="using-elastic">
+<title>using elastic</title>
+<formalpara>
+<title>create few users</title>
+<para>
+<programlisting language="bash" linenumbering="unnumbered">export auth=" -a elastic:changeme "
+echo '{"username":"daggerok","name":"Maksim Kostromin"}' | http $auth :9200/user/customer</programlisting>
+</para>
+</formalpara>
+<formalpara>
+<title>helper fish fuctions</title>
+<para>
+<screen>function pes
+    echo $argv[2] | http -a elastic:changeme post :9200/$argv[1]
+end
+
+function ges
+    http -a elastic:changeme get :9200/$argv[1]
+end
+
+pes user/customer '{
+"username": "ololo",
+"name": "Trololo"
+}'
+
+http -a elastic:changeme :9200/user/_search\?q=ololo</screen>
+</para>
+</formalpara>
+<formalpara>
+<title>more elastic</title>
+<para>
+<screen>ges _cluster/health\?pretty</screen>
+</para>
+</formalpara>
+</chapter>
+<chapter xml:id="problem-solving">
+<title>problem solving</title>
+<formalpara>
+<title>ulimit -an</title>
+<para>
+<programlisting language="bash" linenumbering="unnumbered"># 2017-11-02 01:29:06.355  WARN 10993 --- [  restartedMain] org.elasticsearch.env                    : [Jackdaw] max file descriptors [10240] for elasticsearch process likely too low, consider increasing to at least [65536]
+# 2017-11-02 01:29:07.074  WARN 10993 --- [  restartedMain] org.elasticsearch.bootstrap              : JNA not found. native methods will be disabled.
+
+launchctl unload /Library/LaunchDaemons/limit.maxfiles.plist
+cat &lt;&lt;EOF&gt; /Library/LaunchDaemons/limit.maxfiles.plist
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+        "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;
+&lt;plist version="1.0"&gt;
+  &lt;dict&gt;
+    &lt;key&gt;Label&lt;/key&gt;
+    &lt;string&gt;limit.maxfiles&lt;/string&gt;
+    &lt;key&gt;ProgramArguments&lt;/key&gt;
+    &lt;array&gt;
+      &lt;string&gt;launchctl&lt;/string&gt;
+      &lt;string&gt;limit&lt;/string&gt;
+      &lt;string&gt;maxfiles&lt;/string&gt;
+      &lt;string&gt;524288&lt;/string&gt;
+      &lt;string&gt;524288&lt;/string&gt;
+    &lt;/array&gt;
+    &lt;key&gt;RunAtLoad&lt;/key&gt;
+    &lt;true/&gt;
+    &lt;key&gt;ServiceIPC&lt;/key&gt;
+    &lt;false/&gt;
+  &lt;/dict&gt;
+&lt;/plist&gt;
+EOF
+launchctl load -w /Library/LaunchDaemons/limit.maxfiles.plist
+
+launchctl unload /Library/LaunchDaemons/limit.maxproc.plist
+cat &lt;&lt;EOF&gt; /Library/LaunchDaemons/limit.maxproc.plist
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE plist PUBLIC "-//Apple/DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;
+&lt;plist version="1.0"&gt;
+  &lt;dict&gt;
+    &lt;key&gt;Label&lt;/key&gt;
+      &lt;string&gt;limit.maxproc&lt;/string&gt;
+    &lt;key&gt;ProgramArguments&lt;/key&gt;
+      &lt;array&gt;
+        &lt;string&gt;launchctl&lt;/string&gt;
+        &lt;string&gt;limit&lt;/string&gt;
+        &lt;string&gt;maxproc&lt;/string&gt;
+        &lt;string&gt;2048&lt;/string&gt;
+        &lt;string&gt;2048&lt;/string&gt;
+      &lt;/array&gt;
+    &lt;key&gt;RunAtLoad&lt;/key&gt;
+      &lt;true /&gt;
+    &lt;key&gt;ServiceIPC&lt;/key&gt;
+      &lt;false /&gt;
+  &lt;/dict&gt;
+&lt;/plist&gt;
+EOF
+launchctl load -w /Library/LaunchDaemons/limit.maxproc.plist
+
+exit
+reboot</programlisting>
+</para>
+</formalpara>
+</chapter>
+<chapter xml:id="resources">
+<title>resources</title>
+<orderedlist numeration="arabic">
+<listitem>
+<simpara><link xl:href="https://docs.spring.io/spring-data/elasticsearch/docs/current/reference/html/#elasticsearch.query-methods.criterions">documentation: query creation</link></simpara>
+</listitem>
+<listitem>
+<simpara><link xl:href="https://www.youtube.com/watch?v=G56aE1kiOZw&amp;t=695s">spring talk</link></simpara>
+</listitem>
+<listitem>
+<simpara><link xl:href="https://www.youtube.com/watch?v=V15TtGIKLLM">elasticsearch for java dev</link></simpara>
+</listitem>
+<listitem>
+<simpara><link xl:href="https://www.youtube.com/watch?v=rf3aQRYxLBs">another spring search data talk</link></simpara>
+</listitem>
+</orderedlist>
+</chapter>
+<chapter xml:id="spring-data-key-value-webflux-kotlin">
+<title>Spring Data Key-Value (webflux / kotlin)</title>
+<simpara>This is a simple spring-boot 5 webflux REST API example using spring-data-keyvalue (Map as database) and kotlin language.</simpara>
+<formalpara>
+<title>build and run</title>
+<para>
+<screen>bash gradlew clean build</screen>
+</para>
+</formalpara>
+<simpara>using:</simpara>
+<orderedlist numeration="arabic">
+<listitem>
+<simpara>kotlin</simpara>
+</listitem>
+<listitem>
+<simpara>spring-data-keyvalue</simpara>
+</listitem>
+</orderedlist>
+</chapter>
+<chapter xml:id="spring-data-hazelcast">
+<title>Spring Data Hazelcast</title>
+<simpara>This is a simple spring-mvc REST API example using spring-data-hazelcast and kotlin language.</simpara>
+<formalpara>
+<title>build and run</title>
+<para>
+<screen>bash gradlew clean build
+
+http :8080/any/ma
+[
+    {
+        "id": "8f0c927a-cf68-430d-afab-cb9f3f9a9253",
+        "name": "Max",
+        "username": "max"
+    }
+]
+
+http post :8080 name=Maximus username=xxx
+HTTP/1.1 201
+Content-Length: 0
+Date: Sun, 05 Nov 2017 05:52:16 GMT
+Location: /id/d365b264-97de-4458-81da-c99b9f5be1f4
+
+http :8080/id/d365b264-97de-4458-81da-c99b9f5be1f4
+{
+    "id": "d365b264-97de-4458-81da-c99b9f5be1f4",
+    "name": "Maximus",
+    "username": "xxx"
+}
+
+http :8080/any/Ma
+[
+    {
+        "id": "d365b264-97de-4458-81da-c99b9f5be1f4",
+        "name": "Maximus",
+        "username": "xxx"
+    },
+    {
+        "id": "8f0c927a-cf68-430d-afab-cb9f3f9a9253",
+        "name": "Max",
+        "username": "max"
+    }
+]</screen>
+</para>
+</formalpara>
+<formalpara>
+<title>supported query</title>
+<para>
+<screen>/*
+    1) SIMPLE_PROPERTY("Is", "Equals")
+    2)
+       TRUE(0, "IsTrue", "True")
+       FALSE(0, "IsFalse", "False")
+    3)
+       LESS_THAN("IsLessThan", "LessThan")
+       LESS_THAN_EQUAL("IsLessThanEqual", "LessThanEqual")
+       GREATER_THAN("IsGreaterThan","GreaterThan")
+       GREATER_THAN_EQUAL("IsGreaterThanEqual", "GreaterThanEqual")
+    4)
+       LIKE("IsLike", "Like")
+    5)
+       IS_NOT_NULL(0, "IsNotNull", "NotNull")
+       IS_NULL(0, "IsNull", "Null")</screen>
+</para>
+</formalpara>
+<formalpara>
+<title>supported query</title>
+<para>
+<screen>    AFTER:
+    BEFORE:
+    BETWEEN:
+    CONTAINING:
+    ENDING_WITH:
+    EXISTS:
+    IN:
+    NEAR:
+    NEGATING_SIMPLE_PROPERTY:
+    NOT_CONTAINING:
+    NOT_IN:
+    NOT_LIKE:
+    REGEX:
+    STARTING_WITH:
+    WITHIN:</screen>
+</para>
+</formalpara>
+<simpara>using:</simpara>
+<orderedlist numeration="arabic">
+<listitem>
+<simpara>kotlin</simpara>
+</listitem>
+<listitem>
+<simpara>spring-data-hazelcast</simpara>
+</listitem>
+<listitem>
+<simpara><link xl:href="https://spring.io/blog/2017/02/13/springone-platform-2016-replay-spring-data-hazelcast-fluently-accessing-distributed-repositories">talk</link></simpara>
+</listitem>
+<listitem>
+<simpara><link xl:href="http://docs.hazelcast.org/docs/latest-development/manual/html/Distributed_Query/How_Distributed_Query_Works/Querying_with_SQL.html">hazelcast query</link></simpara>
+</listitem>
+</orderedlist>
+</chapter>
+<chapter xml:id="spring-data-reactive-mongo-solr-elastic">
+<title>Spring data reactive (mongo, solr, elastic)</title>
+<simpara>This repository contains examples of usage NOSql databases such elasticsearch, mongodb, solr, couchbase, etc with spring, spring-boot and spring-data</simpara>
+<simpara>in fucking progress&#8230;&#8203;</simpara>
+<programlisting language="bash" linenumbering="unnumbered">docker-compose up -d --remove-orphans
+gradle clean build
+# ...
+docker-compose down -v --remove-orphans</programlisting>
+</chapter>
+<chapter xml:id="spring-data-spring-data-rest-advanced-audit">
+<title>Spring Data (spring-data-rest) advanced audit</title>
+<simpara>This repository contains spring-data audition implementation: object diff history audit</simpara>
+<formalpara>
+<title>test</title>
+<para>
+<screen>http put :8080/my-entities/1 value=ololo
+http put :8080/my-entities/1 value=trololo
+http put :8080/my-entities/1 value=ho-ho-ho
+
+http get :8080/my-entities
+http get :8080/my-entities-history</screen>
+</para>
+</formalpara>
+<formalpara>
+<title>build abd run</title>
+<para>
+<screen>bash gradlew clean bootRun # bash mvnw clean spring-boot:run
+
+# or in docker:
+docker-compose down -v; ./gradlew; docker-compose up --build --force-recreate --remove-orphans
+
+# or using maven:
+cp -Rf ./mvn/Dockerfile ./
+docker-compose down -v; ./mvnw; docker-compose up --build --force-recreate --remove-orphans</screen>
+</para>
+</formalpara>
+</chapter>
+<chapter xml:id="mapdb-spring-webflux">
+<title>MapDB | Spring Webflux</title>
+<itemizedlist>
+<listitem>
+<simpara>link:https://github.com/daggerok/spring-5-examples/tree/master/mapdb</simpara>
+</listitem>
+</itemizedlist>
+</chapter>
+<chapter xml:id="links-2">
+<title>links</title>
+<itemizedlist>
+<listitem>
+<simpara><link xl:href="http://asciidoctor.org/docs/user-manual/#builtin-attributes">asciidoctor attributes</link></simpara>
+</listitem>
+</itemizedlist>
+<simpara><?asciidoc-hr?></simpara>
+<simpara>Enjoy! :)</simpara>
+</chapter>
+</book>

@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
+<meta charset="UTF-8">
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 1.5.5">
+<meta name="generator" content="Asciidoctor 1.5.6.1">
 <meta name="author" content="Maksim Kostromin">
-<title>spring-data-examples docs (0.0.1)</title>
+<title>spring-data-examples (0.0.1)</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -90,13 +90,12 @@ strong,b{font-weight:bold;line-height:inherit}
 small{font-size:60%;line-height:inherit}
 code{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;font-weight:400;color:rgba(0,0,0,.9)}
 ul,ol,dl{font-size:1em;line-height:1.6;margin-bottom:1.25em;list-style-position:outside;font-family:inherit}
-ul,ol,ul.no-bullet,ol.no-bullet{margin-left:1.5em}
+ul,ol{margin-left:1.5em}
 ul li ul,ul li ol{margin-left:1.25em;margin-bottom:0;font-size:1em}
 ul.square li ul,ul.circle li ul,ul.disc li ul{list-style:inherit}
 ul.square{list-style-type:square}
 ul.circle{list-style-type:circle}
 ul.disc{list-style-type:disc}
-ul.no-bullet{list-style:none}
 ol li ul,ol li ol{margin-left:1.25em;margin-bottom:0}
 dl dt{margin-bottom:.3125em;font-weight:bold}
 dl dd{margin-bottom:1.25em}
@@ -132,7 +131,11 @@ strong strong{font-weight:400}
 kbd{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;display:inline-block;color:rgba(0,0,0,.8);font-size:.65em;line-height:1.45;background-color:#f7f7f7;border:1px solid #ccc;-webkit-border-radius:3px;border-radius:3px;-webkit-box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em white inset;box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em #fff inset;margin:0 .15em;padding:.2em .5em;vertical-align:middle;position:relative;top:-.1em;white-space:nowrap}
 .keyseq kbd:first-child{margin-left:0}
 .keyseq kbd:last-child{margin-right:0}
-.menuseq,.menu{color:rgba(0,0,0,.8)}
+.menuseq,.menuref{color:#000}
+.menuseq b:not(.caret),.menuref{font-weight:inherit}
+.menuseq{word-spacing:-.02em}
+.menuseq b.caret{font-size:1.25em;line-height:.8}
+.menuseq i.caret{font-weight:bold;text-align:center;width:.45em}
 b.button:before,b.button:after{position:relative;top:-1px;font-weight:400}
 b.button:before{content:"[";padding:0 3px 0 2px}
 b.button:after{content:"]";padding:0 2px 0 3px}
@@ -199,7 +202,7 @@ table.tableblock>caption.title{white-space:nowrap;overflow:visible;max-width:0}
 table.tableblock #preamble>.sectionbody>.paragraph:first-of-type p{font-size:inherit}
 .admonitionblock>table{border-collapse:separate;border:0;background:none;width:100%}
 .admonitionblock>table td.icon{text-align:center;width:80px}
-.admonitionblock>table td.icon img{max-width:none}
+.admonitionblock>table td.icon img{max-width:initial}
 .admonitionblock>table td.icon .title{font-weight:bold;font-family:"Open Sans","DejaVu Sans",sans-serif;text-transform:uppercase}
 .admonitionblock>table td.content{padding-left:1.125em;padding-right:1.25em;border-left:1px solid #ddddd8;color:rgba(0,0,0,.6)}
 .admonitionblock>table td.content>:last-child>:last-child{margin-bottom:0}
@@ -255,13 +258,13 @@ table.pyhltable .linenodiv{background:none!important;padding-right:0!important}
 table.tableblock{max-width:100%;border-collapse:separate}
 table.tableblock td>.paragraph:last-child p>p:last-child,table.tableblock th>p:last-child,table.tableblock td>p:last-child{margin-bottom:0}
 table.tableblock,th.tableblock,td.tableblock{border:0 solid #dedede}
-table.grid-all th.tableblock,table.grid-all td.tableblock{border-width:0 1px 1px 0}
-table.grid-all tfoot>tr>th.tableblock,table.grid-all tfoot>tr>td.tableblock{border-width:1px 1px 0 0}
-table.grid-cols th.tableblock,table.grid-cols td.tableblock{border-width:0 1px 0 0}
-table.grid-all *>tr>.tableblock:last-child,table.grid-cols *>tr>.tableblock:last-child{border-right-width:0}
-table.grid-rows th.tableblock,table.grid-rows td.tableblock{border-width:0 0 1px 0}
-table.grid-all tbody>tr:last-child>th.tableblock,table.grid-all tbody>tr:last-child>td.tableblock,table.grid-all thead:last-child>tr>th.tableblock,table.grid-rows tbody>tr:last-child>th.tableblock,table.grid-rows tbody>tr:last-child>td.tableblock,table.grid-rows thead:last-child>tr>th.tableblock{border-bottom-width:0}
-table.grid-rows tfoot>tr>th.tableblock,table.grid-rows tfoot>tr>td.tableblock{border-width:1px 0 0 0}
+table.grid-all>thead>tr>.tableblock,table.grid-all>tbody>tr>.tableblock{border-width:0 1px 1px 0}
+table.grid-all>tfoot>tr>.tableblock{border-width:1px 1px 0 0}
+table.grid-cols>*>tr>.tableblock{border-width:0 1px 0 0}
+table.grid-rows>thead>tr>.tableblock,table.grid-rows>tbody>tr>.tableblock{border-width:0 0 1px 0}
+table.grid-rows>tfoot>tr>.tableblock{border-width:1px 0 0 0}
+table.grid-all>*>tr>.tableblock:last-child,table.grid-cols>*>tr>.tableblock:last-child{border-right-width:0}
+table.grid-all>tbody>tr:last-child>.tableblock,table.grid-all>thead:last-child>tr>.tableblock,table.grid-rows>tbody>tr:last-child>.tableblock,table.grid-rows>thead:last-child>tr>.tableblock{border-bottom-width:0}
 table.frame-all{border-width:1px}
 table.frame-sides{border-width:0 1px}
 table.frame-topbot{border-width:1px 0}
@@ -282,10 +285,12 @@ ul li ol{margin-left:1.5em}
 dl dd{margin-left:1.125em}
 dl dd:last-child,dl dd:last-child>:last-child{margin-bottom:0}
 ol>li p,ul>li p,ul dd,ol dd,.olist .olist,.ulist .ulist,.ulist .olist,.olist .ulist{margin-bottom:.625em}
-ul.unstyled,ol.unnumbered,ul.checklist,ul.none{list-style-type:none}
-ul.unstyled,ol.unnumbered,ul.checklist{margin-left:.625em}
-ul.checklist li>p:first-child>.fa-square-o:first-child,ul.checklist li>p:first-child>.fa-check-square-o:first-child{width:1em;font-size:.85em}
-ul.checklist li>p:first-child>input[type="checkbox"]:first-child{width:1em;position:relative;top:1px}
+ul.checklist,ul.none,ol.none,ul.no-bullet,ol.no-bullet,ol.unnumbered,ul.unstyled,ol.unstyled{list-style-type:none}
+ul.no-bullet,ol.no-bullet,ol.unnumbered{margin-left:.625em}
+ul.unstyled,ol.unstyled{margin-left:0}
+ul.checklist{margin-left:.625em}
+ul.checklist li>p:first-child>.fa-square-o:first-child,ul.checklist li>p:first-child>.fa-check-square-o:first-child{width:1.25em;font-size:.8em;position:relative;bottom:.125em}
+ul.checklist li>p:first-child>input[type="checkbox"]:first-child{margin-right:.25em}
 ul.inline{margin:0 auto .625em auto;margin-left:-1.375em;margin-right:0;padding:0;list-style:none;overflow:hidden}
 ul.inline>li{list-style:none;float:left;margin-left:1.375em;display:block}
 ul.inline>li>*{display:block}
@@ -302,7 +307,8 @@ ol.lowergreek{list-style-type:lower-greek}
 td.hdlist1,td.hdlist2{vertical-align:top;padding:0 .625em}
 td.hdlist1{font-weight:bold;padding-bottom:1.25em}
 .literalblock+.colist,.listingblock+.colist{margin-top:-.5em}
-.colist>table tr>td:first-of-type{padding:0 .75em;line-height:1}
+.colist>table tr>td:first-of-type{padding:.4em .75em 0 .75em;line-height:1;vertical-align:top}
+.colist>table tr>td:first-of-type img{max-width:initial}
 .colist>table tr>td:last-of-type{padding:.25em 0}
 .thumb,.th{line-height:0;display:inline-block;border:solid 4px #fff;-webkit-box-shadow:0 0 0 1px #ddd;box-shadow:0 0 0 1px #ddd}
 .imageblock.left,.imageblock[style*="float: left"]{margin:.25em .625em 1.25em 0}
@@ -365,6 +371,7 @@ div.unbreakable{page-break-inside:avoid}
 .yellow{color:#bfbf00}
 .yellow-background{background-color:#fafa00}
 span.icon>.fa{cursor:default}
+a span.icon>.fa{cursor:inherit}
 .admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
 .admonitionblock td.icon .icon-note:before{content:"\f05a";color:#19407c}
 .admonitionblock td.icon .icon-tip:before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
@@ -419,97 +426,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 .show-for-print{display:inherit!important}}
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
-<style>
-/* Stylesheet for CodeRay to match GitHub theme | MIT License | http://foundation.zurb.com */
-/*pre.CodeRay {background-color:#f7f7f8;}*/
-.CodeRay .line-numbers{border-right:1px solid #d8d8d8;padding:0 0.5em 0 .25em}
-.CodeRay span.line-numbers{display:inline-block;margin-right:.5em;color:rgba(0,0,0,.3)}
-.CodeRay .line-numbers strong{color:rgba(0,0,0,.4)}
-table.CodeRay{border-collapse:separate;border-spacing:0;margin-bottom:0;border:0;background:none}
-table.CodeRay td{vertical-align: top;line-height:1.45}
-table.CodeRay td.line-numbers{text-align:right}
-table.CodeRay td.line-numbers>pre{padding:0;color:rgba(0,0,0,.3)}
-table.CodeRay td.code{padding:0 0 0 .5em}
-table.CodeRay td.code>pre{padding:0}
-.CodeRay .debug{color:#fff !important;background:#000080 !important}
-.CodeRay .annotation{color:#007}
-.CodeRay .attribute-name{color:#000080}
-.CodeRay .attribute-value{color:#700}
-.CodeRay .binary{color:#509}
-.CodeRay .comment{color:#998;font-style:italic}
-.CodeRay .char{color:#04d}
-.CodeRay .char .content{color:#04d}
-.CodeRay .char .delimiter{color:#039}
-.CodeRay .class{color:#458;font-weight:bold}
-.CodeRay .complex{color:#a08}
-.CodeRay .constant,.CodeRay .predefined-constant{color:#008080}
-.CodeRay .color{color:#099}
-.CodeRay .class-variable{color:#369}
-.CodeRay .decorator{color:#b0b}
-.CodeRay .definition{color:#099}
-.CodeRay .delimiter{color:#000}
-.CodeRay .doc{color:#970}
-.CodeRay .doctype{color:#34b}
-.CodeRay .doc-string{color:#d42}
-.CodeRay .escape{color:#666}
-.CodeRay .entity{color:#800}
-.CodeRay .error{color:#808}
-.CodeRay .exception{color:inherit}
-.CodeRay .filename{color:#099}
-.CodeRay .function{color:#900;font-weight:bold}
-.CodeRay .global-variable{color:#008080}
-.CodeRay .hex{color:#058}
-.CodeRay .integer,.CodeRay .float{color:#099}
-.CodeRay .include{color:#555}
-.CodeRay .inline{color:#000}
-.CodeRay .inline .inline{background:#ccc}
-.CodeRay .inline .inline .inline{background:#bbb}
-.CodeRay .inline .inline-delimiter{color:#d14}
-.CodeRay .inline-delimiter{color:#d14}
-.CodeRay .important{color:#555;font-weight:bold}
-.CodeRay .interpreted{color:#b2b}
-.CodeRay .instance-variable{color:#008080}
-.CodeRay .label{color:#970}
-.CodeRay .local-variable{color:#963}
-.CodeRay .octal{color:#40e}
-.CodeRay .predefined{color:#369}
-.CodeRay .preprocessor{color:#579}
-.CodeRay .pseudo-class{color:#555}
-.CodeRay .directive{font-weight:bold}
-.CodeRay .type{font-weight:bold}
-.CodeRay .predefined-type{color:inherit}
-.CodeRay .reserved,.CodeRay .keyword {color:#000;font-weight:bold}
-.CodeRay .key{color:#808}
-.CodeRay .key .delimiter{color:#606}
-.CodeRay .key .char{color:#80f}
-.CodeRay .value{color:#088}
-.CodeRay .regexp .delimiter{color:#808}
-.CodeRay .regexp .content{color:#808}
-.CodeRay .regexp .modifier{color:#808}
-.CodeRay .regexp .char{color:#d14}
-.CodeRay .regexp .function{color:#404;font-weight:bold}
-.CodeRay .string{color:#d20}
-.CodeRay .string .string .string{background:#ffd0d0}
-.CodeRay .string .content{color:#d14}
-.CodeRay .string .char{color:#d14}
-.CodeRay .string .delimiter{color:#d14}
-.CodeRay .shell{color:#d14}
-.CodeRay .shell .delimiter{color:#d14}
-.CodeRay .symbol{color:#990073}
-.CodeRay .symbol .content{color:#a60}
-.CodeRay .symbol .delimiter{color:#630}
-.CodeRay .tag{color:#008080}
-.CodeRay .tag-special{color:#d70}
-.CodeRay .variable{color:#036}
-.CodeRay .insert{background:#afa}
-.CodeRay .delete{background:#faa}
-.CodeRay .change{color:#aaf;background:#007}
-.CodeRay .head{color:#f8f;background:#505}
-.CodeRay .insert .insert{color:#080}
-.CodeRay .delete .delete{color:#800}
-.CodeRay .change .change{color:#66f}
-.CodeRay .head .head{color:#f4f}
-</style>
 <meta name="keywords" content="spring, spring-boot, retry, sse, server-side events, documentation">
 <meta name="description" content="Spring and spring-boot playground projects documentation.">
 
@@ -533,74 +449,68 @@ table.CodeRay td.code>pre{padding:0}
 </head>
 <body class="book toc2 toc-left">
 <div id="header">
-<h1>spring-data-examples docs (0.0.1)</h1>
+<h1>spring-data-examples (0.0.1) <span class="image"><a class="image" href="https://github.com/daggerok/spring-data-examples"><img src="https://travis-ci.org/daggerok/spring-data-examples.svg?branch=master" alt="Build Status"></a></span></h1>
 <div class="details">
 <span id="author" class="author">Maksim Kostromin</span><br>
 <span id="email" class="email"><a href="mailto:daggerok@gmail.com">daggerok@gmail.com</a></span><br>
 <span id="revnumber">version 0.0.1,</span>
-<span id="revdate">2018-07-21 18:08:37 UTC</span>
+<span id="revdate">2018-07-21 21:35:08 UTC</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#redis">1. redis</a>
-<ul class="sectlevel3">
-<li><a href="#stack">1.1. stack:</a></li>
-</ul>
-</li>
-<li><a href="#spring-expression-language">2. spring expression language</a></li>
-<li><a href="#how-to-reproduce-issue">3. how to reproduce issue</a>
+<li><a href="#spring-expression-language-issue">1. spring expression language (issue)</a>
 <ul class="sectlevel2">
-<li><a href="#update-custom-countquery">3.1. update custom countQuery</a></li>
-<li><a href="#verify-bootstrapping-fail-with-exception">3.2. verify bootstrapping fail with exception</a></li>
+<li><a href="#how-to-reproduce-issue">1.1. how to reproduce issue</a></li>
+<li><a href="#run-app">1.2. run app</a></li>
+<li><a href="#links">1.3. links</a></li>
 </ul>
 </li>
-<li><a href="#run-app">4. run app</a></li>
-<li><a href="#links">5. links</a></li>
-<li><a href="#boot-your-data-nosql-databases-elasticsearch-mongodb-solr">6. boot your data - NoSQL databases (elasticsearch, mongodb, solr)</a></li>
-<li><a href="#querydsl">7. QueryDSL</a>
+<li><a href="#spring-expression-language-fixes">2. spring expression language (fixes)</a></li>
+<li><a href="#redis">3. redis</a>
 <ul class="sectlevel3">
-<li><a href="#functional-rest-api-testing-using-soapui-and-gradle-plugin">7.1. functional REST API testing using SoapUI and Gradle plugin</a></li>
-<li><a href="#functional-soap-api-testing-using-soapui-and-gradle-plugin">7.2. functional SOAP API testing using SoapUI and Gradle plugin</a></li>
-<li><a href="#unit-integration-testing-using-spring-boot-test-and-docker">7.3. unit/integration testing using spring-boot-test and Docker</a></li>
-<li><a href="#jpa-persisting-collections-of-enum">7.4. JPA: persisting Collections of Enum</a></li>
-<li><a href="#spring-hateoas-resources-assembler-page-metadata">7.5. spring HATEOAS resources assembler page metadata</a></li>
-<li><a href="#event-sourcing-using-spring-application-events">7.6. Event Sourcing using spring application events</a></li>
-<li><a href="#event-sourcing-history-using-spring-data-rest">7.7. Event Sourcing (history) using spring data-rest</a></li>
-<li><a href="#embedded-primitive-onetomany-and-manytomany-relationships">7.8. Embedded primitive @OneToMany and @ManyToMany relationships</a></li>
-<li><a href="#optimization-3nf">7.9. Optimization: 3NF</a></li>
-<li><a href="#examine-rest-api-using-httpie">7.10. examine REST API using HTTPie:</a></li>
-<li><a href="#generate-q-classes-from-jpa">7.11. generate Q-classes from JPA:</a></li>
-<li><a href="#quick-startup">7.12. quick startup</a></li>
-<li><a href="#integration-tests">7.13. integration tests</a></li>
-<li><a href="#spring-data-jpa-auditing">7.14. spring data jpa auditing</a></li>
-<li><a href="#stack-2">7.15. stack:</a></li>
+<li><a href="#stack">3.1. stack:</a></li>
 </ul>
 </li>
-<li><a href="#derby-create-drop-for-development">8. Derby create-drop for development)</a></li>
-<li><a href="#reactive-redis">9. Reactive Redis</a></li>
-<li><a href="#boot-your-data-rdbms-derby-h2-hsql-mysql-postgres">10. Boot your data - RDBMS (derby, h2, hsql, mysql, postgres)</a></li>
-<li><a href="#listening-spring-data-events">11. Listening spring-data events</a></li>
-<li><a href="#elasticsearch">12. Elasticsearch</a></li>
-<li><a href="#using-elastic">13. using elastic</a></li>
-<li><a href="#problem-solving">14. problem solving</a></li>
-<li><a href="#resources">15. resources</a></li>
-<li><a href="#spring-data-key-value-webflux-kotlin">16. Spring Data Key-Value (webflux / kotlin)</a></li>
-<li><a href="#spring-data-hazelcast">17. Spring Data Hazelcast</a></li>
-<li><a href="#spring-data-reactive-mongo-solr-elastic">18. Spring data reactive (mongo, solr, elastic)</a></li>
-<li><a href="#spring-data-spring-data-rest-advanced-audit">19. Spring Data (spring-data-rest) advanced audit</a></li>
-<li><a href="#mapdb-spring-webflux">20. MapDB | Spring Webflux</a></li>
-<li><a href="#links-2">21. links</a></li>
-<li><a href="#enjoy">22. Enjoy! :)</a></li>
+<li><a href="#querydsl">4. QueryDSL</a>
+<ul class="sectlevel2">
+<li><a href="#functional-rest-api-testing-using-soapui-and-gradle-plugin">4.1. functional REST API testing using SoapUI and Gradle plugin</a></li>
+<li><a href="#functional-soap-api-testing-using-soapui-and-gradle-plugin">4.2. functional SOAP API testing using SoapUI and Gradle plugin</a></li>
+<li><a href="#unit-integration-testing-using-spring-boot-test-and-docker">4.3. unit/integration testing using spring-boot-test and Docker</a></li>
+<li><a href="#jpa-persisting-collections-of-enum">4.4. JPA: persisting Collections of Enum</a></li>
+<li><a href="#spring-hateoas-resources-assembler-page-metadata">4.5. spring HATEOAS resources assembler page metadata</a></li>
+<li><a href="#event-sourcing-using-spring-application-events">4.6. Event Sourcing using spring application events</a></li>
+<li><a href="#event-sourcing-history-using-spring-data-rest">4.7. Event Sourcing (history) using spring data-rest</a></li>
+<li><a href="#embedded-primitive-onetomany-and-manytomany-relationships">4.8. Embedded primitive @OneToMany and @ManyToMany relationships</a></li>
+<li><a href="#optimization-3nf">4.9. Optimization: 3NF</a></li>
+<li><a href="#examine-rest-api-using-httpie">4.10. examine REST API using HTTPie:</a></li>
+<li><a href="#generate-q-classes-from-jpa">4.11. generate Q-classes from JPA:</a></li>
+<li><a href="#quick-startup">4.12. quick startup</a></li>
+<li><a href="#integration-tests">4.13. integration tests</a></li>
+<li><a href="#spring-data-jpa-auditing">4.14. spring data jpa auditing</a></li>
+<li><a href="#stack-2">4.15. stack:</a></li>
+</ul>
+</li>
+<li><a href="#derby-create-drop-for-development">5. Derby create-drop for development)</a></li>
+<li><a href="#reactive-redis">6. Reactive Redis</a></li>
+<li><a href="#boot-your-data-rdbms-derby-h2-hsql-mysql-postgres">7. Boot your data - RDBMS (derby, h2, hsql, mysql, postgres)</a></li>
+<li><a href="#listening-spring-data-events">8. Listening spring-data events</a></li>
+<li><a href="#elasticsearch">9. Elasticsearch</a></li>
+<li><a href="#using-elastic">10. using elastic</a></li>
+<li><a href="#problem-solving">11. problem solving</a></li>
+<li><a href="#resources">12. resources</a></li>
+<li><a href="#spring-data-key-value-webflux-kotlin">13. Spring Data Key-Value (webflux / kotlin)</a></li>
+<li><a href="#spring-data-hazelcast">14. Spring Data Hazelcast</a></li>
+<li><a href="#spring-data-reactive-mongo-solr-elastic">15. Spring data reactive (mongo, solr, elastic)</a></li>
+<li><a href="#spring-data-spring-data-rest-advanced-audit">16. Spring Data (spring-data-rest) advanced audit</a></li>
+<li><a href="#mapdb-spring-webflux">17. MapDB | Spring Webflux</a></li>
+<li><a href="#links-2">18. links</a></li>
 </ul>
 </div>
 </div>
 <div id="content">
 <div id="preamble">
 <div class="sectionbody">
-<div class="paragraph">
-<p>GitHub CI build status: <span class="image"><a class="image" href="https://github.com/daggerok/spring-data-examples"><img src="https://travis-ci.org/daggerok/spring-data-examples.svg?branch=master" alt="Build Status"></a></span></p>
-</div>
 <h2 id="introduction" class="discrete">Introduction</h2>
 <div class="paragraph">
 <p>This documentation contains some help to
@@ -609,7 +519,77 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect1">
-<h2 id="redis"><a class="anchor" href="#redis"></a>1. redis</h2>
+<h2 id="spring-expression-language-issue"><a class="anchor" href="#spring-expression-language-issue"></a>1. spring expression language (issue)</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="how-to-reproduce-issue"><a class="anchor" href="#how-to-reproduce-issue"></a>1.1. how to reproduce issue</h3>
+<div class="sect3">
+<h4 id="update-custom-countquery"><a class="anchor" href="#update-custom-countquery"></a>1.1.1. update custom countQuery</h4>
+<div class="paragraph">
+<p>in file app/src/main/java/daggerok/domain/MyEntityRepository.java:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">  // ...
+  @Query(
+      value = " select me.name from #{#entityName} me ",
+      countQuery = " select count(me.id) from #{#entityName} me "
+  )
+  Page&lt;String&gt; findAllNames(final Pageable pageable);
+  // ...</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="verify-bootstrapping-fail-with-exception"><a class="anchor" href="#verify-bootstrapping-fail-with-exception"></a>1.1.2. verify bootstrapping fail with exception</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">...
+Caused by: java.lang.IllegalArgumentException: org.hibernate.QueryException: unexpected char: '#' [ select count(me.id) from #{#entityName} me ]
+	...
+Caused by: org.hibernate.QueryException: unexpected char: '#' [ select count(me.id) from #{#entityName} me ]
+	...</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="run-app"><a class="anchor" href="#run-app"></a>1.2. run app</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">bash gradlew bootRun # installed docker and compose are required
+curl -sS localhost:8080 | jq
+curl -sS localhost:8080/names | jq
+bash gradlew stop
+bash gradlew --stop</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="links"><a class="anchor" href="#links"></a>1.3. links</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><a href="https://stackoverflow.com/questions/45579346/spring-data-jpa-spel-in-countquery-using-entityname-unexpected-char">stackoverflow question</a></p>
+</li>
+<li>
+<p><a href="https://jira.spring.io/browse/DATAJPA-1163">DATAJPA-1163: spring data jpa JIRA bug</a></p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="spring-expression-language-fixes"><a class="anchor" href="#spring-expression-language-fixes"></a>2. spring expression language (fixes)</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Unresolved directive in index.adoc - include::../spel-fixed/README.adoc[tags=content]</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="redis"><a class="anchor" href="#redis"></a>3. redis</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>bootstrapping docker before bootRun</p>
@@ -617,7 +597,7 @@ table.CodeRay td.code>pre{padding:0}
 <div class="listingblock">
 <div class="title">build, run, test</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">gradle redisUp
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">gradle redisUp
 gradle redis:bootRun
 http :8080/redisObjs data=test
 http :8080/redisObjs
@@ -631,7 +611,7 @@ gradle --stop</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="stack"><a class="anchor" href="#stack"></a>1.1. stack:</h4>
+<h4 id="stack"><a class="anchor" href="#stack"></a>3.1. stack:</h4>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -689,102 +669,25 @@ gradle --stop</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="spring-expression-language"><a class="anchor" href="#spring-expression-language"></a>2. spring expression language</h2>
-<div class="sectionbody">
-
-</div>
-</div>
-<div class="sect1">
-<h2 id="how-to-reproduce-issue"><a class="anchor" href="#how-to-reproduce-issue"></a>3. how to reproduce issue</h2>
+<h2 id="querydsl"><a class="anchor" href="#querydsl"></a>4. QueryDSL</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="update-custom-countquery"><a class="anchor" href="#update-custom-countquery"></a>3.1. update custom countQuery</h3>
-<div class="paragraph">
-<p>in file app/src/main/java/daggerok/domain/MyEntityRepository.java:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">  <span class="comment">// ...</span>
-  <span class="annotation">@Query</span>(
-      value = <span class="string"><span class="delimiter">&quot;</span><span class="content"> select me.name from #{#entityName} me </span><span class="delimiter">&quot;</span></span>,
-      countQuery = <span class="string"><span class="delimiter">&quot;</span><span class="content"> select count(me.id) from #{#entityName} me </span><span class="delimiter">&quot;</span></span>
-  )
-  Page&lt;<span class="predefined-type">String</span>&gt; findAllNames(<span class="directive">final</span> <span class="predefined-type">Pageable</span> pageable);
-  <span class="comment">// ...</span></code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="verify-bootstrapping-fail-with-exception"><a class="anchor" href="#verify-bootstrapping-fail-with-exception"></a>3.2. verify bootstrapping fail with exception</h3>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">...
-Caused by: java.lang.IllegalArgumentException: org.hibernate.QueryException: unexpected char: '#' [ select count(me.id) from #{#entityName} me ]
-        ...
-Caused by: org.hibernate.QueryException: unexpected char: '#' [ select count(me.id) from #{#entityName} me ]
-        ...</code></pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="run-app"><a class="anchor" href="#run-app"></a>4. run app</h2>
-<div class="sectionbody">
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">bash gradlew bootRun # installed docker and compose are required
-curl -sS localhost:8080 | jq
-curl -sS localhost:8080/names | jq
-bash gradlew stop
-bash gradlew --stop</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="links"><a class="anchor" href="#links"></a>5. links</h2>
-<div class="sectionbody">
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p><a href="https://stackoverflow.com/questions/45579346/spring-data-jpa-spel-in-countquery-using-entityname-unexpected-char">stackoverflow question</a></p>
-</li>
-<li>
-<p><a href="https://jira.spring.io/browse/DATAJPA-1163">DATAJPA-1163: spring data jpa JIRA bug</a></p>
-</li>
-</ol>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="boot-your-data-nosql-databases-elasticsearch-mongodb-solr"><a class="anchor" href="#boot-your-data-nosql-databases-elasticsearch-mongodb-solr"></a>6. boot your data - NoSQL databases (elasticsearch, mongodb, solr)</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Unresolved directive in index.adoc - include::../../boot-your-data/README.adoc[tags=content]</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="querydsl"><a class="anchor" href="#querydsl"></a>7. QueryDSL</h2>
-<div class="sectionbody">
-<div class="sect3">
-<h4 id="functional-rest-api-testing-using-soapui-and-gradle-plugin"><a class="anchor" href="#functional-rest-api-testing-using-soapui-and-gradle-plugin"></a>7.1. functional REST API testing using SoapUI and Gradle plugin</h4>
+<h3 id="functional-rest-api-testing-using-soapui-and-gradle-plugin"><a class="anchor" href="#functional-rest-api-testing-using-soapui-and-gradle-plugin"></a>4.1. functional REST API testing using SoapUI and Gradle plugin</h3>
 <div class="paragraph">
 <p>see <code>soaptest</code> subproject</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">gradle clean assemble soaptestRest soaptestWs</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">gradle clean assemble soaptestRest soaptestWs</code></pre>
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="functional-soap-api-testing-using-soapui-and-gradle-plugin"><a class="anchor" href="#functional-soap-api-testing-using-soapui-and-gradle-plugin"></a>7.2. functional SOAP API testing using SoapUI and Gradle plugin</h4>
+<div class="sect2">
+<h3 id="functional-soap-api-testing-using-soapui-and-gradle-plugin"><a class="anchor" href="#functional-soap-api-testing-using-soapui-and-gradle-plugin"></a>4.2. functional SOAP API testing using SoapUI and Gradle plugin</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">gradle wsServiceRun
-curl --header &quot;content-type: text/xml&quot; -d @services/ws-service/src/test/resources/request.xml http://localhost:8080/ws | xmllint --format -
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">gradle wsServiceRun
+curl --header "content-type: text/xml" -d @services/ws-service/src/test/resources/request.xml http://localhost:8080/ws | xmllint --format -
 # ctrl+c
 gradle dockerDown
 gradle --stop
@@ -793,19 +696,19 @@ gradle clean assemble soaptestWs</code></pre>
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="unit-integration-testing-using-spring-boot-test-and-docker"><a class="anchor" href="#unit-integration-testing-using-spring-boot-test-and-docker"></a>7.3. unit/integration testing using spring-boot-test and Docker</h4>
+<div class="sect2">
+<h3 id="unit-integration-testing-using-spring-boot-test-and-docker"><a class="anchor" href="#unit-integration-testing-using-spring-boot-test-and-docker"></a>4.3. unit/integration testing using spring-boot-test and Docker</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">gradle celan build</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">gradle celan build</code></pre>
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="jpa-persisting-collections-of-enum"><a class="anchor" href="#jpa-persisting-collections-of-enum"></a>7.4. JPA: persisting Collections of Enum</h4>
+<div class="sect2">
+<h3 id="jpa-persisting-collections-of-enum"><a class="anchor" href="#jpa-persisting-collections-of-enum"></a>4.4. JPA: persisting Collections of Enum</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">gradle restServiceRun
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">gradle restServiceRun
 
 http :8080/api/v6
 http :8080/api/v6/catalog
@@ -828,17 +731,17 @@ gradle --stop</code></pre>
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="spring-hateoas-resources-assembler-page-metadata"><a class="anchor" href="#spring-hateoas-resources-assembler-page-metadata"></a>7.5. spring HATEOAS resources assembler page metadata</h4>
+<div class="sect2">
+<h3 id="spring-hateoas-resources-assembler-page-metadata"><a class="anchor" href="#spring-hateoas-resources-assembler-page-metadata"></a>4.5. spring HATEOAS resources assembler page metadata</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">gradle restServiceRun
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">gradle restServiceRun
 http :8080/api/v5/engineers/page-metadata</code></pre>
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="event-sourcing-using-spring-application-events"><a class="anchor" href="#event-sourcing-using-spring-application-events"></a>7.6. Event Sourcing using spring application events</h4>
+<div class="sect2">
+<h3 id="event-sourcing-using-spring-application-events"><a class="anchor" href="#event-sourcing-using-spring-application-events"></a>4.6. Event Sourcing using spring application events</h3>
 <div class="paragraph">
 <p>see:</p>
 </div>
@@ -854,13 +757,13 @@ http :8080/api/v5/engineers/page-metadata</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">http :8080/rest/engineers username=tttest | jq '._links.self'
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">http :8080/rest/engineers username=tttest | jq '._links.self'
 http :8080/rest/histories | jq '._embedded.histories'</code></pre>
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="event-sourcing-history-using-spring-data-rest"><a class="anchor" href="#event-sourcing-history-using-spring-data-rest"></a>7.7. Event Sourcing (history) using spring data-rest</h4>
+<div class="sect2">
+<h3 id="event-sourcing-history-using-spring-data-rest"><a class="anchor" href="#event-sourcing-history-using-spring-data-rest"></a>4.7. Event Sourcing (history) using spring data-rest</h3>
 <div class="paragraph">
 <p>see:</p>
 </div>
@@ -876,15 +779,15 @@ http :8080/rest/histories | jq '._embedded.histories'</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">http :8080/rest/domains firstName=1 lastName=1 username=1 | jq '._links.self'
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">http :8080/rest/domains firstName=1 lastName=1 username=1 | jq '._links.self'
 http :8080/rest/domains firstName=2 lastName=2 username=2 | jq '._links.self'
 http :8080/rest/otherDomains test=1 | jq '._links.self'
 http :8080/rest/histories | jq '._embedded.histories'</code></pre>
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="embedded-primitive-onetomany-and-manytomany-relationships"><a class="anchor" href="#embedded-primitive-onetomany-and-manytomany-relationships"></a>7.8. Embedded primitive @OneToMany and @ManyToMany relationships</h4>
+<div class="sect2">
+<h3 id="embedded-primitive-onetomany-and-manytomany-relationships"><a class="anchor" href="#embedded-primitive-onetomany-and-manytomany-relationships"></a>4.8. Embedded primitive @OneToMany and @ManyToMany relationships</h3>
 <div class="paragraph">
 <p>see: <code>service/**/src/main/java/daggerok/relationships</code></p>
 </div>
@@ -896,36 +799,36 @@ http :8080/rest/histories | jq '._embedded.histories'</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">gradle compileQuerydsl xjc # gradle assemble
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">gradle compileQuerydsl xjc # gradle assemble
 gradle bootRun
 
-http &quot;:8080/api/v4/engineers?size=2&amp;page=0&amp;sort=username,desc&quot;
+http ":8080/api/v4/engineers?size=2&amp;page=0&amp;sort=username,desc"
 
 gradle --stop
 gradle composeDown</code></pre>
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="optimization-3nf"><a class="anchor" href="#optimization-3nf"></a>7.9. Optimization: 3NF</h4>
+<div class="sect2">
+<h3 id="optimization-3nf"><a class="anchor" href="#optimization-3nf"></a>4.9. Optimization: 3NF</h3>
 <div class="paragraph">
 <p>see: <code>service/**/src/main/java/daggerok/embedded</code></p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="examine-rest-api-using-httpie"><a class="anchor" href="#examine-rest-api-using-httpie"></a>7.10. examine REST API using HTTPie:</h4>
+<div class="sect2">
+<h3 id="examine-rest-api-using-httpie"><a class="anchor" href="#examine-rest-api-using-httpie"></a>4.10. examine REST API using HTTPie:</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">http :8080/api/v3/predicate
-http &quot;:8080/api/v3/predicate?second.secondField1=1&quot;
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">http :8080/api/v3/predicate
+http ":8080/api/v3/predicate?second.secondField1=1"
 
 # bash
-http &quot;:8080/api/v3/predicate?createdDate=$(date +%Y-%m-%d)&quot;
+http ":8080/api/v3/predicate?createdDate=$(date +%Y-%m-%d)"
 # fish
-http &quot;:8080/api/v3/predicate?createdDate=&quot;(date +%Y-%m-%d)
+http ":8080/api/v3/predicate?createdDate="(date +%Y-%m-%d)
 
-http &quot;:8080/api/v2/pagination?page=0&amp;size=1&amp;sort=first.firstField1,desc&quot;
-http &quot;:8080/api/v2/sorted?sort=id,desc&quot;
+http ":8080/api/v2/pagination?page=0&amp;size=1&amp;sort=first.firstField1,desc"
+http ":8080/api/v2/sorted?sort=id,desc"
 
 http :8080/api/v2/flatten
 http :8080/api/v2/flatten/2</code></pre>
@@ -935,22 +838,22 @@ http :8080/api/v2/flatten/2</code></pre>
 <p>note: see <code>.travis.yml</code> for cURL examples</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="generate-q-classes-from-jpa"><a class="anchor" href="#generate-q-classes-from-jpa"></a>7.11. generate Q-classes from JPA:</h4>
+<div class="sect2">
+<h3 id="generate-q-classes-from-jpa"><a class="anchor" href="#generate-q-classes-from-jpa"></a>4.11. generate Q-classes from JPA:</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">gradle compileQuerydsl xjc</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">gradle compileQuerydsl xjc</code></pre>
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="quick-startup"><a class="anchor" href="#quick-startup"></a>7.12. quick startup</h4>
+<div class="sect2">
+<h3 id="quick-startup"><a class="anchor" href="#quick-startup"></a>4.12. quick startup</h3>
 <div class="paragraph">
 <p>bootstrapping docker before bootRun</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">gradle bootRun
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">gradle bootRun
 open http://localhost:8080 # press enter
 ...
 gradle composeDown
@@ -958,20 +861,20 @@ gradle --stop</code></pre>
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="integration-tests"><a class="anchor" href="#integration-tests"></a>7.13. integration tests</h4>
+<div class="sect2">
+<h3 id="integration-tests"><a class="anchor" href="#integration-tests"></a>4.13. integration tests</h3>
 <div class="paragraph">
 <p>see <code>docker</code> subproject</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">gradle clean assemble test
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">gradle clean assemble test
 gradle --stop</code></pre>
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="spring-data-jpa-auditing"><a class="anchor" href="#spring-data-jpa-auditing"></a>7.14. spring data jpa auditing</h4>
+<div class="sect2">
+<h3 id="spring-data-jpa-auditing"><a class="anchor" href="#spring-data-jpa-auditing"></a>4.14. spring data jpa auditing</h3>
 <div class="paragraph">
 <p>see <code>service/**/src/main/java/daggerok/audit</code> package</p>
 </div>
@@ -1020,8 +923,8 @@ gradle --stop</code></pre>
 </tbody>
 </table>
 </div>
-<div class="sect3">
-<h4 id="stack-2"><a class="anchor" href="#stack-2"></a>7.15. stack:</h4>
+<div class="sect2">
+<h3 id="stack-2"><a class="anchor" href="#stack-2"></a>4.15. stack:</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -1054,14 +957,14 @@ gradle --stop</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="derby-create-drop-for-development"><a class="anchor" href="#derby-create-drop-for-development"></a>8. Derby create-drop for development)</h2>
+<h2 id="derby-create-drop-for-development"><a class="anchor" href="#derby-create-drop-for-development"></a>5. Derby create-drop for development)</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>This repo is contains simple example of usage spring-boot devtools reload/restart with derby</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">gradle bootRun
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">gradle bootRun
 http :8080
 http post :8080 id=user2 name=user2
 
@@ -1076,14 +979,14 @@ gradle --stop</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="reactive-redis"><a class="anchor" href="#reactive-redis"></a>9. Reactive Redis</h2>
+<h2 id="reactive-redis"><a class="anchor" href="#reactive-redis"></a>6. Reactive Redis</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>this repository is containgn modern spring 5 web application which is using reactive spring webflux and spring data redis</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">gradle composeUp bootRun
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">gradle composeUp bootRun
 
 http :8080/tasks
 http :8080/activities
@@ -1100,7 +1003,7 @@ gradle --stop</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="boot-your-data-rdbms-derby-h2-hsql-mysql-postgres"><a class="anchor" href="#boot-your-data-rdbms-derby-h2-hsql-mysql-postgres"></a>10. Boot your data - RDBMS (derby, h2, hsql, mysql, postgres)</h2>
+<h2 id="boot-your-data-rdbms-derby-h2-hsql-mysql-postgres"><a class="anchor" href="#boot-your-data-rdbms-derby-h2-hsql-mysql-postgres"></a>7. Boot your data - RDBMS (derby, h2, hsql, mysql, postgres)</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>This repository contains examples of usage relation databases with spring-data-rest</p>
@@ -1111,20 +1014,20 @@ gradle --stop</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="listening-spring-data-events"><a class="anchor" href="#listening-spring-data-events"></a>11. Listening spring-data events</h2>
+<h2 id="listening-spring-data-events"><a class="anchor" href="#listening-spring-data-events"></a>8. Listening spring-data events</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>this repository is containgn modern spring 5 web application which is listening spring-data events</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">bash gradew clean build</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">bash gradew clean build</code></pre>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="elasticsearch"><a class="anchor" href="#elasticsearch"></a>12. Elasticsearch</h2>
+<h2 id="elasticsearch"><a class="anchor" href="#elasticsearch"></a>9. Elasticsearch</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>This repository contains spring-data elastic examples</p>
@@ -1135,7 +1038,7 @@ gradle --stop</code></pre>
 <div class="listingblock">
 <div class="title">run it all using docker-compose</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">bash gradlew assemble composeUp -Ddocker=compose-all
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">bash gradlew assemble composeUp -Ddocker=compose-all
 
 open http://localhost/
 
@@ -1145,7 +1048,7 @@ bash gradlew composeDown -Ddocker=compose-all</code></pre>
 <div class="listingblock">
 <div class="title">run app in idea</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">cd data/
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">cd data/
 bash gradlew bootRun
 
 http -a elastic:changeme :9200
@@ -1158,14 +1061,14 @@ http :8080/users</code></pre>
 <div class="listingblock">
 <div class="title">explore with kibana</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">gradle clean bootRun
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">gradle clean bootRun
 http -a elastic:changeme :9200</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="title">testing elasicsearch db with curl / httpie</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">gradle clean bootRun
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">gradle clean bootRun
 http -a elastic:changeme :9200
 curl -u elastic:changeme localhost:9200 | jq</code></pre>
 </div>
@@ -1173,19 +1076,19 @@ curl -u elastic:changeme localhost:9200 | jq</code></pre>
 <div class="listingblock">
 <div class="title">manual run</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">gradle clean build</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">gradle clean build</code></pre>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="using-elastic"><a class="anchor" href="#using-elastic"></a>13. using elastic</h2>
+<h2 id="using-elastic"><a class="anchor" href="#using-elastic"></a>10. using elastic</h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="title">create few users</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">export auth=&quot; -a elastic:changeme &quot;
-echo '{&quot;username&quot;:&quot;daggerok&quot;,&quot;name&quot;:&quot;Maksim Kostromin&quot;}' | http $auth :9200/user/customer</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">export auth=" -a elastic:changeme "
+echo '{"username":"daggerok","name":"Maksim Kostromin"}' | http $auth :9200/user/customer</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -1216,20 +1119,20 @@ http -a elastic:changeme :9200/user/_search\?q=ololo</pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="problem-solving"><a class="anchor" href="#problem-solving"></a>14. problem solving</h2>
+<h2 id="problem-solving"><a class="anchor" href="#problem-solving"></a>11. problem solving</h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="title">ulimit -an</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash"># 2017-11-02 01:29:06.355  WARN 10993 --- [  restartedMain] org.elasticsearch.env                    : [Jackdaw] max file descriptors [10240] for elasticsearch process likely too low, consider increasing to at least [65536]
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"># 2017-11-02 01:29:06.355  WARN 10993 --- [  restartedMain] org.elasticsearch.env                    : [Jackdaw] max file descriptors [10240] for elasticsearch process likely too low, consider increasing to at least [65536]
 # 2017-11-02 01:29:07.074  WARN 10993 --- [  restartedMain] org.elasticsearch.bootstrap              : JNA not found. native methods will be disabled.
 
 launchctl unload /Library/LaunchDaemons/limit.maxfiles.plist
 cat &lt;&lt;EOF&gt; /Library/LaunchDaemons/limit.maxfiles.plist
-&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;!DOCTYPE plist PUBLIC &quot;-//Apple//DTD PLIST 1.0//EN&quot;
-        &quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;&gt;
-&lt;plist version=&quot;1.0&quot;&gt;
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+        "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;
+&lt;plist version="1.0"&gt;
   &lt;dict&gt;
     &lt;key&gt;Label&lt;/key&gt;
     &lt;string&gt;limit.maxfiles&lt;/string&gt;
@@ -1252,9 +1155,9 @@ launchctl load -w /Library/LaunchDaemons/limit.maxfiles.plist
 
 launchctl unload /Library/LaunchDaemons/limit.maxproc.plist
 cat &lt;&lt;EOF&gt; /Library/LaunchDaemons/limit.maxproc.plist
-&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;!DOCTYPE plist PUBLIC &quot;-//Apple/DTD PLIST 1.0//EN&quot; &quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;&gt;
-&lt;plist version=&quot;1.0&quot;&gt;
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE plist PUBLIC "-//Apple/DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;
+&lt;plist version="1.0"&gt;
   &lt;dict&gt;
     &lt;key&gt;Label&lt;/key&gt;
       &lt;string&gt;limit.maxproc&lt;/string&gt;
@@ -1282,7 +1185,7 @@ reboot</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="resources"><a class="anchor" href="#resources"></a>15. resources</h2>
+<h2 id="resources"><a class="anchor" href="#resources"></a>12. resources</h2>
 <div class="sectionbody">
 <div class="olist arabic">
 <ol class="arabic">
@@ -1303,7 +1206,7 @@ reboot</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="spring-data-key-value-webflux-kotlin"><a class="anchor" href="#spring-data-key-value-webflux-kotlin"></a>16. Spring Data Key-Value (webflux / kotlin)</h2>
+<h2 id="spring-data-key-value-webflux-kotlin"><a class="anchor" href="#spring-data-key-value-webflux-kotlin"></a>13. Spring Data Key-Value (webflux / kotlin)</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>This is a simple spring-boot 5 webflux REST API example using spring-data-keyvalue (Map as database) and kotlin language.</p>
@@ -1330,7 +1233,7 @@ reboot</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="spring-data-hazelcast"><a class="anchor" href="#spring-data-hazelcast"></a>17. Spring Data Hazelcast</h2>
+<h2 id="spring-data-hazelcast"><a class="anchor" href="#spring-data-hazelcast"></a>14. Spring Data Hazelcast</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>This is a simple spring-mvc REST API example using spring-data-hazelcast and kotlin language.</p>
@@ -1439,7 +1342,7 @@ http :8080/any/Ma
 </div>
 </div>
 <div class="sect1">
-<h2 id="spring-data-reactive-mongo-solr-elastic"><a class="anchor" href="#spring-data-reactive-mongo-solr-elastic"></a>18. Spring data reactive (mongo, solr, elastic)</h2>
+<h2 id="spring-data-reactive-mongo-solr-elastic"><a class="anchor" href="#spring-data-reactive-mongo-solr-elastic"></a>15. Spring data reactive (mongo, solr, elastic)</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>This repository contains examples of usage NOSql databases such elasticsearch, mongodb, solr, couchbase, etc with spring, spring-boot and spring-data</p>
@@ -1449,7 +1352,7 @@ http :8080/any/Ma
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">docker-compose up -d --remove-orphans
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">docker-compose up -d --remove-orphans
 gradle clean build
 # ...
 docker-compose down -v --remove-orphans</code></pre>
@@ -1458,7 +1361,7 @@ docker-compose down -v --remove-orphans</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="spring-data-spring-data-rest-advanced-audit"><a class="anchor" href="#spring-data-spring-data-rest-advanced-audit"></a>19. Spring Data (spring-data-rest) advanced audit</h2>
+<h2 id="spring-data-spring-data-rest-advanced-audit"><a class="anchor" href="#spring-data-spring-data-rest-advanced-audit"></a>16. Spring Data (spring-data-rest) advanced audit</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>This repository contains spring-data audition implementation: object diff history audit</p>
@@ -1490,41 +1393,42 @@ docker-compose down -v; ./mvnw; docker-compose up --build --force-recreate --rem
 </div>
 </div>
 <div class="sect1">
-<h2 id="mapdb-spring-webflux"><a class="anchor" href="#mapdb-spring-webflux"></a>20. MapDB | Spring Webflux</h2>
+<h2 id="mapdb-spring-webflux"><a class="anchor" href="#mapdb-spring-webflux"></a>17. MapDB | Spring Webflux</h2>
 <div class="sectionbody">
-<div class="olist arabic">
-<ol class="arabic">
+<div class="ulist">
+<ul>
 <li>
 <p>link:https://github.com/daggerok/spring-5-examples/tree/master/mapdb</p>
 </li>
-</ol>
+</ul>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="links-2"><a class="anchor" href="#links-2"></a>21. links</h2>
+<h2 id="links-2"><a class="anchor" href="#links-2"></a>18. links</h2>
 <div class="sectionbody">
-<div class="olist arabic">
-<ol class="arabic">
+<div class="ulist">
+<ul>
 <li>
 <p><a href="http://asciidoctor.org/docs/user-manual/#builtin-attributes">asciidoctor attributes</a></p>
 </li>
-</ol>
+</ul>
 </div>
+<hr>
+<div class="paragraph">
+<p>Enjoy! :)</p>
 </div>
-</div>
-<div class="sect1">
-<h2 id="enjoy"><a class="anchor" href="#enjoy"></a>22. Enjoy! :)</h2>
-<div class="sectionbody">
-
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1<br>
-Last updated 2018-07-21 18:08:37 UTC
+Last updated 2018-07-21 21:35:08 UTC
 </div>
 </div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlighting()</script>
 </body>
 </html>

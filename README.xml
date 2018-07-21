@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?asciidoc-toc?>
+<?asciidoc-numbered?>
+<book xmlns="http://docbook.org/ns/docbook" xmlns:xl="http://www.w3.org/1999/xlink" version="5.0" xml:lang="en">
+<info>
+<title>spring-data-examples <inlinemediaobject>
+<imageobject>
+<imagedata fileref="https://travis-ci.org/daggerok/spring-data-examples.svg?branch=master"/>
+</imageobject>
+<textobject><phrase>Build Status</phrase></textobject>
+</inlinemediaobject></title>
+<date>2018-07-21</date>
+</info>
+<preface>
+<title></title>
+<formalpara>
+<title>build and deploy docks</title>
+<para>
+<screen>bash gradlew clean build docs</screen>
+</para>
+</formalpara>
+</preface>
+</book>
