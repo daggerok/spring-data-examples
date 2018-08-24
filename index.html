@@ -454,57 +454,64 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <span id="author" class="author">Maksim Kostromin</span><br>
 <span id="email" class="email"><a href="mailto:daggerok@gmail.com">daggerok@gmail.com</a></span><br>
 <span id="revnumber">version 0.0.1,</span>
-<span id="revdate">2018-07-21 21:35:08 UTC</span>
+<span id="revdate">2018-08-24 23:21:06 UTC</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#spring-expression-language-issue">1. spring expression language (issue)</a>
+<li><a href="#spring-boot-webflux-cassandra">1. spring-boot-webflux + cassandra</a>
 <ul class="sectlevel2">
-<li><a href="#how-to-reproduce-issue">1.1. how to reproduce issue</a></li>
-<li><a href="#run-app">1.2. run app</a></li>
-<li><a href="#links">1.3. links</a></li>
+<li><a href="#test">1.1. test</a></li>
+<li><a href="#build-and-run">1.2. build and run</a></li>
 </ul>
 </li>
-<li><a href="#spring-expression-language-fixes">2. spring expression language (fixes)</a></li>
-<li><a href="#redis">3. redis</a>
+<li><a href="#fix-of-spring-data-jpa-issue-when-using-entityname-in-countquery">2. fix of spring-data-jpa issue when using #{#entityName} in countQuery</a></li>
+<li><a href="#spring-expression-language-issue">3. spring expression language (issue)</a>
+<ul class="sectlevel2">
+<li><a href="#how-to-reproduce-issue">3.1. how to reproduce issue</a></li>
+<li><a href="#run-app">3.2. run app</a></li>
+<li><a href="#links">3.3. links</a></li>
+</ul>
+</li>
+<li><a href="#spring-expression-language-fixes">4. spring expression language (fixes)</a></li>
+<li><a href="#redis">5. redis</a>
 <ul class="sectlevel3">
-<li><a href="#stack">3.1. stack:</a></li>
+<li><a href="#stack">5.1. stack:</a></li>
 </ul>
 </li>
-<li><a href="#querydsl">4. QueryDSL</a>
+<li><a href="#querydsl">6. QueryDSL</a>
 <ul class="sectlevel2">
-<li><a href="#functional-rest-api-testing-using-soapui-and-gradle-plugin">4.1. functional REST API testing using SoapUI and Gradle plugin</a></li>
-<li><a href="#functional-soap-api-testing-using-soapui-and-gradle-plugin">4.2. functional SOAP API testing using SoapUI and Gradle plugin</a></li>
-<li><a href="#unit-integration-testing-using-spring-boot-test-and-docker">4.3. unit/integration testing using spring-boot-test and Docker</a></li>
-<li><a href="#jpa-persisting-collections-of-enum">4.4. JPA: persisting Collections of Enum</a></li>
-<li><a href="#spring-hateoas-resources-assembler-page-metadata">4.5. spring HATEOAS resources assembler page metadata</a></li>
-<li><a href="#event-sourcing-using-spring-application-events">4.6. Event Sourcing using spring application events</a></li>
-<li><a href="#event-sourcing-history-using-spring-data-rest">4.7. Event Sourcing (history) using spring data-rest</a></li>
-<li><a href="#embedded-primitive-onetomany-and-manytomany-relationships">4.8. Embedded primitive @OneToMany and @ManyToMany relationships</a></li>
-<li><a href="#optimization-3nf">4.9. Optimization: 3NF</a></li>
-<li><a href="#examine-rest-api-using-httpie">4.10. examine REST API using HTTPie:</a></li>
-<li><a href="#generate-q-classes-from-jpa">4.11. generate Q-classes from JPA:</a></li>
-<li><a href="#quick-startup">4.12. quick startup</a></li>
-<li><a href="#integration-tests">4.13. integration tests</a></li>
-<li><a href="#spring-data-jpa-auditing">4.14. spring data jpa auditing</a></li>
-<li><a href="#stack-2">4.15. stack:</a></li>
+<li><a href="#functional-rest-api-testing-using-soapui-and-gradle-plugin">6.1. functional REST API testing using SoapUI and Gradle plugin</a></li>
+<li><a href="#functional-soap-api-testing-using-soapui-and-gradle-plugin">6.2. functional SOAP API testing using SoapUI and Gradle plugin</a></li>
+<li><a href="#unit-integration-testing-using-spring-boot-test-and-docker">6.3. unit/integration testing using spring-boot-test and Docker</a></li>
+<li><a href="#jpa-persisting-collections-of-enum">6.4. JPA: persisting Collections of Enum</a></li>
+<li><a href="#spring-hateoas-resources-assembler-page-metadata">6.5. spring HATEOAS resources assembler page metadata</a></li>
+<li><a href="#event-sourcing-using-spring-application-events">6.6. Event Sourcing using spring application events</a></li>
+<li><a href="#event-sourcing-history-using-spring-data-rest">6.7. Event Sourcing (history) using spring data-rest</a></li>
+<li><a href="#embedded-primitive-onetomany-and-manytomany-relationships">6.8. Embedded primitive @OneToMany and @ManyToMany relationships</a></li>
+<li><a href="#optimization-3nf">6.9. Optimization: 3NF</a></li>
+<li><a href="#examine-rest-api-using-httpie">6.10. examine REST API using HTTPie:</a></li>
+<li><a href="#generate-q-classes-from-jpa">6.11. generate Q-classes from JPA:</a></li>
+<li><a href="#quick-startup">6.12. quick startup</a></li>
+<li><a href="#integration-tests">6.13. integration tests</a></li>
+<li><a href="#spring-data-jpa-auditing">6.14. spring data jpa auditing</a></li>
+<li><a href="#stack-2">6.15. stack:</a></li>
 </ul>
 </li>
-<li><a href="#derby-create-drop-for-development">5. Derby create-drop for development)</a></li>
-<li><a href="#reactive-redis">6. Reactive Redis</a></li>
-<li><a href="#boot-your-data-rdbms-derby-h2-hsql-mysql-postgres">7. Boot your data - RDBMS (derby, h2, hsql, mysql, postgres)</a></li>
-<li><a href="#listening-spring-data-events">8. Listening spring-data events</a></li>
-<li><a href="#elasticsearch">9. Elasticsearch</a></li>
-<li><a href="#using-elastic">10. using elastic</a></li>
-<li><a href="#problem-solving">11. problem solving</a></li>
-<li><a href="#resources">12. resources</a></li>
-<li><a href="#spring-data-key-value-webflux-kotlin">13. Spring Data Key-Value (webflux / kotlin)</a></li>
-<li><a href="#spring-data-hazelcast">14. Spring Data Hazelcast</a></li>
-<li><a href="#spring-data-reactive-mongo-solr-elastic">15. Spring data reactive (mongo, solr, elastic)</a></li>
-<li><a href="#spring-data-spring-data-rest-advanced-audit">16. Spring Data (spring-data-rest) advanced audit</a></li>
-<li><a href="#mapdb-spring-webflux">17. MapDB | Spring Webflux</a></li>
-<li><a href="#links-2">18. links</a></li>
+<li><a href="#derby-create-drop-for-development">7. Derby create-drop for development)</a></li>
+<li><a href="#reactive-redis">8. Reactive Redis</a></li>
+<li><a href="#boot-your-data-rdbms-derby-h2-hsql-mysql-postgres">9. Boot your data - RDBMS (derby, h2, hsql, mysql, postgres)</a></li>
+<li><a href="#listening-spring-data-events">10. Listening spring-data events</a></li>
+<li><a href="#elasticsearch">11. Elasticsearch</a></li>
+<li><a href="#using-elastic">12. using elastic</a></li>
+<li><a href="#problem-solving">13. problem solving</a></li>
+<li><a href="#resources">14. resources</a></li>
+<li><a href="#spring-data-key-value-webflux-kotlin">15. Spring Data Key-Value (webflux / kotlin)</a></li>
+<li><a href="#spring-data-hazelcast">16. Spring Data Hazelcast</a></li>
+<li><a href="#spring-data-reactive-mongo-solr-elastic">17. Spring data reactive (mongo, solr, elastic)</a></li>
+<li><a href="#spring-data-spring-data-rest-advanced-audit">18. Spring Data (spring-data-rest) advanced audit</a></li>
+<li><a href="#mapdb-spring-webflux">19. MapDB | Spring Webflux</a></li>
+<li><a href="#links-2">20. links</a></li>
 </ul>
 </div>
 </div>
@@ -519,12 +526,97 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect1">
-<h2 id="spring-expression-language-issue"><a class="anchor" href="#spring-expression-language-issue"></a>1. spring expression language (issue)</h2>
+<h2 id="spring-boot-webflux-cassandra"><a class="anchor" href="#spring-boot-webflux-cassandra"></a>1. spring-boot-webflux + cassandra</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="how-to-reproduce-issue"><a class="anchor" href="#how-to-reproduce-issue"></a>1.1. how to reproduce issue</h3>
+<h3 id="test"><a class="anchor" href="#test"></a>1.1. test</h3>
+<div class="paragraph">
+<p>TODO&#8230;&#8203;</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="build-and-run"><a class="anchor" href="#build-and-run"></a>1.2. build and run</h3>
+<div class="listingblock">
+<div class="title">docker (gradle / maven)</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">./gradlew build composeUp
+./gradlew composeDown
+
+./mvnw; ./mvnw com.dkanejs.maven.plugins:docker-compose-maven-plugin:1.0.1:up -P docker
+./mvnw com.dkanejs.maven.plugins:docker-compose-maven-plugin:1.0.1:down -P docker</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">gradle</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">./gradlew
+java -jar build/libs/*.jar
+bash build/libs/*.jar</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">maven</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">./mvnw
+java -jar target/*.jar
+bash target/*.jar</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Initially generated by using <a href="https://github.com/daggerok/generator-jvm/">generator-jvm</a> yeoman generator (java-spring-boot)</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="fix-of-spring-data-jpa-issue-when-using-entityname-in-countquery"><a class="anchor" href="#fix-of-spring-data-jpa-issue-when-using-entityname-in-countquery"></a>2. fix of spring-data-jpa issue when using #{#entityName} in countQuery</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="title">testing using httpie</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">http :8080/api/</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">run using gradle</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">./gradlew
+java -jar build/libs/*.jar
+bash build/libs/*.jar</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">run using maven</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">./mvnw
+java -jar target/*.jar
+bash target/*.jar</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">run using docker</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"># gradle
+./gradlew build composeUp
+./gradlew composeDown
+
+# maven
+./mvnw; ./mvnw com.dkanejs.maven.plugins:docker-compose-maven-plugin:1.0.1:up -P docker
+./mvnw com.dkanejs.maven.plugins:docker-compose-maven-plugin:1.0.1:down -P docker</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Initially generated by using <a href="https://github.com/daggerok/generator-jvm/">generator-jvm</a> yeoman generator (java-spring-boot)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="spring-expression-language-issue"><a class="anchor" href="#spring-expression-language-issue"></a>3. spring expression language (issue)</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="how-to-reproduce-issue"><a class="anchor" href="#how-to-reproduce-issue"></a>3.1. how to reproduce issue</h3>
 <div class="sect3">
-<h4 id="update-custom-countquery"><a class="anchor" href="#update-custom-countquery"></a>1.1.1. update custom countQuery</h4>
+<h4 id="update-custom-countquery"><a class="anchor" href="#update-custom-countquery"></a>3.1.1. update custom countQuery</h4>
 <div class="paragraph">
 <p>in file app/src/main/java/daggerok/domain/MyEntityRepository.java:</p>
 </div>
@@ -541,7 +633,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect3">
-<h4 id="verify-bootstrapping-fail-with-exception"><a class="anchor" href="#verify-bootstrapping-fail-with-exception"></a>1.1.2. verify bootstrapping fail with exception</h4>
+<h4 id="verify-bootstrapping-fail-with-exception"><a class="anchor" href="#verify-bootstrapping-fail-with-exception"></a>3.1.2. verify bootstrapping fail with exception</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">...
@@ -554,7 +646,7 @@ Caused by: org.hibernate.QueryException: unexpected char: '#' [ select count(me.
 </div>
 </div>
 <div class="sect2">
-<h3 id="run-app"><a class="anchor" href="#run-app"></a>1.2. run app</h3>
+<h3 id="run-app"><a class="anchor" href="#run-app"></a>3.2. run app</h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">bash gradlew bootRun # installed docker and compose are required
@@ -566,7 +658,7 @@ bash gradlew --stop</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="links"><a class="anchor" href="#links"></a>1.3. links</h3>
+<h3 id="links"><a class="anchor" href="#links"></a>3.3. links</h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -581,7 +673,7 @@ bash gradlew --stop</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="spring-expression-language-fixes"><a class="anchor" href="#spring-expression-language-fixes"></a>2. spring expression language (fixes)</h2>
+<h2 id="spring-expression-language-fixes"><a class="anchor" href="#spring-expression-language-fixes"></a>4. spring expression language (fixes)</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Unresolved directive in index.adoc - include::../spel-fixed/README.adoc[tags=content]</p>
@@ -589,7 +681,7 @@ bash gradlew --stop</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="redis"><a class="anchor" href="#redis"></a>3. redis</h2>
+<h2 id="redis"><a class="anchor" href="#redis"></a>5. redis</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>bootstrapping docker before bootRun</p>
@@ -611,7 +703,7 @@ gradle --stop</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="stack"><a class="anchor" href="#stack"></a>3.1. stack:</h4>
+<h4 id="stack"><a class="anchor" href="#stack"></a>5.1. stack:</h4>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -669,10 +761,10 @@ gradle --stop</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="querydsl"><a class="anchor" href="#querydsl"></a>4. QueryDSL</h2>
+<h2 id="querydsl"><a class="anchor" href="#querydsl"></a>6. QueryDSL</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="functional-rest-api-testing-using-soapui-and-gradle-plugin"><a class="anchor" href="#functional-rest-api-testing-using-soapui-and-gradle-plugin"></a>4.1. functional REST API testing using SoapUI and Gradle plugin</h3>
+<h3 id="functional-rest-api-testing-using-soapui-and-gradle-plugin"><a class="anchor" href="#functional-rest-api-testing-using-soapui-and-gradle-plugin"></a>6.1. functional REST API testing using SoapUI and Gradle plugin</h3>
 <div class="paragraph">
 <p>see <code>soaptest</code> subproject</p>
 </div>
@@ -683,7 +775,7 @@ gradle --stop</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="functional-soap-api-testing-using-soapui-and-gradle-plugin"><a class="anchor" href="#functional-soap-api-testing-using-soapui-and-gradle-plugin"></a>4.2. functional SOAP API testing using SoapUI and Gradle plugin</h3>
+<h3 id="functional-soap-api-testing-using-soapui-and-gradle-plugin"><a class="anchor" href="#functional-soap-api-testing-using-soapui-and-gradle-plugin"></a>6.2. functional SOAP API testing using SoapUI and Gradle plugin</h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">gradle wsServiceRun
@@ -697,7 +789,7 @@ gradle clean assemble soaptestWs</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="unit-integration-testing-using-spring-boot-test-and-docker"><a class="anchor" href="#unit-integration-testing-using-spring-boot-test-and-docker"></a>4.3. unit/integration testing using spring-boot-test and Docker</h3>
+<h3 id="unit-integration-testing-using-spring-boot-test-and-docker"><a class="anchor" href="#unit-integration-testing-using-spring-boot-test-and-docker"></a>6.3. unit/integration testing using spring-boot-test and Docker</h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">gradle celan build</code></pre>
@@ -705,7 +797,7 @@ gradle clean assemble soaptestWs</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="jpa-persisting-collections-of-enum"><a class="anchor" href="#jpa-persisting-collections-of-enum"></a>4.4. JPA: persisting Collections of Enum</h3>
+<h3 id="jpa-persisting-collections-of-enum"><a class="anchor" href="#jpa-persisting-collections-of-enum"></a>6.4. JPA: persisting Collections of Enum</h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">gradle restServiceRun
@@ -732,7 +824,7 @@ gradle --stop</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="spring-hateoas-resources-assembler-page-metadata"><a class="anchor" href="#spring-hateoas-resources-assembler-page-metadata"></a>4.5. spring HATEOAS resources assembler page metadata</h3>
+<h3 id="spring-hateoas-resources-assembler-page-metadata"><a class="anchor" href="#spring-hateoas-resources-assembler-page-metadata"></a>6.5. spring HATEOAS resources assembler page metadata</h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">gradle restServiceRun
@@ -741,7 +833,7 @@ http :8080/api/v5/engineers/page-metadata</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="event-sourcing-using-spring-application-events"><a class="anchor" href="#event-sourcing-using-spring-application-events"></a>4.6. Event Sourcing using spring application events</h3>
+<h3 id="event-sourcing-using-spring-application-events"><a class="anchor" href="#event-sourcing-using-spring-application-events"></a>6.6. Event Sourcing using spring application events</h3>
 <div class="paragraph">
 <p>see:</p>
 </div>
@@ -763,7 +855,7 @@ http :8080/rest/histories | jq '._embedded.histories'</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="event-sourcing-history-using-spring-data-rest"><a class="anchor" href="#event-sourcing-history-using-spring-data-rest"></a>4.7. Event Sourcing (history) using spring data-rest</h3>
+<h3 id="event-sourcing-history-using-spring-data-rest"><a class="anchor" href="#event-sourcing-history-using-spring-data-rest"></a>6.7. Event Sourcing (history) using spring data-rest</h3>
 <div class="paragraph">
 <p>see:</p>
 </div>
@@ -787,7 +879,7 @@ http :8080/rest/histories | jq '._embedded.histories'</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="embedded-primitive-onetomany-and-manytomany-relationships"><a class="anchor" href="#embedded-primitive-onetomany-and-manytomany-relationships"></a>4.8. Embedded primitive @OneToMany and @ManyToMany relationships</h3>
+<h3 id="embedded-primitive-onetomany-and-manytomany-relationships"><a class="anchor" href="#embedded-primitive-onetomany-and-manytomany-relationships"></a>6.8. Embedded primitive @OneToMany and @ManyToMany relationships</h3>
 <div class="paragraph">
 <p>see: <code>service/**/src/main/java/daggerok/relationships</code></p>
 </div>
@@ -810,13 +902,13 @@ gradle composeDown</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="optimization-3nf"><a class="anchor" href="#optimization-3nf"></a>4.9. Optimization: 3NF</h3>
+<h3 id="optimization-3nf"><a class="anchor" href="#optimization-3nf"></a>6.9. Optimization: 3NF</h3>
 <div class="paragraph">
 <p>see: <code>service/**/src/main/java/daggerok/embedded</code></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="examine-rest-api-using-httpie"><a class="anchor" href="#examine-rest-api-using-httpie"></a>4.10. examine REST API using HTTPie:</h3>
+<h3 id="examine-rest-api-using-httpie"><a class="anchor" href="#examine-rest-api-using-httpie"></a>6.10. examine REST API using HTTPie:</h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">http :8080/api/v3/predicate
@@ -839,7 +931,7 @@ http :8080/api/v2/flatten/2</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="generate-q-classes-from-jpa"><a class="anchor" href="#generate-q-classes-from-jpa"></a>4.11. generate Q-classes from JPA:</h3>
+<h3 id="generate-q-classes-from-jpa"><a class="anchor" href="#generate-q-classes-from-jpa"></a>6.11. generate Q-classes from JPA:</h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">gradle compileQuerydsl xjc</code></pre>
@@ -847,7 +939,7 @@ http :8080/api/v2/flatten/2</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="quick-startup"><a class="anchor" href="#quick-startup"></a>4.12. quick startup</h3>
+<h3 id="quick-startup"><a class="anchor" href="#quick-startup"></a>6.12. quick startup</h3>
 <div class="paragraph">
 <p>bootstrapping docker before bootRun</p>
 </div>
@@ -862,7 +954,7 @@ gradle --stop</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="integration-tests"><a class="anchor" href="#integration-tests"></a>4.13. integration tests</h3>
+<h3 id="integration-tests"><a class="anchor" href="#integration-tests"></a>6.13. integration tests</h3>
 <div class="paragraph">
 <p>see <code>docker</code> subproject</p>
 </div>
@@ -874,7 +966,7 @@ gradle --stop</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="spring-data-jpa-auditing"><a class="anchor" href="#spring-data-jpa-auditing"></a>4.14. spring data jpa auditing</h3>
+<h3 id="spring-data-jpa-auditing"><a class="anchor" href="#spring-data-jpa-auditing"></a>6.14. spring data jpa auditing</h3>
 <div class="paragraph">
 <p>see <code>service/**/src/main/java/daggerok/audit</code> package</p>
 </div>
@@ -924,7 +1016,7 @@ gradle --stop</code></pre>
 </table>
 </div>
 <div class="sect2">
-<h3 id="stack-2"><a class="anchor" href="#stack-2"></a>4.15. stack:</h3>
+<h3 id="stack-2"><a class="anchor" href="#stack-2"></a>6.15. stack:</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -957,7 +1049,7 @@ gradle --stop</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="derby-create-drop-for-development"><a class="anchor" href="#derby-create-drop-for-development"></a>5. Derby create-drop for development)</h2>
+<h2 id="derby-create-drop-for-development"><a class="anchor" href="#derby-create-drop-for-development"></a>7. Derby create-drop for development)</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>This repo is contains simple example of usage spring-boot devtools reload/restart with derby</p>
@@ -979,7 +1071,7 @@ gradle --stop</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="reactive-redis"><a class="anchor" href="#reactive-redis"></a>6. Reactive Redis</h2>
+<h2 id="reactive-redis"><a class="anchor" href="#reactive-redis"></a>8. Reactive Redis</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>this repository is containgn modern spring 5 web application which is using reactive spring webflux and spring data redis</p>
@@ -1003,7 +1095,7 @@ gradle --stop</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="boot-your-data-rdbms-derby-h2-hsql-mysql-postgres"><a class="anchor" href="#boot-your-data-rdbms-derby-h2-hsql-mysql-postgres"></a>7. Boot your data - RDBMS (derby, h2, hsql, mysql, postgres)</h2>
+<h2 id="boot-your-data-rdbms-derby-h2-hsql-mysql-postgres"><a class="anchor" href="#boot-your-data-rdbms-derby-h2-hsql-mysql-postgres"></a>9. Boot your data - RDBMS (derby, h2, hsql, mysql, postgres)</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>This repository contains examples of usage relation databases with spring-data-rest</p>
@@ -1014,7 +1106,7 @@ gradle --stop</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="listening-spring-data-events"><a class="anchor" href="#listening-spring-data-events"></a>8. Listening spring-data events</h2>
+<h2 id="listening-spring-data-events"><a class="anchor" href="#listening-spring-data-events"></a>10. Listening spring-data events</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>this repository is containgn modern spring 5 web application which is listening spring-data events</p>
@@ -1027,7 +1119,7 @@ gradle --stop</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="elasticsearch"><a class="anchor" href="#elasticsearch"></a>9. Elasticsearch</h2>
+<h2 id="elasticsearch"><a class="anchor" href="#elasticsearch"></a>11. Elasticsearch</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>This repository contains spring-data elastic examples</p>
@@ -1082,7 +1174,7 @@ curl -u elastic:changeme localhost:9200 | jq</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="using-elastic"><a class="anchor" href="#using-elastic"></a>10. using elastic</h2>
+<h2 id="using-elastic"><a class="anchor" href="#using-elastic"></a>12. using elastic</h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="title">create few users</div>
@@ -1119,7 +1211,7 @@ http -a elastic:changeme :9200/user/_search\?q=ololo</pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="problem-solving"><a class="anchor" href="#problem-solving"></a>11. problem solving</h2>
+<h2 id="problem-solving"><a class="anchor" href="#problem-solving"></a>13. problem solving</h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="title">ulimit -an</div>
@@ -1185,7 +1277,7 @@ reboot</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="resources"><a class="anchor" href="#resources"></a>12. resources</h2>
+<h2 id="resources"><a class="anchor" href="#resources"></a>14. resources</h2>
 <div class="sectionbody">
 <div class="olist arabic">
 <ol class="arabic">
@@ -1206,7 +1298,7 @@ reboot</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="spring-data-key-value-webflux-kotlin"><a class="anchor" href="#spring-data-key-value-webflux-kotlin"></a>13. Spring Data Key-Value (webflux / kotlin)</h2>
+<h2 id="spring-data-key-value-webflux-kotlin"><a class="anchor" href="#spring-data-key-value-webflux-kotlin"></a>15. Spring Data Key-Value (webflux / kotlin)</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>This is a simple spring-boot 5 webflux REST API example using spring-data-keyvalue (Map as database) and kotlin language.</p>
@@ -1233,7 +1325,7 @@ reboot</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="spring-data-hazelcast"><a class="anchor" href="#spring-data-hazelcast"></a>14. Spring Data Hazelcast</h2>
+<h2 id="spring-data-hazelcast"><a class="anchor" href="#spring-data-hazelcast"></a>16. Spring Data Hazelcast</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>This is a simple spring-mvc REST API example using spring-data-hazelcast and kotlin language.</p>
@@ -1342,7 +1434,7 @@ http :8080/any/Ma
 </div>
 </div>
 <div class="sect1">
-<h2 id="spring-data-reactive-mongo-solr-elastic"><a class="anchor" href="#spring-data-reactive-mongo-solr-elastic"></a>15. Spring data reactive (mongo, solr, elastic)</h2>
+<h2 id="spring-data-reactive-mongo-solr-elastic"><a class="anchor" href="#spring-data-reactive-mongo-solr-elastic"></a>17. Spring data reactive (mongo, solr, elastic)</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>This repository contains examples of usage NOSql databases such elasticsearch, mongodb, solr, couchbase, etc with spring, spring-boot and spring-data</p>
@@ -1361,7 +1453,7 @@ docker-compose down -v --remove-orphans</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="spring-data-spring-data-rest-advanced-audit"><a class="anchor" href="#spring-data-spring-data-rest-advanced-audit"></a>16. Spring Data (spring-data-rest) advanced audit</h2>
+<h2 id="spring-data-spring-data-rest-advanced-audit"><a class="anchor" href="#spring-data-spring-data-rest-advanced-audit"></a>18. Spring Data (spring-data-rest) advanced audit</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>This repository contains spring-data audition implementation: object diff history audit</p>
@@ -1393,7 +1485,7 @@ docker-compose down -v; ./mvnw; docker-compose up --build --force-recreate --rem
 </div>
 </div>
 <div class="sect1">
-<h2 id="mapdb-spring-webflux"><a class="anchor" href="#mapdb-spring-webflux"></a>17. MapDB | Spring Webflux</h2>
+<h2 id="mapdb-spring-webflux"><a class="anchor" href="#mapdb-spring-webflux"></a>19. MapDB | Spring Webflux</h2>
 <div class="sectionbody">
 <div class="ulist">
 <ul>
@@ -1405,7 +1497,7 @@ docker-compose down -v; ./mvnw; docker-compose up --build --force-recreate --rem
 </div>
 </div>
 <div class="sect1">
-<h2 id="links-2"><a class="anchor" href="#links-2"></a>18. links</h2>
+<h2 id="links-2"><a class="anchor" href="#links-2"></a>20. links</h2>
 <div class="sectionbody">
 <div class="ulist">
 <ul>
@@ -1424,9 +1516,26 @@ docker-compose down -v; ./mvnw; docker-compose up --build --force-recreate --rem
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1<br>
-Last updated 2018-07-21 21:35:08 UTC
+Last updated 2018-08-24 23:21:06 UTC
 </div>
 </div>
+<!-- jquery -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!-- highlight.js highlighter -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/dos.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/bash.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/shell.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/scala.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/kotlin.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/json.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/javascript.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/typescript.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/markdown.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<!-- add other npn standard languages you are using in your documentation... -->
+<script>hljs.initHighlighting();</script>
+<script>hljs.initHighlightingOnLoad();</script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
 <script>hljs.initHighlighting()</script>
