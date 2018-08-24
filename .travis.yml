@@ -56,20 +56,20 @@ script:
 - java -jar $root/redis-store/lettuce/target/*-all.jar
 
 # spring-webflux-cassandra
-- ./gradlew -b ${root}/spring-webflux-cassandra/build.gradle
+- ./gradlew -b ${root}/spring-webflux-cassandra/build.gradle >/dev/null
 - bash ${root}/spring-webflux-cassandra/build/libs/*.jar &
 - wait_for 8080
 - http :8080/
 - stop_any 8080
 #
-- ./mvnw -f ${root}/spring-webflux-cassandra/pom.xml
+- ./mvnw -f ${root}/spring-webflux-cassandra/pom.xml >/dev/null
 - bash ${root}/spring-webflux-cassandra/target/*.jar &
 - wait_for 8080
 - http :8080/
 - stop_any 8080
 
 # spring-data-jpa-count-query-fix
-- bash gradlew -b ${root}/spring-data-jpa-count-query-fix/build.gradle >/dev/null
+- ./gradlew -b ${root}/spring-data-jpa-count-query-fix/build.gradle >/dev/null
 - java -jar ${root}/spring-data-jpa-count-query-fix/build/libs/*.jar &
 - wait_for 8080
 - http :8080/api/orders/
@@ -79,8 +79,8 @@ script:
 
 # infinispan-example plain
 - cd $root/infinispan-example
-- bash mvnw >/dev/null
-- bash gradlew >/dev/null
+- ./mvnw >/dev/null
+- ./gradlew >/dev/null
 - java -jar ./infinispan-service/build/libs/*.jar &
 - java -jar ./infinispan-service/target/*.jar --server.port=8000 &
 - wait_for 8080 8000
@@ -112,8 +112,8 @@ script:
 
 # spring-data-history-audit
 - cd $root/spring-data-history-audit
-- bash mvnw >/dev/null
-- bash gradlew >/dev/null
+- ./mvnw >/dev/null
+- ./gradlew >/dev/null
 - docker-compose build --force-rm --no-cache --pull >/dev/null
 - docker-compose up --force-recreate --remove-orphans &
 - sleep 30
@@ -139,8 +139,8 @@ script:
 
 # 7. spring-data-hazelcast
 - cd $root/spring-data-hazelcast
-- bash gradlew assemble >/dev/null
-- bash gradlew bootRun &
+- ./gradlew assemble >/dev/null
+- ./gradlew bootRun &
 - sleep 30
 - http :8080
 - http :8080/not-found
@@ -151,8 +151,8 @@ script:
 
 # 6. key-value-hazelcast
 - cd $root/key-value-hazelcast
-- bash gradlew assemble >/dev/null
-- bash gradlew bootRun &
+- ./gradlew assemble >/dev/null
+- ./gradlew bootRun &
 - sleep 25
 - http :8080
 - http :8080/not-found
@@ -163,24 +163,24 @@ script:
 
 # 5. key-value
 - cd $root/key-value
-- bash gradlew assemble >/dev/null
-- bash gradlew bootRun &
+- ./gradlew assemble >/dev/null
+- ./gradlew bootRun &
 - sleep 15
 - curl http://localhost:8080/ | jq .
 - stop_any 8080 8080 80
 
 # 4. elastic
 - cd $root/elastic
-- bash gradlew assemble composeUp -Ddocker=compose-travis-all >/dev/null
+- ./gradlew assemble composeUp -Ddocker=compose-travis-all >/dev/null
 - curl http://localhost/
 - curl http://localhost:8001/
 - curl http://localhost:8001/users
 - curl -u elastic:changeme http://localhost:9200/_cat/health
-- bash gradlew composeDown -Ddocker=compose-travis-all
+- ./gradlew composeDown -Ddocker=compose-travis-all
 
 # 3. QueryDSL:
 - cd "$root/querydsl"
-- bash gradlew clean test build
+- ./gradlew clean test build
 
 # QueryDSL: test and build
 - docker-compose -f soaptest/rest-service/src/docker/docker-compose.yml up -d --build
@@ -189,7 +189,7 @@ script:
 - docker-compose -f soaptest/ws-service/src/docker/docker-compose.yml down -v
 
 # QueryDSL: run rest
-- bash gradlew :docker:dockerUp >/dev/null
+- ./gradlew :docker:dockerUp >/dev/null
 - sudo mkdir -p /var/rest-service
 - sudo mv -f services/rest-service/build/libs/*.jar /var/rest-service/rest-service.jar
 - sudo ln -s /var/rest-service/rest-service.jar /etc/init.d/rest-service
@@ -233,7 +233,7 @@ script:
 - bash gradlew :docker:dockerDown
 
 # QueryDSL: run ws
-- bash gradlew :docker:dockerUp >/dev/null
+- ./gradlew :docker:dockerUp >/dev/null
 - sudo mkdir -p /var/ws-service
 - sudo mv -f services/ws-service/build/libs/*.jar /var/ws-service/ws-service.jar
 - sudo ln -s /var/ws-service/ws-service.jar /etc/init.d/ws-service
@@ -241,18 +241,17 @@ script:
 - sleep 15
 - curl --header "content-type:text/xml" -d @services/ws-service/src/test/resources/request.xml http://localhost:8080/ws | xmllint --format -
 - sudo service ws-service stop
-- bash gradlew :docker:dockerDown
+- ./gradlew :docker:dockerDown
 
 # QueryDSL: run SoapUI tests
-- bash gradlew clean assemble soaptestRest soaptestWs
-- bash gradlew clean assemble testrunner
-- bash gradlew --stop
+- ./gradlew clean assemble soaptestRest soaptestWs
+- ./gradlew clean assemble testrunner
+- ./gradlew --stop
 
 # 2. SPEL
 - cd $root/spel/
-- pwd
-- bash gradlew
-- bash gradlew composeUp
+- ./gradlew
+- ./gradlew composeUp
 - sudo mkdir -p /var/spel-app
 - sudo mv -f ./app/build/libs/*.jar /var/spel-app/spel-app.jar
 - sudo ln -s /var/spel-app/spel-app.jar /etc/init.d/spel-app
@@ -262,19 +261,18 @@ script:
 - curl -sS localhost:8080/all | jq .
 - curl -sS localhost:8080/names | jq .
 - sudo service spel-app stop
-- bash gradlew --stop
+- ./gradlew --stop
 
 # 1. redis
 - cd $root/redis/
-- pwd
-- bash gradlew clean build >/dev/null
+- ./gradlew clean build >/dev/null
 
 # redis: docker
 - docker-compose -f ./docker/src/docker-compose.yml up -d --build
 - docker-compose -f ./docker/src/docker-compose.yml down -v
 
 # redis: manual redis-app tests
-- bash gradlew composeUp >/dev/null
+- ./gradlew composeUp >/dev/null
 - sudo mkdir -p /var/redis-app
 - sudo mv -f ./redis/build/libs/*.jar /var/redis-app/redis-app.jar
 - sudo ln -s /var/redis-app/redis-app.jar /etc/init.d/redis-app
@@ -283,7 +281,7 @@ script:
 - curl -sS localhost:8080/redisObjs -H'content-type:application/json' -d'{"data":"test"}' | jq .
 - curl -sS localhost:8080/redisObjs | jq .
 - sudo service redis-app stop
-- bash gradlew composeDown
+- ./gradlew composeDown
 
 # redis: manual embedded-redis-app tests
 - sudo mkdir -p /var/embedded-redis-app
@@ -294,7 +292,7 @@ script:
 - curl -sS localhost:8082/embeddedRedisObjs -H'content-type:application/json' -d'{"data":"test-embedded"}' | jq .
 - curl -sS localhost:8082/embeddedRedisObjs | jq .
 - sudo service embedded-redis-app stop
-- bash gradlew --stop
+- ./gradlew --stop
 
 env:
   global:
