@@ -20,6 +20,9 @@ Maksim Kostromin <daggerok@gmail.com>
 This documentation contains some help to
 link:{github-url}[examples from spring-data-examples repository] is contains some node.js playground projects
 
+== spring-boot-webflux + cassandra
+include::../spring-webflux-cassandra/README.adoc[tags=content]
+
 == fix of spring-data-jpa issue when using #{#entityName} in countQuery
 include::../spring-data-jpa-count-query-fix/README.adoc[tags=content]
 

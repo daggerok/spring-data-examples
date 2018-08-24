@@ -49,6 +49,25 @@ before_install:
 script:
 - export root=$(pwd)
 
+# redis-store
+- ./gradlew -b $root/redis-store/build.gradle clean installDist >/dev/null
+- bash $root/redis-store/lettuce/build/install/lettuce/bin/lettuce
+- bash mvnw -f $root/redis-store/pom.xml >/dev/null
+- java -jar $root/redis-store/lettuce/target/*-all.jar
+
+# spring-webflux-cassandra
+- ./gradlew -b ${root}/spring-webflux-cassandra/build.gradle
+- bash ${root}/spring-webflux-cassandra/build/libs/*.jar &
+- wait_for 8080
+- http :8080/
+- stop_any 8080
+#
+- ./mvnw -f ${root}/spring-webflux-cassandra/pom.xml
+- bash ${root}/spring-webflux-cassandra/target/*.jar &
+- wait_for 8080
+- http :8080/
+- stop_any 8080
+
 # spring-data-jpa-count-query-fix
 - bash gradlew -b ${root}/spring-data-jpa-count-query-fix/build.gradle >/dev/null
 - java -jar ${root}/spring-data-jpa-count-query-fix/build/libs/*.jar &
@@ -57,13 +76,6 @@ script:
 - http :8080/api/
 - http :8080/
 - stop_any 8080
-
-# redis-store
-- cd $root/redis-store
-- bash gradlew clean installDist >/dev/null
-- bash lettuce/build/install/lettuce/bin/lettuce
-- bash mvnw >/dev/null
-- java -jar lettuce/target/*-all.jar
 
 # infinispan-example plain
 - cd $root/infinispan-example

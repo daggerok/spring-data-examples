@@ -1,0 +1,3 @@
+rootProject.name = 'spring-webflux-cassandra'
+enableFeaturePreview 'STABLE_PUBLISHING'
+include 'docs'

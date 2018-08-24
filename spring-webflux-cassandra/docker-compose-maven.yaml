@@ -1,0 +1,33 @@
+version: "2.1"
+
+services:
+
+  maven-spring-webflux-cassandra-app:
+    build:
+      context: .
+      dockerfile: .mvn/Dockerfile
+    volumes: ["maven-spring-webflux-cassandra-app-data:/home/appuser"]
+    ports: ["8080:8080"]
+    networks: [backing-services]
+    #restart: unless-stopped
+    #mem_limit: 786432000 # container limit: 700Mb (700 * 1024 * 1024)
+
+  cassadnra:
+    #image: dschroe/cassandra-docker
+    image: 127.0.0.1:5000/cassandra
+    build: ./cassandra-docker/
+    restart: unless-stopped
+    ports: ["9042:9042"]
+    volumes:
+    - cassandra-data:/var/lib/cassandra
+    - cassandra-data:/home/cassandra/.cassandra
+    - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+    networks: [backing-services]
+
+volumes:
+  cassandra-data: {}
+  maven-spring-webflux-cassandra-app-data: {}
+
+networks:
+  backing-services:
+    driver: bridge

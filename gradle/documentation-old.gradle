@@ -10,7 +10,7 @@ buildscript {
 }
 
 plugins {
-  id 'org.asciidoctor.convert' version '1.5.7'
+  id 'org.asciidoctor.convert' version '1.5.8.1'
   id 'org.ajoberstar.git-publish' version '0.3.0'
 }
 
