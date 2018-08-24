@@ -2,6 +2,7 @@
 
 This repository contains some spring-data playground projects
 
+. link:./spring-data-count-query-fix/[spring-data-jpa #{#entityName} fix in countQuery]
 . link:https://github.com/daggerok/spring-data-mybatis[MyBatis]
 . link:https://github.com/daggerok/spring-boot-runtime-datasource-initialization[Runtime DataSource(s) initialization]
 . link:redis-store[Kotlin | Redis]

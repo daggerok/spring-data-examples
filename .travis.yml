@@ -2,28 +2,61 @@ service:
 - docker
 
 language: java
-jdk: oraclejdk8
+jdk:
+- oraclejdk8
 
 addons:
   apt:
     update: true
+    sources:
+    - google-chrome
     packages:
-    - docker-ce
+    - google-chrome-stable
+    - google-chrome-stable
+    - libappindicator1
+    - fonts-liberation
     - bash
     - curl
-    - jq
     - libxml2-utils
-    - python-pip
-    - google-chrome-stable
-
+    - docker-ce
 install: true
 before_install:
-- sudo pip install docker-compose httpie >/dev/null 2>&1
-- source <(curl -fsSL https://raw.github.com/daggerok/bash-functions/master/main.bash)
-- stop_any 5672 5432 27017 9200 9300 5601 8001 8002 8080 80
+- export CHROME_BIN=/usr/bin/google-chrome
+- export DISPLAY=:99.0
+- sh -e /etc/init.d/xvfb start
+#
+- sudo add-apt-repository universe -y >/dev/null
+- echo "deb http://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list >/dev/null
+- sudo apt-get update -yqq >/dev/null
+- sudo apt-get install -yqq --no-install-suggests --no-install-recommends
+  tree jq python-pip curl bash sudo >/dev/null
+#
+- sudo pip install httpie >/dev/null 2>&1
+#
+- source <(curl -s https://raw.githubusercontent.com/daggerok/bash-functions/master/main.bash)
+- stop_any 8080 3000 80 5672 5432 27017 9200 9300 5601 8001 8002 8080 80 >/dev/null
+#
+- curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add - >/dev/null
+- echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list >/dev/null
+- sudo apt-get update -yqq >/dev/null
+- sudo apt-get install -yqq --no-install-suggests --no-install-recommends yarn >/dev/null
+#
+- java -version
+- ./mvnw -v
+- node -v
+- yarn -v
 
 script:
 - export root=$(pwd)
+
+# spring-data-jpa-count-query-fix
+- bash gradlew -b ${root}/spring-data-jpa-count-query-fix/build.gradle >/dev/null
+- java -jar ${root}/spring-data-jpa-count-query-fix/build/libs/*.jar &
+- wait_for 8080
+- http :8080/api/orders/
+- http :8080/api/
+- http :8080/
+- stop_any 8080
 
 # redis-store
 - cd $root/redis-store
@@ -280,3 +313,6 @@ cache:
   - $HOME/.m2
   - $HOME/.gradle
   - $HOME/.docker
+
+notifications:
+  email: false
