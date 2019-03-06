@@ -2,7 +2,7 @@
 
 This repository contains some spring-data playground projects
 
-
+- link:https://github.com/daggerok/webflux-cqrs-es[Eventsourcing using JPA (in progress..)]
 - link:https://github.com/daggerok/r2dbc-example[GitHub daggerok/r2dbc-example - R2DBC: Reactive JDBC]
 - link:./spring-data-jpa-count-query-fix/[spring-data-jpa #{#entityName} fix in countQuery]
 - link:https://github.com/daggerok/spring-data-mybatis[MyBatis]
