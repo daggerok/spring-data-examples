@@ -2,6 +2,7 @@
 
 This repository contains some spring-data playground projects
 
+- link:https://github.com/daggerok/spring-data-hazelcast-example[Lazy and fast Spring Data Hazelcast]
 - link:https://github.com/daggerok/spring-data-jdbc-example[Lightway Spring Data JDBC]
 - link:https://github.com/daggerok/spring-data-java8[Spring Data repository return types: CompletableFuture, Stream / Streamble]
 - link:https://github.com/daggerok/webflux-cqrs-es[Eventsourcing using JPA (in progress..)]
