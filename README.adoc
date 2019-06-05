@@ -28,6 +28,10 @@ This repository contains some spring-data playground projects
 - link:reactive-data-flow-systems/[reactive data flow systems]
 - link:infinispan-example/[Using infinispan data grid]
 
+_other repositories_
+
+- link:https://github.com/daggerok/r2dbc-kickass[GitHub daggerok/r2dbc-kickass]
+
 TODO:
 
 - link:https://www.youtube.com/watch?v=N8ElAVRecaM[Reactive Data Access with Spring Data - Christoph Strobl, Mark Paluch]
