@@ -1,298 +1,374 @@
-service:
-- docker
-
+dist: xenial
+git:
+  quiet: true
+  depth: 1
+notifications:
+  email: false
+env:
+  global:
+    # github-api-v3-gateway app requires github token
+    - secure: "PLL6z6iFOkP1zcJt2R7Yq8ut1313FX70opXUrC7/O0HUEgQdU1q77McSjxxyY4AtzvT+XPgbGNAx5JXuVpHyQ4rnM1Q/3HBz7E2ZHr+71ehLap95x9XKkwShw/Can9IYu66FUGm7sOdN2b01JOpH4IKR50tGeUY9dWzdld10f/Se5KaRjCtzCKsMyMPm02dhUvxvzLn0VWNQDuZC2hAsLsBGOBKc9cGcI03b0u98We8lqyaJ6FT6j0Fjd4t3CycOVR+0XrVbEJ3tFaILmSZoer+N76vqnY42sTyHfbNUPyJboZshy8A19AAngebw4yJWKaHQ+B3eowLcpDRoR32SYnFHgDMtDLLsKMVZeGBvUazORgQpl5YKQeInOKbSku796ZiWz7ciGsCm52ve9dymlX+PUzkfA9J9ylK4XRl9/yLNFfqtjmWLRkP0+V3qRtwCnLU3yd5ZQ7D8t1dhSNJHddvC75oH6Cn/KFOk+4h6jjo+hXOj64ZcjJF8bvYLbdhlFNbNdmq8I9MT0qge95UcufJ9pJk42PL1ojAmxw2REACdW3MMPfcSWukQAuzOgPeZYAjQ9zUIFBqkrrbH2j4Eo+wEq+wwxsgcmBSAkgjdLR9Ni1x/RcqrO1kZ3fXbIr/1P8XXF9d1l0oMDgNjgt64MVT0wwNyxOEPBwGXUO3TkFw="
+    - TERM=dumb
 language: java
-jdk:
-- oraclejdk8
-
+jdk: openjdk8
+node_js: lts/*
+python: 3
+service:
+  - docker
 addons:
   apt:
     update: true
     sources:
-    - google-chrome
+      - google-chrome
     packages:
-    - google-chrome-stable
-    - google-chrome-stable
-    - libappindicator1
-    - fonts-liberation
-    - bash
-    - curl
-    - libxml2-utils
-    - docker-ce
+      - google-chrome-stable
+      - google-chrome-stable
+      - libappindicator1
+      - fonts-liberation
+      - bash
+      - curl
+      - libxml2-utils
+      - docker-ce
+      - sudo
+      - lsof
+      - wget
+      - bash
+      - curl
+      - jq
+      - libxml2-utils
+      - unzip
+      - docker-ce
+      - python3-dev
+      - python3-pip
+      - python3-six
+      - python3-setuptools
 install: true
 before_install:
-- export CHROME_BIN=/usr/bin/google-chrome
-- export DISPLAY=:99.0
-- sh -e /etc/init.d/xvfb start
-#
-- sudo add-apt-repository universe -y >/dev/null
-- echo "deb http://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list >/dev/null
-- sudo apt-get update -yqq >/dev/null
-- sudo apt-get install -yqq --no-install-suggests --no-install-recommends
-  tree jq python-pip curl bash sudo >/dev/null
-#
-- sudo pip install httpie >/dev/null 2>&1
-#
-- source <(curl -s https://raw.githubusercontent.com/daggerok/bash-functions/master/main.bash)
-- stop_any 8080 3000 80 5672 5432 27017 9200 9300 5601 8001 8002 8080 80 >/dev/null
-#
-- curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add - >/dev/null
-- echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list >/dev/null
-- sudo apt-get update -yqq >/dev/null
-- sudo apt-get install -yqq --no-install-suggests --no-install-recommends yarn >/dev/null
-#
-- java -version
-- ./mvnw -v
-- node -v
-- yarn -v
+  - export CHROME_BIN=/usr/bin/google-chrome
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+  #
 
-script:
-- export root=$(pwd)
+  # gradle
+  - curl -s "https://get.sdkman.io" | bash
+  - source "$HOME/.sdkman/bin/sdkman-init.sh"
+  - sed -i -e 's/^sdkman_auto_answer=false$/sdkman_auto_answer=true/g' "$HOME/.sdkman/etc/config"
+  - sdk use gradle 5.5-rc-2
+  - source "$HOME/.sdkman/bin/sdkman-init.sh"
+  #
+  - docker-compose -v
+  - export PATH=$HOME/.local/bin:$PATH
+  - pip3 install --user $(whoami) --upgrade pip >/dev/null # pip3 -> pip
+  - pip install --user $(whoami) --upgrade docker-compose httpie >/dev/null 2>&1
+  - http --version --debug
+  - docker-compose -v
+  #
+  - source <(curl -fsSL https://raw.github.com/daggerok/bash-functions/master/main.bash)
+  - stop_any 8080 3000 80 5672 5432 27017 9200 9300 5601 8001 8002 8080 80 >/dev/null
+  #
+  - curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add - >/dev/null
+  - echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list >/dev/null
+  - sudo apt-get update -yqq >/dev/null
+  - sudo apt-get install -yqq --no-install-suggests --no-install-recommends yarn >/dev/null
+  #
+  - java -version
+  - ./mvnw -v
+  - node -v
+  - yarn -v
 
-# redis-store
-- ./gradlew -b $root/redis-store/build.gradle clean installDist >/dev/null
-- bash $root/redis-store/lettuce/build/install/lettuce/bin/lettuce
-- bash mvnw -f $root/redis-store/pom.xml >/dev/null
-- java -jar $root/redis-store/lettuce/target/*-all.jar
+before_cache:
+- bash -c 'for item in $(find ~/.gradle -name "*.lock"); do sudo rm -rf $item ; done'
 
-# spring-webflux-cassandra
-- ./gradlew -b ${root}/spring-webflux-cassandra/build.gradle >/dev/null
-- bash ${root}/spring-webflux-cassandra/build/libs/*.jar &
-- wait_for 8080
-- http :8080/
-- stop_any 8080
-#
-- ./mvnw -f ${root}/spring-webflux-cassandra/pom.xml >/dev/null
-- bash ${root}/spring-webflux-cassandra/target/*.jar &
-- wait_for 8080
-- http :8080/
-- stop_any 8080
+cache:
+  packages: true
+  pip: true
+  directories:
+    - $HOME/.m2
+    - $HOME/.gradle
+    - $HOME/.docker
 
-# spring-data-jpa-count-query-fix
-- ./gradlew -b ${root}/spring-data-jpa-count-query-fix/build.gradle >/dev/null
-- java -jar ${root}/spring-data-jpa-count-query-fix/build/libs/*.jar &
-- wait_for 8080
-- http :8080/api/orders/
-- http :8080/api/
-- http :8080/
-- stop_any 8080
+jobs:
+  include:
 
-# infinispan-example plain
-- cd $root/infinispan-example
-- ./mvnw >/dev/null
-- ./gradlew >/dev/null
-- java -jar ./infinispan-service/build/libs/*.jar &
-- java -jar ./infinispan-service/target/*.jar --server.port=8000 &
-- wait_for 8080 8000
-- http :8080
-- http :8080 message=ololo\ 1
-- http :8080 message=trololo\ 1
-- http :8080/all
-- http :8000
-- http :8000 message=ololo-2
-- http :8000 message=trololo-2
-- http :8000/all
-- stop_any 8080 8000
-# infinispan-example docker
-- docker-compose -f docker-compose-maven.yaml build --force-rm --no-cache --pull >/dev/null
-- docker-compose -f docker-compose-maven.yaml up --force-recreate --remove-orphans &
-- sleep 30
-- http :8080
-- http :8080 message=ololo
-- http :8080 message=trololo
-- http :8080/all
-- docker-compose -f docker-compose-maven.yaml down -v
-# infinispan-example gradle docker
-- bash gradlew composeUp >/dev/null
-- http :8080
-- http :8080 message=ololo
-- http :8080 message=trololo
-- http :8080/all
-- bash gradlew composeDown
+    - stage: test
+      name: redis-store
+      script:
+        - export root=$(pwd)
+        - ./gradlew -b $root/redis-store/build.gradle clean installDist >/dev/null
+        - bash $root/redis-store/lettuce/build/install/lettuce/bin/lettuce
+        - bash mvnw -f $root/redis-store/pom.xml >/dev/null
+        - java -jar $root/redis-store/lettuce/target/*-all.jar
 
-# spring-data-history-audit
-- cd $root/spring-data-history-audit
-- ./mvnw >/dev/null
-- ./gradlew >/dev/null
-- docker-compose build --force-rm --no-cache --pull >/dev/null
-- docker-compose up --force-recreate --remove-orphans &
-- sleep 30
-- http put :8080/my-entities/1 value=ololo
-- http put :8080/my-entities/1 value=trololo
-- http put :8080/my-entities/1 value=ho-ho-ho
-- http get :8080/my-entities
-- http get :8080/my-entities-history
-- docker-compose down -v
+    - stage: test
+      name: spring-webflux-cassandra
+      script:
+        - export root=$(pwd)
+        - ./gradlew -b ${root}/spring-webflux-cassandra/build.gradle >/dev/null
+        - bash ${root}/spring-webflux-cassandra/build/libs/*.jar &
+        - wait_for 8080
+        - http :8080/
+        - stop_any 8080
+        #
+        - ./mvnw -f ${root}/spring-webflux-cassandra/pom.xml >/dev/null
+        - bash ${root}/spring-webflux-cassandra/target/*.jar &
+        - wait_for 8080
+        - http :8080/
+        - stop_any 8080
 
-- >
-  for path in \
-    spring-data-hazelcast \
-    key-value-hazelcast \
-    shadov \
-    key-value \
-  ; do
+    - stage: test
+      name: spring-data-jpa-count-query-fix
+      script:
+        - export root=$(pwd)
+        - ./gradlew -b ${root}/spring-data-jpa-count-query-fix/build.gradle >/dev/null
+        - java -jar ${root}/spring-data-jpa-count-query-fix/build/libs/*.jar &
+        - wait_for 8080
+        - http :8080/api/orders/
+        - http :8080/api/
+        - http :8080/
+        - stop_any 8080
 
-    cd $root/$path
-    bash gradlew clean build -Ddocker=compose-travis >/dev/null
+    - stage: test
+      name: infinispan
+      script:
+        # infinispan-example plain
+        - cd $root/infinispan-example
+        - ./mvnw >/dev/null
+        - ./gradlew >/dev/null
+        - java -jar ./infinispan-service/build/libs/*.jar &
+        - java -jar ./infinispan-service/target/*.jar --server.port=8000 &
+        - wait_for 8080 8000
+        - http :8080
+        - http :8080 message=ololo\ 1
+        - http :8080 message=trololo\ 1
+        - http :8080/all
+        - http :8000
+        - http :8000 message=ololo-2
+        - http :8000 message=trololo-2
+        - http :8000/all
+        - stop_any 8080 8000
+        # infinispan-example docker
+        - docker-compose -f docker-compose-maven.yaml build --force-rm --no-cache --pull >/dev/null
+        - docker-compose -f docker-compose-maven.yaml up --force-recreate --remove-orphans &
+        - sleep 30
+        - http :8080
+        - http :8080 message=ololo
+        - http :8080 message=trololo
+        - http :8080/all
+        - docker-compose -f docker-compose-maven.yaml down -v
+        # infinispan-example gradle docker
+        - bash gradlew composeUp >/dev/null
+        - http :8080
+        - http :8080 message=ololo
+        - http :8080 message=trololo
+        - http :8080/all
+        - bash gradlew composeDown
 
-  done;
+    - stage: test
+      name: spring-data-history-audit
+      script:
+        - cd $root/spring-data-history-audit
+        - ./mvnw >/dev/null
+        - ./gradlew >/dev/null
+        - docker-compose build --force-rm --no-cache --pull >/dev/null
+        - docker-compose up --force-recreate --remove-orphans &
+        - sleep 30
+        - http put :8080/my-entities/1 value=ololo
+        - http put :8080/my-entities/1 value=trololo
+        - http put :8080/my-entities/1 value=ho-ho-ho
+        - http get :8080/my-entities
+        - http get :8080/my-entities-history
+        - docker-compose down -v
 
-# 7. spring-data-hazelcast
-- cd $root/spring-data-hazelcast
-- ./gradlew assemble >/dev/null
-- ./gradlew bootRun &
-- sleep 30
-- http :8080
-- http :8080/not-found
-- http http :8080/any/ma
-- http post :8080 name=Maximus username=xxx
-- http :8080/any/Ma
-- stop_any 8080 8080 80
+    - stage: test
+      name: lazy-baybe
+      script:
+        - >
+          for path in \
+            spring-data-hazelcast \
+            key-value-hazelcast \
+            shadov \
+            key-value \
+          ; do
 
-# 6. key-value-hazelcast
-- cd $root/key-value-hazelcast
-- ./gradlew assemble >/dev/null
-- ./gradlew bootRun &
-- sleep 25
-- http :8080
-- http :8080/not-found
-- http :8080/ name=max1
-- http post :8080/max2
-- http :8080/
-- stop_any 8080 8080 80
+            cd $root/$path
+            bash gradlew clean build -Ddocker=compose-travis >/dev/null
 
-# 5. key-value
-- cd $root/key-value
-- ./gradlew assemble >/dev/null
-- ./gradlew bootRun &
-- sleep 15
-- curl http://localhost:8080/ | jq .
-- stop_any 8080 8080 80
+          done;
 
-# 4. elastic
-- cd $root/elastic
-- ./gradlew assemble composeUp -Ddocker=compose-travis-all >/dev/null
-- curl http://localhost/
-- curl http://localhost:8001/
-- curl http://localhost:8001/users
-- curl -u elastic:changeme http://localhost:9200/_cat/health
-- ./gradlew composeDown -Ddocker=compose-travis-all
+    - stage: test
+      name: spring-data-hazelcast
+      script:
+        # 7
+        - cd $root/spring-data-hazelcast
+        - ./gradlew assemble >/dev/null
+        - ./gradlew bootRun &
+        - sleep 30
+        - http :8080
+        - http :8080/not-found
+        - http http :8080/any/ma
+        - http post :8080 name=Maximus username=xxx
+        - http :8080/any/Ma
+        - stop_any 8080 8080 80
 
-# 3. QueryDSL:
-- cd "$root/querydsl"
-- ./gradlew clean test build
+    - stage: test
+      name: key-value-hazelcast
+      script:
+        # 6. key-value-hazelcast
+        - cd $root/key-value-hazelcast
+        - ./gradlew assemble >/dev/null
+        - ./gradlew bootRun &
+        - sleep 25
+        - http :8080
+        - http :8080/not-found
+        - http :8080/ name=max1
+        - http post :8080/max2
+        - http :8080/
+        - stop_any 8080 8080 80
 
-# QueryDSL: test and build
-- docker-compose -f soaptest/rest-service/src/docker/docker-compose.yml up -d --build
-- docker-compose -f soaptest/rest-service/src/docker/docker-compose.yml down -v
-- docker-compose -f soaptest/ws-service/src/docker/docker-compose.yml up -d --build
-- docker-compose -f soaptest/ws-service/src/docker/docker-compose.yml down -v
+    - stage: test
+      name: key-value
+      script:
+        # 5. key-value
+        - cd $root/key-value
+        - ./gradlew assemble >/dev/null
+        - ./gradlew bootRun &
+        - sleep 15
+        - curl http://localhost:8080/ | jq .
+        - stop_any 8080 8080 80
+        - stop_any 8080 8080 80
 
-# QueryDSL: run rest
-- ./gradlew :docker:dockerUp >/dev/null
-- sudo mkdir -p /var/rest-service
-- sudo mv -f services/rest-service/build/libs/*.jar /var/rest-service/rest-service.jar
-- sudo ln -s /var/rest-service/rest-service.jar /etc/init.d/rest-service
-- sudo service rest-service start
+    - stage: test
+      name: elastic
+      script:
+        # 4. elastic
+        - cd $root/elastic
+        - ./gradlew assemble composeUp -Ddocker=compose-travis-all >/dev/null
+        - curl http://localhost/
+        - curl http://localhost:8001/
+        - curl http://localhost:8001/users
+        - curl -u elastic:changeme http://localhost:9200/_cat/health
+        - ./gradlew composeDown -Ddocker=compose-travis-all
 
-# QueryDSL: manual rest api tests
-- sleep 15
-- curl -sS localhost:8080/api/v1/domains | jq .
-- curl -sS localhost:8080/api/v2/flatten/2 | jq .
-- curl -sS localhost:8080/api/v2/flatten | jq .
-- curl -sS localhost:8080/api/v2/sorted\?sort=id,desc | jq .
-- curl -sS localhost:8080/api/v2/pagination\?page=0\&size=1\&sort=first.firstField1,desc | jq .
-- curl -sS localhost:8080/api/v3/predicate | jq .
-- curl -sS localhost:8080/api/v3/predicate\?second.secondField1=1 | jq .
-- curl -sS localhost:8080/api/v3/predicate\?createdDate=$(date +%Y-%m-%d) | jq .
-- curl -sS localhost:8080/api/v4/engineers | jq .
-- curl -sS localhost:8080/api/v4/engineers\?size=2\&page=0\&sort=username,desc | jq .
-- curl -sS localhost:8080/api/v4/engineers/any\?emails=u1@com,u3@mail.com | jq .
-- curl -sS localhost:8080/api/v4/engineers/any\?emails=u3@mail.com,u2.1@mail.com | jq .
-- curl -sS localhost:8080/rest/domains -H'content-type:application/json' -d '{"firstName":"1","lastName":"1","username":"1"}' | jq '._links.self'
-- curl -sS localhost:8080/rest/domains -H'content-type:application/json' -d '{"firstName":"2","lastName":"2","username":"2"}' | jq '._links.self'
-- curl -sS localhost:8080/rest/otherDomains -H'content-type:application/json' -d '{"test":"1"}' | jq '._links.self'
-- curl -sS localhost:8080/rest/histories | jq '.page.totalElements'
-- curl -sS localhost:8080/rest/engineers -H'content-type:application/json' -d '{"username":"tttest"}' | jq '._links.self'
-- curl -sS localhost:8080/rest/histories | jq '.page.totalElements'
-- curl -sS localhost:8080/api/v5/engineers/page-info -H'accept:application/json' | jq .
-- curl -sS localhost:8080/api/v6 | jq .
-- curl -sS localhost:8080/api/v6/catalog | jq .
-- curl -sS localhost:8080/api/v6/catalog\?size=1 | jq .
-- curl -sS localhost:8080/api/v6/enum-collection/TEST_ENTITY_1 | jq .
-- curl -sS localhost:8080/api/v6/enum-collection/TEST_ENTITY_2 | jq .
-- curl -sS localhost:8080/api/v6/enum-collection/not-found | jq .
-- curl -sS localhost:8080/api/v6/map-catalog/type/not-found | jq .
-- curl -sS localhost:8080/api/v6/map-catalog/type/TEST_ENTITY_2 | jq .
-- curl -sS localhost:8080/api/v6/map-catalog/status/NOK | jq .
-- curl -sS localhost:8080/api/v6/map-catalog/status/OK | jq .
-- curl -sS localhost:8080/api/v6/map-catalog/status/OK\?size=1 | jq .
-- curl -sS localhost:8080/api/v6/jpa-enum | jq .
-- curl -sS localhost:8080/api/v6/jpa-enum\?size=1 | jq .
-- sudo service rest-service stop
-- bash gradlew :docker:dockerDown
+    - stage: test
+      name: QueryDSL
+      script:
+        # 3. QueryDSL:
+        - cd "$root/querydsl"
+        - ./gradlew clean test build
+        # QueryDSL: test and build
+        - docker-compose -f soaptest/rest-service/src/docker/docker-compose.yml up -d --build
+        - docker-compose -f soaptest/rest-service/src/docker/docker-compose.yml down -v
+        - docker-compose -f soaptest/ws-service/src/docker/docker-compose.yml up -d --build
+        - docker-compose -f soaptest/ws-service/src/docker/docker-compose.yml down -v
+        # QueryDSL: run rest
+        - ./gradlew :docker:dockerUp >/dev/null
+        - sudo mkdir -p /var/rest-service
+        - sudo mv -f services/rest-service/build/libs/*.jar /var/rest-service/rest-service.jar
+        - sudo ln -s /var/rest-service/rest-service.jar /etc/init.d/rest-service
+        - sudo service rest-service start
+        # QueryDSL: manual rest api tests
+        - sleep 15
+        - curl -sS localhost:8080/api/v1/domains | jq .
+        - curl -sS localhost:8080/api/v2/flatten/2 | jq .
+        - curl -sS localhost:8080/api/v2/flatten | jq .
+        - curl -sS localhost:8080/api/v2/sorted\?sort=id,desc | jq .
+        - curl -sS localhost:8080/api/v2/pagination\?page=0\&size=1\&sort=first.firstField1,desc | jq .
+        - curl -sS localhost:8080/api/v3/predicate | jq .
+        - curl -sS localhost:8080/api/v3/predicate\?second.secondField1=1 | jq .
+        - curl -sS localhost:8080/api/v3/predicate\?createdDate=$(date +%Y-%m-%d) | jq .
+        - curl -sS localhost:8080/api/v4/engineers | jq .
+        - curl -sS localhost:8080/api/v4/engineers\?size=2\&page=0\&sort=username,desc | jq .
+        - curl -sS localhost:8080/api/v4/engineers/any\?emails=u1@com,u3@mail.com | jq .
+        - curl -sS localhost:8080/api/v4/engineers/any\?emails=u3@mail.com,u2.1@mail.com | jq .
+        - curl -sS localhost:8080/rest/domains -H'content-type:application/json' -d '{"firstName":"1","lastName":"1","username":"1"}' | jq '._links.self'
+        - curl -sS localhost:8080/rest/domains -H'content-type:application/json' -d '{"firstName":"2","lastName":"2","username":"2"}' | jq '._links.self'
+        - curl -sS localhost:8080/rest/otherDomains -H'content-type:application/json' -d '{"test":"1"}' | jq '._links.self'
+        - curl -sS localhost:8080/rest/histories | jq '.page.totalElements'
+        - curl -sS localhost:8080/rest/engineers -H'content-type:application/json' -d '{"username":"tttest"}' | jq '._links.self'
+        - curl -sS localhost:8080/rest/histories | jq '.page.totalElements'
+        - curl -sS localhost:8080/api/v5/engineers/page-info -H'accept:application/json' | jq .
+        - curl -sS localhost:8080/api/v6 | jq .
+        - curl -sS localhost:8080/api/v6/catalog | jq .
+        - curl -sS localhost:8080/api/v6/catalog\?size=1 | jq .
+        - curl -sS localhost:8080/api/v6/enum-collection/TEST_ENTITY_1 | jq .
+        - curl -sS localhost:8080/api/v6/enum-collection/TEST_ENTITY_2 | jq .
+        - curl -sS localhost:8080/api/v6/enum-collection/not-found | jq .
+        - curl -sS localhost:8080/api/v6/map-catalog/type/not-found | jq .
+        - curl -sS localhost:8080/api/v6/map-catalog/type/TEST_ENTITY_2 | jq .
+        - curl -sS localhost:8080/api/v6/map-catalog/status/NOK | jq .
+        - curl -sS localhost:8080/api/v6/map-catalog/status/OK | jq .
+        - curl -sS localhost:8080/api/v6/map-catalog/status/OK\?size=1 | jq .
+        - curl -sS localhost:8080/api/v6/jpa-enum | jq .
+        - curl -sS localhost:8080/api/v6/jpa-enum\?size=1 | jq .
+        - sudo service rest-service stop
+        - bash gradlew :docker:dockerDown
+        # QueryDSL: run ws
+        - ./gradlew :docker:dockerUp >/dev/null
+        - sudo mkdir -p /var/ws-service
+        - sudo mv -f services/ws-service/build/libs/*.jar /var/ws-service/ws-service.jar
+        - sudo ln -s /var/ws-service/ws-service.jar /etc/init.d/ws-service
+        - sudo service ws-service start
+        - sleep 15
+        - curl --header "content-type:text/xml" -d @services/ws-service/src/test/resources/request.xml http://localhost:8080/ws | xmllint --format -
+        - sudo service ws-service stop
+        - ./gradlew :docker:dockerDown
 
-# QueryDSL: run ws
-- ./gradlew :docker:dockerUp >/dev/null
-- sudo mkdir -p /var/ws-service
-- sudo mv -f services/ws-service/build/libs/*.jar /var/ws-service/ws-service.jar
-- sudo ln -s /var/ws-service/ws-service.jar /etc/init.d/ws-service
-- sudo service ws-service start
-- sleep 15
-- curl --header "content-type:text/xml" -d @services/ws-service/src/test/resources/request.xml http://localhost:8080/ws | xmllint --format -
-- sudo service ws-service stop
-- ./gradlew :docker:dockerDown
+        # QueryDSL: run SoapUI tests
+        - ./gradlew clean assemble soaptestRest soaptestWs
+        - ./gradlew clean assemble testrunner
+        - ./gradlew --stop
 
-# QueryDSL: run SoapUI tests
-- ./gradlew clean assemble soaptestRest soaptestWs
-- ./gradlew clean assemble testrunner
-- ./gradlew --stop
+    - stage: test
+      name: SPEL
+      script:
+        # 2. SPEL
+        - cd $root/spel/
+        - ./gradlew
+        - ./gradlew composeUp
+        - sudo mkdir -p /var/spel-app
+        - sudo mv -f ./app/build/libs/*.jar /var/spel-app/spel-app.jar
+        - sudo ln -s /var/spel-app/spel-app.jar /etc/init.d/spel-app
+        - sudo service spel-app start
+        - sleep 10
+        - wait_for 8080
+        - curl -sS localhost:8080/all | jq .
+        - curl -sS localhost:8080/names | jq .
+        - sudo service spel-app stop
+        - ./gradlew --stop
 
-# 2. SPEL
-- cd $root/spel/
-- ./gradlew
-- ./gradlew composeUp
-- sudo mkdir -p /var/spel-app
-- sudo mv -f ./app/build/libs/*.jar /var/spel-app/spel-app.jar
-- sudo ln -s /var/spel-app/spel-app.jar /etc/init.d/spel-app
-- sudo service spel-app start
-- sleep 10
-- wait_for 8080
-- curl -sS localhost:8080/all | jq .
-- curl -sS localhost:8080/names | jq .
-- sudo service spel-app stop
-- ./gradlew --stop
+    - stage: test
+      name: redis
+      script:
+        # 1. redis
+        - cd $root/redis/
+        - ./gradlew clean build >/dev/null
 
-# 1. redis
-- cd $root/redis/
-- ./gradlew clean build >/dev/null
+        # redis: docker
+        - docker-compose -f ./docker/src/docker-compose.yml up -d --build
+        - docker-compose -f ./docker/src/docker-compose.yml down -v
 
-# redis: docker
-- docker-compose -f ./docker/src/docker-compose.yml up -d --build
-- docker-compose -f ./docker/src/docker-compose.yml down -v
+        # redis: manual redis-app tests
+        - ./gradlew composeUp >/dev/null
+        - sudo mkdir -p /var/redis-app
+        - sudo mv -f ./redis/build/libs/*.jar /var/redis-app/redis-app.jar
+        - sudo ln -s /var/redis-app/redis-app.jar /etc/init.d/redis-app
+        - sudo service redis-app start
+        - sleep 20
+        - curl -sS localhost:8080/redisObjs -H'content-type:application/json' -d'{"data":"test"}' | jq .
+        - curl -sS localhost:8080/redisObjs | jq .
+        - sudo service redis-app stop
+        - ./gradlew composeDown
 
-# redis: manual redis-app tests
-- ./gradlew composeUp >/dev/null
-- sudo mkdir -p /var/redis-app
-- sudo mv -f ./redis/build/libs/*.jar /var/redis-app/redis-app.jar
-- sudo ln -s /var/redis-app/redis-app.jar /etc/init.d/redis-app
-- sudo service redis-app start
-- sleep 20
-- curl -sS localhost:8080/redisObjs -H'content-type:application/json' -d'{"data":"test"}' | jq .
-- curl -sS localhost:8080/redisObjs | jq .
-- sudo service redis-app stop
-- ./gradlew composeDown
-
-# redis: manual embedded-redis-app tests
-- sudo mkdir -p /var/embedded-redis-app
-- sudo mv -f ./embedded-redis/build/libs/*.jar /var/embedded-redis-app/embedded-redis-app.jar
-- sudo ln -s /var/embedded-redis-app/embedded-redis-app.jar /etc/init.d/embedded-redis-app
-- sudo service embedded-redis-app start
-- sleep 30
-- curl -sS localhost:8082/embeddedRedisObjs -H'content-type:application/json' -d'{"data":"test-embedded"}' | jq .
-- curl -sS localhost:8082/embeddedRedisObjs | jq .
-- sudo service embedded-redis-app stop
-- ./gradlew --stop
+        # redis: manual embedded-redis-app tests
+        - sudo mkdir -p /var/embedded-redis-app
+        - sudo mv -f ./embedded-redis/build/libs/*.jar /var/embedded-redis-app/embedded-redis-app.jar
+        - sudo ln -s /var/embedded-redis-app/embedded-redis-app.jar /etc/init.d/embedded-redis-app
+        - sudo service embedded-redis-app start
+        - sleep 30
+        - curl -sS localhost:8082/embeddedRedisObjs -H'content-type:application/json' -d'{"data":"test-embedded"}' | jq .
+        - curl -sS localhost:8082/embeddedRedisObjs | jq .
+        - sudo service embedded-redis-app stop
+        - ./gradlew --stop
 
 env:
   global:
@@ -314,15 +390,3 @@ deploy:
     branch: master
   local-dir: target/generated-docs
   target_branch: gh-pages
-
-before_cache:
-- bash -c 'for item in $(find ~/.gradle -name "*.lock"); do sudo rm -rf $item ; done'
-
-cache:
-  directories:
-  - $HOME/.m2
-  - $HOME/.gradle
-  - $HOME/.docker
-
-notifications:
-  email: false
