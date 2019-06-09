@@ -24,8 +24,6 @@ addons:
       - google-chrome-stable
       - libappindicator1
       - fonts-liberation
-      - bash
-      - curl
       - libxml2-utils
       - docker-ce
       - sudo
@@ -34,9 +32,7 @@ addons:
       - bash
       - curl
       - jq
-      - libxml2-utils
       - unzip
-      - docker-ce
       - python3-pip
 install: true
 before_install:
