@@ -52,10 +52,14 @@ before_install:
   - sdk use gradle 5.5-rc-2
   - source "$HOME/.sdkman/bin/sdkman-init.sh"
   #
-  - which pip3    || echo 'which pip3 command failed.'
+  - which pip3     || echo 'which pip3 command failed.'
+  - which pip3.6   || echo 'which pip3.6 command failed.'
+  - which pip3.6.3 || echo 'which pip3.6.3 command failed.'
   - export PATH=$HOME/.local/bin:$PATH
-  - pip3 install --user $(whoami) --upgrade pip # not pip3
-  - which pip3    || echo 'which pip3 command failed.'
+  - pip3.6 install --user $(whoami) --upgrade pip # not pip3
+  - which pip3     || echo 'which pip3 command failed.'
+  - which pip3.6   || echo 'which pip3 command failed.'
+  - which pip3.6.3 || echo 'which pip3 command failed.'
   - pip3 install --user $(whoami) --upgrade httpie
   - http --version --debug
   - docker-compose -v
