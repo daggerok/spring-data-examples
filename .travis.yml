@@ -11,6 +11,7 @@ env:
 language: java
 jdk: openjdk8
 node_js: lts/*
+dist: trusty
 python: 3
 service:
   - docker
@@ -37,7 +38,7 @@ addons:
       - libxml2-utils
       - unzip
       - docker-ce
-      - python-pip
+      - python3-pip
 install: true
 before_install:
   - export CHROME_BIN=/usr/bin/google-chrome
@@ -52,15 +53,13 @@ before_install:
   - sdk use gradle 5.5-rc-2
   - source "$HOME/.sdkman/bin/sdkman-init.sh"
   #
+  - which pip      || echo 'which pip  command failed.'
   - which pip3     || echo 'which pip3 command failed.'
-  - which pip3.6   || echo 'which pip3.6 command failed.'
-  - which pip3.6.3 || echo 'which pip3.6.3 command failed.'
   - export PATH=$HOME/.local/bin:$PATH
-  - pip3.6 install --user $(whoami) --upgrade pip # not pip3
+  - pip3 install --user $(whoami) --upgrade pip # not pip3
+  - which pip      || echo 'which pip  command failed.'
   - which pip3     || echo 'which pip3 command failed.'
-  - which pip3.6   || echo 'which pip3 command failed.'
-  - which pip3.6.3 || echo 'which pip3 command failed.'
-  - pip3 install --user $(whoami) --upgrade httpie
+  - pip install --user $(whoami) --upgrade httpie
   - http --version --debug
   - docker-compose -v
   #- pip install --user $(whoami) --upgrade docker-compose httpie >/dev/null 2>&1
