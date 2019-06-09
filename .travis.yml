@@ -37,10 +37,7 @@ addons:
       - libxml2-utils
       - unzip
       - docker-ce
-      - python3-dev
-      - python3-pip
-      - python3-six
-      - python3-setuptools
+      - python-pip
 install: true
 before_install:
   - export CHROME_BIN=/usr/bin/google-chrome
@@ -55,12 +52,15 @@ before_install:
   - sdk use gradle 5.5-rc-2
   - source "$HOME/.sdkman/bin/sdkman-init.sh"
   #
-  - docker-compose -v
+  - which pip3    || echo 'which pip3 command failed.'
   - export PATH=$HOME/.local/bin:$PATH
-  - pip3 install --user $(whoami) --upgrade pip >/dev/null # pip3 -> pip
-  - pip install --user $(whoami) --upgrade docker-compose httpie >/dev/null 2>&1
+  - pip3 install --user $(whoami) --upgrade pip # not pip3
+  - which pip3    || echo 'which pip3 command failed.'
+  - pip3 install --user $(whoami) --upgrade httpie
   - http --version --debug
   - docker-compose -v
+  #- pip install --user $(whoami) --upgrade docker-compose httpie >/dev/null 2>&1
+  #- docker-compose -v
   #
   - source <(curl -fsSL https://raw.github.com/daggerok/bash-functions/master/main.bash)
   - stop_any 8080 3000 80 5672 5432 27017 9200 9300 5601 8001 8002 8080 80 >/dev/null
