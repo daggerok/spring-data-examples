@@ -1,4 +1,3 @@
-dist: xenial
 git:
   quiet: true
   depth: 1
