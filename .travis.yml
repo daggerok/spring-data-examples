@@ -1,6 +1,6 @@
 git:
   quiet: true
-  depth: 1
+  depth: false
 notifications:
   email: false
 env:
@@ -43,7 +43,7 @@ before_install:
   - docker-compose -v
   #
   - source <(curl -fsSL https://raw.github.com/daggerok/bash-functions/master/main.bash)
-  - stop_any 8080 3000 80 5672 5432 27017 9200 9300 5601 8001 8002 8080 80 >/dev/null
+  - stop_any 8080 3000 80 5672 5432 27017 9200 9300 5601 8001 8002 8080 80
   #
   - java -version
   - ./gradlew -v
@@ -67,22 +67,22 @@ jobs:
       name: redis-store
       script:
         - cd $TRAVIS_BUILD_DIR/
-        - ./gradlew -b $TRAVIS_BUILD_DIR/redis-store/build.gradle clean installDist >/dev/null
+        - ./gradlew -p redis-store clean installDist
         - bash $TRAVIS_BUILD_DIR/redis-store/lettuce/build/install/lettuce/bin/lettuce
-        - bash mvnw -f $TRAVIS_BUILD_DIR/redis-store/pom.xml >/dev/null
+        - ./mvnw -f $TRAVIS_BUILD_DIR/redis-store
         - java -jar $TRAVIS_BUILD_DIR/redis-store/lettuce/target/*-all.jar
 
     - stage: test
       name: spring-webflux-cassandra
       script:
         - cd $TRAVIS_BUILD_DIR/
-        - ./gradlew -b $TRAVIS_BUILD_DIR/spring-webflux-cassandra/build.gradle >/dev/null
+        - ./gradlew -b $TRAVIS_BUILD_DIR/spring-webflux-cassandra/build.gradle
         - bash $TRAVIS_BUILD_DIR/spring-webflux-cassandra/build/libs/*.jar &
         - wait_for 8080
         - http :8080/
         - stop_any 8080
         #
-        - ./mvnw -f $TRAVIS_BUILD_DIR/spring-webflux-cassandra/pom.xml >/dev/null
+        - ./mvnw -f $TRAVIS_BUILD_DIR/spring-webflux-cassandra
         - bash $TRAVIS_BUILD_DIR/spring-webflux-cassandra/target/*.jar &
         - wait_for 8080
         - http :8080/
@@ -92,7 +92,7 @@ jobs:
       name: spring-data-jpa-count-query-fix
       script:
         - cd $TRAVIS_BUILD_DIR/
-        - ./gradlew -b $TRAVIS_BUILD_DIR/spring-data-jpa-count-query-fix/build.gradle >/dev/null
+        - ./gradlew -b $TRAVIS_BUILD_DIR/spring-data-jpa-count-query-fix/build.gradle
         - java -jar $TRAVIS_BUILD_DIR/spring-data-jpa-count-query-fix/build/libs/*.jar &
         - wait_for 8080
         - http :8080/api/orders/
@@ -105,8 +105,8 @@ jobs:
       script:
         # infinispan-example plain
         - cd $TRAVIS_BUILD_DIR/infinispan-example
-        - ./mvnw >/dev/null
-        - ./gradlew >/dev/null
+        - ./mvnw
+        - ./gradlew
         - java -jar ./infinispan-service/build/libs/*.jar &
         - java -jar ./infinispan-service/target/*.jar --server.port=8000 &
         - wait_for 8080 8000
@@ -120,7 +120,7 @@ jobs:
         - http :8000/all
         - stop_any 8080 8000
         # infinispan-example docker
-        - docker-compose -f docker-compose-maven.yaml build --force-rm --no-cache --pull >/dev/null
+        - docker-compose -f docker-compose-maven.yaml build --force-rm --no-cache --pull
         - docker-compose -f docker-compose-maven.yaml up --force-recreate --remove-orphans &
         - sleep 30
         - http :8080
@@ -129,7 +129,7 @@ jobs:
         - http :8080/all
         - docker-compose -f docker-compose-maven.yaml down -v
         # infinispan-example gradle docker
-        - bash gradlew composeUp >/dev/null
+        - bash gradlew composeUp
         - http :8080
         - http :8080 message=ololo
         - http :8080 message=trololo
@@ -140,9 +140,9 @@ jobs:
       name: spring-data-history-audit
       script:
         - cd $TRAVIS_BUILD_DIR/spring-data-history-audit
-        - ./mvnw >/dev/null
-        - ./gradlew >/dev/null
-        - docker-compose build --force-rm --no-cache --pull >/dev/null
+        - ./mvnw
+        - ./gradlew
+        - docker-compose build --force-rm --no-cache --pull
         - docker-compose up --force-recreate --remove-orphans &
         - sleep 30
         - http put :8080/my-entities/1 value=ololo
@@ -162,18 +162,15 @@ jobs:
             shadov \
             key-value \
           ; do
-
-            cd $TRAVIS_BUILD_DIR/$path
-            bash gradlew clean build -Ddocker=compose-travis >/dev/null
-
-          done;
+            cd $TRAVIS_BUILD_DIR/$path ;
+            bash gradlew clean build -Ddocker=compose-travis ;
+          done ;
 
     - stage: test
       name: spring-data-hazelcast
       script:
-        # 7
         - cd $TRAVIS_BUILD_DIR/spring-data-hazelcast
-        - ./gradlew assemble >/dev/null
+        - ./gradlew assemble
         - ./gradlew bootRun &
         - sleep 30
         - http :8080
@@ -186,9 +183,8 @@ jobs:
     - stage: test
       name: key-value-hazelcast
       script:
-        # 6. key-value-hazelcast
         - cd $TRAVIS_BUILD_DIR/key-value-hazelcast
-        - ./gradlew assemble >/dev/null
+        - ./gradlew assemble
         - ./gradlew bootRun &
         - sleep 25
         - http :8080
@@ -201,9 +197,8 @@ jobs:
     - stage: test
       name: key-value
       script:
-        # 5. key-value
         - cd $TRAVIS_BUILD_DIR/key-value
-        - ./gradlew assemble >/dev/null
+        - ./gradlew assemble
         - ./gradlew bootRun &
         - sleep 15
         - curl http://localhost:8080/ | jq .
@@ -215,7 +210,7 @@ jobs:
       script:
         # 4. elastic
         - cd $TRAVIS_BUILD_DIR/elastic
-        - ./gradlew assemble composeUp -Ddocker=compose-travis-all >/dev/null
+        - ./gradlew assemble composeUp -Ddocker=compose-travis-all
         - curl http://localhost/
         - curl http://localhost:8001/
         - curl http://localhost:8001/users
@@ -234,7 +229,7 @@ jobs:
         - docker-compose -f soaptest/ws-service/src/docker/docker-compose.yml up -d --build
         - docker-compose -f soaptest/ws-service/src/docker/docker-compose.yml down -v
         # QueryDSL: run rest
-        - ./gradlew :docker:dockerUp >/dev/null
+        - ./gradlew :docker:dockerUp
         - sudo mkdir -p /var/rest-service
         - sudo mv -f services/rest-service/build/libs/*.jar /var/rest-service/rest-service.jar
         - sudo ln -s /var/rest-service/rest-service.jar /etc/init.d/rest-service
@@ -276,7 +271,7 @@ jobs:
         - sudo service rest-service stop
         - bash gradlew :docker:dockerDown
         # QueryDSL: run ws
-        - ./gradlew :docker:dockerUp >/dev/null
+        - ./gradlew :docker:dockerUp
         - sudo mkdir -p /var/ws-service
         - sudo mv -f services/ws-service/build/libs/*.jar /var/ws-service/ws-service.jar
         - sudo ln -s /var/ws-service/ws-service.jar /etc/init.d/ws-service
@@ -314,14 +309,14 @@ jobs:
       script:
         # 1. redis
         - cd $TRAVIS_BUILD_DIR/redis/
-        - ./gradlew clean build >/dev/null
+        - ./gradlew clean build
 
         # redis: docker
         - docker-compose -f ./docker/src/docker-compose.yml up -d --build
         - docker-compose -f ./docker/src/docker-compose.yml down -v
 
         # redis: manual redis-app tests
-        - ./gradlew composeUp >/dev/null
+        - ./gradlew composeUp
         - sudo mkdir -p /var/redis-app
         - sudo mv -f ./redis/build/libs/*.jar /var/redis-app/redis-app.jar
         - sudo ln -s /var/redis-app/redis-app.jar /etc/init.d/redis-app
