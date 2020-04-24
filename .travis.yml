@@ -343,23 +343,26 @@ jobs:
         - sudo service embedded-redis-app stop
         - ./gradlew --stop
 
+    - stage: deploy
+      name: redis
+      script: skip
+      before_deploy:
+        - cd $TRAVIS_BUILD_DIR/
+        - ./mvnw -Pdocs
+      env:
+        - secure: dAdJ3LAZr+wDuZIbra9yh2za4sYja3nBe6OfNVqQSq45Qfi6TCaR65FdxxexTw798DHcBhMMIoF43bD964nHdzUDBE25PRaGn1B+cQGl1UI1ds6/vJ0G8g1Djy5AJqXZ7eJud+nWdfdHHLSGdERuWuLXvdPEQgrrTd4F/7Wj/gp2xQgdyIp8lLvD6MOsq6brfdumzkyf5/TUETmeot05NaprBFnoL+ILi+kNFqZPcQmpm6YgSbUvwGibpNLGE4U7qvzsHU1gIYjuWhbXXNe1NjwSgQ9hK/D80JUAqK7B+735abw2GTLbWpXXevt5MXhh0MRFzISEHKQQUVWKQYuzMb1LQqYWF+SmdKW7N2x95t4dA6H841y4K4PeYuNbR2VFiYYc8F1pmLoNE0UCgDW7drgnfRo20A3MNuwMakDqZ3TGlEjQ3X9DXCrRoBW8eNgwXu4ZXYTLuykXYbLMNrjxx9iEiAHlX3IN2ez8PV3cSLC8uMyNNA/2ECxVRE+6mRRZROg2v8XHn9fcO3oDJ94S7OtwFY2Y2jneVRSN1dZ/cA5HCrmBzW138lfdRyAwjirArgttyAlxBtX8+hXZ02sUAFdGzGdRExnQzoPVxbaNMpbv8lrzmQZC8HCeS+GNR5q5V2jWdHkFu3WaPH32aj4uuafcBChwwW9HffxJumCiR2Q=
+        - secure: N19h/iVKmx9lY4zvTdp3idPJWe06oJMNEkllLc3A//UsU570kYxYP5uy1Dn/eTvK6sqvTQKuv6p8mg4KbR8mOexxuXm009IA5m4Y1cKbnlIWZsFaHxsXZuBFFnFes8Zh1Kscs3ak8DCVnxzUxI/gb1M4aUAUoOgaeoQm1Y9YRjPMWJ7Lll3hf7lRcUrsSyNbMsRFSZT3Ktiq2POvbVnXVZ2HajTntmFLjKajjDeNVSVU+OkjqeuzyFfYgIuENnr0JGjhDYtS4NTa+Rn66OKT6hZGYzkxy2MkYaYlXNplv9L1J4zeWxD1w0c6s3kCTEY6Hbj9sYySdl9WfyVgErQmeURGzJ23F6SfFyBYWYpcbNqd0toCkzGMGSnzyCA4IG3HgbKekTiQjPbzRfHed6MP35g33mQo00JQ9B1duMtbdGyywOyM8WQJunq31pXraqqkX4nM8Ias46bevPvTs3g08/LPs2ZITChThvtr/LVjFs5Ahyvf1Yencg/MbVW6uRyw3GzsTQc2/tsMB+9Y4igx4O2VuCxmxqnzYISquRS2af8G+HZnR7MfhQaZtyxtHqpjIC8e7mUjyW38BlD76hpUk6cZoLp0ysw0e7DRMgGJL41P+jbeweehKQpEyGfdAJKvYlJ0qPM6pT+tNGpoHlvShEJ6mFmgTrDoXfQh+MPAuZ0=
+      deploy: &pages
+        provider: pages
+        skip-cleanup: true
+        # travis encrypt GITHUB_TOKEN=<your github repo token> --add
+        github-token: "$GITHUB_TOKEN"
+        keep-history: true
+        on:
+          branch: master
+        local-dir: target/generated-docs
+        target_branch: gh-pages
+
 env:
   global:
   - TERM=dumb
-  - secure: dAdJ3LAZr+wDuZIbra9yh2za4sYja3nBe6OfNVqQSq45Qfi6TCaR65FdxxexTw798DHcBhMMIoF43bD964nHdzUDBE25PRaGn1B+cQGl1UI1ds6/vJ0G8g1Djy5AJqXZ7eJud+nWdfdHHLSGdERuWuLXvdPEQgrrTd4F/7Wj/gp2xQgdyIp8lLvD6MOsq6brfdumzkyf5/TUETmeot05NaprBFnoL+ILi+kNFqZPcQmpm6YgSbUvwGibpNLGE4U7qvzsHU1gIYjuWhbXXNe1NjwSgQ9hK/D80JUAqK7B+735abw2GTLbWpXXevt5MXhh0MRFzISEHKQQUVWKQYuzMb1LQqYWF+SmdKW7N2x95t4dA6H841y4K4PeYuNbR2VFiYYc8F1pmLoNE0UCgDW7drgnfRo20A3MNuwMakDqZ3TGlEjQ3X9DXCrRoBW8eNgwXu4ZXYTLuykXYbLMNrjxx9iEiAHlX3IN2ez8PV3cSLC8uMyNNA/2ECxVRE+6mRRZROg2v8XHn9fcO3oDJ94S7OtwFY2Y2jneVRSN1dZ/cA5HCrmBzW138lfdRyAwjirArgttyAlxBtX8+hXZ02sUAFdGzGdRExnQzoPVxbaNMpbv8lrzmQZC8HCeS+GNR5q5V2jWdHkFu3WaPH32aj4uuafcBChwwW9HffxJumCiR2Q=
-  - secure: N19h/iVKmx9lY4zvTdp3idPJWe06oJMNEkllLc3A//UsU570kYxYP5uy1Dn/eTvK6sqvTQKuv6p8mg4KbR8mOexxuXm009IA5m4Y1cKbnlIWZsFaHxsXZuBFFnFes8Zh1Kscs3ak8DCVnxzUxI/gb1M4aUAUoOgaeoQm1Y9YRjPMWJ7Lll3hf7lRcUrsSyNbMsRFSZT3Ktiq2POvbVnXVZ2HajTntmFLjKajjDeNVSVU+OkjqeuzyFfYgIuENnr0JGjhDYtS4NTa+Rn66OKT6hZGYzkxy2MkYaYlXNplv9L1J4zeWxD1w0c6s3kCTEY6Hbj9sYySdl9WfyVgErQmeURGzJ23F6SfFyBYWYpcbNqd0toCkzGMGSnzyCA4IG3HgbKekTiQjPbzRfHed6MP35g33mQo00JQ9B1duMtbdGyywOyM8WQJunq31pXraqqkX4nM8Ias46bevPvTs3g08/LPs2ZITChThvtr/LVjFs5Ahyvf1Yencg/MbVW6uRyw3GzsTQc2/tsMB+9Y4igx4O2VuCxmxqnzYISquRS2af8G+HZnR7MfhQaZtyxtHqpjIC8e7mUjyW38BlD76hpUk6cZoLp0ysw0e7DRMgGJL41P+jbeweehKQpEyGfdAJKvYlJ0qPM6pT+tNGpoHlvShEJ6mFmgTrDoXfQh+MPAuZ0=
-
-before_deploy:
-- cd $TRAVIS_BUILD_DIR/
-- ./mvnw -Pdocs
-
-deploy:
-  provider: pages
-  skip-cleanup: true
-  # travis encrypt GITHUB_TOKEN=<your github repo token> --add
-  github-token: "$GITHUB_TOKEN"
-  keep-history: true
-  on:
-    branch: master
-  local-dir: target/generated-docs
-  target_branch: gh-pages
