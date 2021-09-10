@@ -2,6 +2,7 @@
 
 This repository contains some spring-data playground projects
 
+- link:https://github.com/daggerok/spring-data-jpa-projections/[GitHub: daggerok/spring-data-jpa-projections repository demonstrates how to use Spring Data JPA Projections]
 - link:https://github.com/daggerok/spring-data-ldap-example[GitHub: daggerok/spring-data-ldap-example Spring Data LDAP examples]
 - link:https://github.com/daggerok/spring-boot-reactive-scala-example[Reactive MongoDB using Scala, Spring Boot and Gradle Kotlin DSL]
 - link:https://github.com/daggerok/spring-data-hazelcast-example[Lazy and fast Spring Data Hazelcast]
