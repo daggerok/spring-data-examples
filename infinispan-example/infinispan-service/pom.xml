@@ -19,7 +19,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <java.version>1.8</java.version>
-    <infinispan.version>8.2.8.Final</infinispan.version>
+    <infinispan.version>10.0.0.Final</infinispan.version>
     <infinispan.starter.version>1.0.0</infinispan.starter.version>
   </properties>
 
